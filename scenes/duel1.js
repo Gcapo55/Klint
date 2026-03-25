@@ -5,14 +5,24 @@ export function duel1() {
 
         let klint = add([
             sprite("klint"),
-            pos(200, 200),
+            pos(100, 200),
             scale(5),
             area(),
             body(),
         ])
+
+        let ennemi = add([
+            rect(150, 270),
+            color(BLACK),
+            pos(width()-300, 200),
+            area(),
+            body(),
+        ])
+
         let tension = 0
         let maxtension = 100
         let dueltime = 0
+        let timeingreen = 0 // si Klint reste dans la zone verte
         let isduelactive = false; // en combat
         let ishooting = false; // verrou
         let isrelaxing = false;
@@ -85,9 +95,14 @@ export function duel1() {
         onUpdate(() => {
             if (!isduelactive) return
 
+            if (tension >= 70 && tension <= 80) {
+                timeingreen += dt()
+                console.log(timeingreen)
+            }
+
             dueltime += dt()
             if (dueltime <= 30){
-                tension += 1 *dt()
+                tension += 1 * dt()
             }
             else if (dueltime <= 40) {
                 tension += 5 * dt()
@@ -116,6 +131,12 @@ export function duel1() {
                 if (klint.curAnim() !== "idle") klint.play("idle");
             }
 
+            if (timeingreen > 15) {
+                isduelactive = false
+                console.log("fin du combat")
+                klint.play("relax")
+            }
+
             // Augmenter et diminuer tension
             if (isfocusing) {
                 tension += 7 * dt() // 40x par sec
@@ -133,10 +154,10 @@ export function duel1() {
         })
 
         const level = addLevel([
-            "1n35n61n656",
+            "6nn5n61nn55",
             "00000000000",
         ], {
-            pos: vec2(0, height()/2 + 150),
+            pos: vec2(0, height()/2 + 250),
             tileWidth: 50*3,
             tileHeight: 51*3,
 
@@ -145,56 +166,64 @@ export function duel1() {
                 "0": () => [
                     sprite("tile0"),
                     scale(3),
-                    area(),
+                    anchor("bot"),
+                    area({shape : new Rect(vec2(), 50, 32)}),
                     body({ isStatic: true }),
                 ],
 
                 "n": () => [
                     sprite("tile0.5"),
                     scale(3),
-                    area(),
+                    anchor("bot"),
+                    area({shape : new Rect(vec2(), 50, 32)}),
                     body({ isStatic: true }),
                 ],
 
                 "1": () => [
                     sprite("tile1"),
                     scale(3),
-                    area(),
+                    anchor("bot"),
+                    area({shape : new Rect(vec2(), 50, 32)}),
                     body({ isStatic: true }),
                 ],
 
                 "2": () => [
                     sprite("tile2"),
                     scale(3),
-                    area(),
+                    anchor("bot"),
+                    area({shape : new Rect(vec2(), 50, 32)}),
                     body({ isStatic: true }),
                 ],
 
                 "3": () => [
                     sprite("tile3"),
                     scale(3),
-                    area(),
+                    anchor("bot"),
+                    area({shape : new Rect(vec2(), 50, 32)}),
                     body({ isStatic: true }),
                 ],
 
                 "4": () => [
                     sprite("tile4"),
                     scale(3),
-                    area(),
+                    anchor("bot"),
+                    area({shape : new Rect(vec2(), 50, 32)}),
                     body({ isStatic: true }),
                 ],
 
                 "5": () => [
                     sprite("tile5"),
                     scale(3),
-                    area(),
+                    anchor("bot"),
+                    area({shape : new Rect(vec2(), 50, 32)}),
                     body({ isStatic: true }),
                 ],
 
                 "6": () => [
                     sprite("tile6"),
                     scale(3),
-                    area(),
+                    anchor("bot"),
+                    area({shape : new Rect(vec2(), 50, 32)}),
                     body({ isStatic: true }),
                 ],
             },
