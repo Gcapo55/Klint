@@ -1,7 +1,15 @@
 import kaplay from "https://unpkg.com/kaplay@3001.0.19/dist/kaplay.mjs";
+import { loquacePlugin } from "./kaplay-loquace.js";
 import { homeScene } from "./scenes/home.js";
 import { duel1 } from "./scenes/duel1.js";
-kaplay();
+
+kaplay(
+  {
+    plugins: [loquacePlugin],
+  }
+);
+
+loquace.init({});
 
 loadSprite("homebg", "assets/backgrounds/menubg2.png");
 loadSprite('poteau', 'assets/affiches/badbillpoteau.png');

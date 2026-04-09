@@ -11,6 +11,26 @@ export function duel1() {
             body(),
         ])
 
+        loquace.characters({
+            r: {
+                name: 'Robot',
+                expressions: {
+                    happy: 'robot-head-happy',
+                    sad: 'robot-head-sad',
+                },
+                defaultExpression: 'happy',
+                dialogType: 'pop',
+                position: 'topleft',
+                dialogOptions: {
+                    position: 'topleft',
+                    doTween: false,
+                    dialogText: {
+                        color: RED,
+                    },
+                },
+            },
+        });
+
         let ennemi = add([
             rect(150, 270),
             color(BLACK),
@@ -18,6 +38,21 @@ export function duel1() {
             area(),
             body(),
         ])
+
+
+
+        // Dialogues 
+
+        loquace.script([
+        "Hello world from KAPLAY Loquace",
+        "This is a narrator dialog",
+        "Hi my name is Klint",
+        ])
+
+        onKeyPress("enter", () => {
+                loquace.next()
+        });
+
 
         let tension = 0
         let maxtension = 100
