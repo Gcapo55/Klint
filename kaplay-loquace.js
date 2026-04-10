@@ -11,6 +11,7 @@ function D() {
       parse: B,
       clear: w,
       pop: P,
+      choix: choix,
       vn: N
     }
   };
@@ -371,6 +372,7 @@ function N(e, o = {}) {
     easings.easeOutQuad
   )) : i.pos.y = height() - t.textBox.margin - i.height, i;
 }
+
 /*!
  * Deep merge two or more objects or arrays.
  * (c) 2023 Chris Ferdinandi, MIT License, https://gomakethings.com
@@ -410,6 +412,7 @@ export {
   v as registerCommand,
   Z as script,
   b as start,
+  choix as choix,
   N as vn
 };
 //# sourceMappingURL=kaplay-loquace.js.map

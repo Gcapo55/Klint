@@ -24,8 +24,8 @@ loadSprite('tile5', 'assets/Floor/tile5.png');
 loadSprite('tile6', 'assets/Floor/tile6.png');
 
 loadSprite('klint', 'assets/cowboy/klint.png',{
-      sliceX: 5,
-      sliceY: 4,
+  sliceX: 5,
+  sliceY: 4,
     anims: {
       idle: {
         from: 0,
@@ -47,19 +47,58 @@ loadSprite('klint', 'assets/cowboy/klint.png',{
         speed: 3,
       },
     },
-})
+});
+
+loadSprite("klintvener", "assets/cowboy/klintvener.png", {
+  sliceX: 9,
+  sliceY: 6,
+    anims: {
+      idle: {
+        from: 40,
+        to: 41,
+        loop: true,
+        speed: 3,
+      },
+      focus: {
+          from: 1,
+          to: 1,
+      },
+      shooting: {
+        from: 2,
+        to: 13,
+        speed: 6,
+      },
+      relax: {
+        from: 14,
+        to: 31,
+        loop: true,
+        speed: 9,
+      },
+      rage: {
+        from: 42,
+        to: 51,
+        loop: true,
+        speed: 4,
+      },
+      affraid: {
+        from: 32,
+        to: 39,
+        speed: 3,
+      },
+    },
+});
 
 loadSprite("birds", "assets/birds/birds.png", {
-    sliceX: 1,
-    sliceY: 3,
-    anims: {
-        fly: {
-            from: 0,
-            to: 2,
-            loop: true,
-            speed: 6, 
-        },
-    },
+  sliceX: 1,
+  sliceY: 3,
+  anims: {
+      fly: {
+        from: 0,
+        to: 2,
+        loop: true,
+        speed: 6, 
+      },
+  },
 });
 
 loadSound('homesound', 'assets/sounds/intro.mp3');
