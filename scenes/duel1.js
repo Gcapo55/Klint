@@ -63,6 +63,10 @@ export function duel1() {
         let isrelaxing = false;
         let isfocusing = false;
         let hasshot = false; //si Klint à tiré, il ne peux plus utiliser le focus ni le realx
+        let tensionTarget = 0
+        let lastSpikeTime = 0
+        let nextSpikeDelay = 10
+        let isangry = false
 
         // Barre de tension
         let barfond = add([
@@ -130,61 +134,82 @@ export function duel1() {
         onUpdate(() => {
             if (!isduelactive) return
 
-            if (tension >= 70 && tension <= 80) {
-                timeingreen += dt()
-                console.log(timeingreen)
-            }
-
             dueltime += dt()
-            if (dueltime <= 30){
-                tension += 1 * dt()
+
+            // montée naturelle de la tension selon le temps
+            let naturalRise = 0
+            if      (dueltime <= 30) naturalRise = 1
+            else if (dueltime <= 40) naturalRise = 5
+            else if (dueltime <= 50) naturalRise = 8.5
+            else if (dueltime <= 60) naturalRise = 7
+            else                     naturalRise = 5
+
+            let inRed, inGreen
+
+            if (isangry) {
+                naturalRise *= 1.5
+                inGreen = tension >= 70 && tension <= 75
+                inRed = tension > 75  
             }
-            else if (dueltime <= 40) {
-                tension += 5 * dt()
-            }
-            else if (dueltime <= 50) {
-                tension += 8.5 * dt()
-            }
-            else if (dueltime <= 60) {
-                tension += 11 * dt()
-            }
-            else {
-                tension += 13 * dt()
+            else{
+                inGreen = tension >= 70 && tension <= 80
+                inRed = tension > 80                 
             }
 
-            // déclancheurs d'animations
+            tensionTarget += naturalRise * dt()
+
+            // --- Positions du joueur (modifient la cible, pas tension directement) ---
+            if (isfocusing) {
+                tensionTarget += 15 * dt()
+            } else if (isrelaxing) {
+                tensionTarget -= 12 * dt()
+            }
+
+            tensionTarget = Math.max(0, Math.min(maxtension, tensionTarget))
+
+            // --- Inertie : tension suit tensionTarget lentement ---
+            // Le 3 contrôle la réactivité : plus c'est bas, plus c'est "lourd"
+            tension += (tensionTarget - tension) * 3 * dt()
+            tension = Math.max(0, Math.min(maxtension, tension))
+
+            // focus de l'adversaire
+            lastSpikeTime += dt()
+            if (lastSpikeTime >= nextSpikeDelay) {
+                let spikeDir = rand(0, 1) < 0.25 ? -1 : 1
+                tensionTarget += spikeDir * rand(15, 25)
+                lastSpikeTime = 0
+                nextSpikeDelay = rand(6, 9)
+            }
+
+            if (inGreen) {
+                timeingreen += dt()
+            } else {
+                timeingreen = Math.max(0, timeingreen - dt() * 0.5) // se vide si on sort du vert
+            }
+
+            // déclencheurs d'anims
             if (ishooting) {
-                isduelactive = false;
-            }
-            else if (isfocusing) {
-                if (klint.curAnim() !== "focus") klint.play("focus");
-            } 
-            else if (isrelaxing) {
-                if (klint.curAnim() !== "relax") klint.play("relax");
-            } 
-            else {
-                if (klint.curAnim() !== "idle") klint.play("idle");
+                isduelactive = false
+            } else if (isfocusing) {
+                if (klint.curAnim() !== "focus") klint.play("focus")
+            } else if (isrelaxing) {
+                if (klint.curAnim() !== "relax") klint.play("relax")
+            } else {
+                if (klint.curAnim() !== "idle")  klint.play("idle")
             }
 
-            if (timeingreen > 15) {
+            // Fin du duel : désamorçage
+            if (timeingreen > 10) {
                 isduelactive = false
-                console.log("fin du combat")
                 klint.play("relax")
             }
 
-            // Augmenter et diminuer tension
-            if (isfocusing) {
-                tension += 7 * dt() // 40x par sec
-                console.log("la tension augmente")
-            } 
-            else if (isrelaxing) {
-                tension -= 10 * dt()
-                console.log("la tension diminue")
+            // --- Fin du duel : tir automatique si trop longtemps dans le rouge ---
+            if (inRed && !hasshot) {
+                // tu peux ajouter un timer rouge ici si tu veux un délai avant le tir forcé
             }
 
-            tension = Math.max(0, Math.min(maxtension, tension))
-
-            // Update barre visuelle
+            // barre visuelle
             bar.width = (tension / maxtension) * 500
         })
 
