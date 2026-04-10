@@ -91,6 +91,17 @@ export function duel1() {
         //     loquace.next()
         // })
 
+        choix([
+            {
+                label: "Oui, je suis partant !",
+                onSelect: () => loquace.start("brancheOui")
+            },
+            {
+                label: "Non, laisse-moi tranquille.",
+                onSelect: () => loquace.start("brancheNon")
+            }
+        ]);
+
         // Barre de tension
         let barfond = add([
             rect(500, 20),
