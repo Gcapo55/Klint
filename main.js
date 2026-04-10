@@ -2,6 +2,9 @@ import kaplay from "https://unpkg.com/kaplay@3001.0.19/dist/kaplay.mjs";
 import { loquacePlugin } from "./kaplay-loquace.js";
 import { homeScene } from "./scenes/home.js";
 import { duel1 } from "./scenes/duel1.js";
+import { duel2 } from "./scenes/duel2.js";
+import { dialogues } from "./dialogues.js";
+import { myTiles } from "./tiledefinition.js";
 
 kaplay(
   {
@@ -9,7 +12,12 @@ kaplay(
   }
 );
 
-loquace.init({});
+loadSprite("fleche","assets/fleche.png")
+
+loquace.init({
+});
+loquace.script(dialogues)
+
 
 loadSprite("homebg", "assets/backgrounds/menubg2.png");
 loadSprite('poteau', 'assets/affiches/badbillpoteau.png');
@@ -24,7 +32,7 @@ loadSprite('tile5', 'assets/Floor/tile5.png');
 loadSprite('tile6', 'assets/Floor/tile6.png');
 
 loadSprite('klint', 'assets/cowboy/klint.png',{
-  sliceX: 5,
+  sliceX: 6,
   sliceY: 4,
     anims: {
       idle: {
@@ -46,6 +54,11 @@ loadSprite('klint', 'assets/cowboy/klint.png',{
         loop: true,
         speed: 3,
       },
+      affraid: {
+        from: 16,
+        to: 23,
+        speed: 2,
+      }
     },
 });
 
@@ -87,24 +100,84 @@ loadSprite("klintvener", "assets/cowboy/klintvener.png", {
       },
     },
 });
+loadSprite("calamity", "assets/cowboy/Calamity.png", {
+  sliceX: 5,
+  sliceY: 3,
+  anims: {
+    idle: {
+      from: 0,
+      to: 0, 
+    },
+    focus: {
+      from: 1,
+      to: 1,
+    },
+    shooting: {
+      from: 6,
+      to: 10,
+      speed: 3,
+    }
+  },
+});
 
 loadSprite("birds", "assets/birds/birds.png", {
   sliceX: 1,
   sliceY: 3,
   anims: {
-      fly: {
-        from: 0,
-        to: 2,
-        loop: true,
-        speed: 6, 
-      },
+    fly: {
+      from: 0,
+      to: 2,
+      loop: true,
+      speed: 6, 
+    },
   },
 });
 
 loadSound('homesound', 'assets/sounds/intro.mp3');
 
+loquace.characters({
+  k: {
+    name: 'klint',
+    dialogType: 'pop',
+    position: 'center',
+    dialogOptions: {
+      position: 'topleft',
+      doTween: true,
+      showNextPrompt: false,
+      dialogText: {
+        color: BLACK,
+      },
+    },
+  },
+  e: {
+    name: 'ennemi',
+    dialogType: 'pop',
+    position: 'center',
+    dialogOptions: {
+      position: 'topright',
+      doTween: true,
+      showNextPrompt: false,
+      dialogText: {
+        color: BLACK,
+      },
+    },
+  },
+  n: {
+      name: 'narrateur',
+      dialogType: 'vn',
+      position: 'center',
+      dialogOptions: {
+          doTween: true,
+          showNextPrompt: false,
+          dialogText: {
+              color: BLACK,
+          },
+      },
+  },
+});
 
 homeScene();
-duel1();
+duel1(myTiles);
+duel2(myTiles);
 
 go("duel1");

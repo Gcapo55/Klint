@@ -1,4 +1,4 @@
-export function duel1() {
+export function duel1(myTiles) {
     scene("duel1", () => {
 
         let tension = 0
@@ -6,7 +6,7 @@ export function duel1() {
         let dueltime = 0
         let timeingreen = 0 // si reste dans la zone verte
         let timeinred = 0 // si reste dans la zone rouge
-        let isduelactive = false // en combat
+        let isduelactive = true // en combat
         let ishooting = false
         let isrelaxing = false
         let isfocusing = false
@@ -28,79 +28,52 @@ export function duel1() {
 
         
         let ennemi = add([
-            rect(150, 270),
-            color(BLACK),
+            sprite("calamity"),
             pos(width()-300, 200),
+            scale(5),
             area(),
             body(),
         ])
 
-        // Dialogues 
-        loquace.characters({
-            k: {
-                name: 'klint',
-                dialogType: 'pop',
-                position: 'center',
-                dialogOptions: {
-                    position: 'topleft',
-                    doTween: true,
-                    showNextPrompt: false,
-                    dialogText: {
-                        color: BLACK,
-                    },
-                },
-            },
-            e: {
-                name: 'ennemi',
-                dialogType: 'pop',
-                position: 'center',
-                dialogOptions: {
-                    position: 'topright',
-                    doTween: true,
-                    showNextPrompt: false,
-                    dialogText: {
-                        color: BLACK,
-                    },
-                },
-            },
-            n: {
-                name: 'narrateur',
-                dialogType: 'vn',
-                position: 'center',
-                dialogOptions: {
-                    doTween: true,
-                    dialogText: {
-                        color: BLACK,
-                    },
-                },
-            },
-
-        });
-
-        // wait(5, () => {
-        //     loquace.script([
-        //         'n Appuye sur "Enter" pour faire défiler les dialogues !',
-        //         "e Halte étranger",
-        //         "k Bonjour ! Je parle dans une bulle.",
-        //         "k Et j'avance toujours avec Entrée.",
-        //     ]);
-
-        // });
-
-        // onKeyPress("enter", ()=> {
-        //     loquace.next()
-        // })
-
-        choix([
-            {
-                label: "Oui, je suis partant !",
-                onSelect: () => loquace.start("brancheOui")
-            },
-            {
-                label: "Non, laisse-moi tranquille.",
-                onSelect: () => loquace.start("brancheNon")
-            }
-        ]);
+        // Dialogues
+        let phase2 = false;
+        let phase3 = false;
+        let startfight = false;
+        if (!isduelactive) {
+            wait(5, () => {
+                loquace.start("intro");
+            });
+            
+            onKeyPress("space", () => {
+                const hasNext = loquace.next();
+                if (!hasNext) {
+                    if (phase3) {
+                        isduelactive = true;
+                    }
+                    else if (phase3) {
+                        startfight = true
+                        const panel = loquace.choix([
+                            { label: "vite fait la je crois", onSelect: () => loquace.start("brancheOui") },
+                            { label: "ok.", onSelect: () => loquace.start("brancheNon") }
+                        ]);
+                    }
+                    else if (phase2) {
+                        phase3 = true;
+                        const panel = loquace.choix([
+                            { label: "Ouais trkl la", onSelect: () => loquace.start("brancheOui") },
+                            { label: "mmhh ouise.", onSelect: () => loquace.start("brancheNon") }
+                        ]);
+                    }
+                    else {
+                        phase2 = true;
+                        const panel = loquace.choix([
+                            { label: "Ouais trkl la", onSelect: () => loquace.start("brancheOui") },
+                            { label: "Non, laisse-moi tranquille.", onSelect: () => loquace.start("brancheNon") }
+                        ]);
+                    }
+                }
+            });
+        }
 
         // Barre de tension
         let barfond = add([
@@ -133,11 +106,6 @@ export function duel1() {
 
         bar.hidden = true;
         barfond.hidden = true;
-
-        // provoquer le duel
-        onKeyPress("d", () => {
-            isduelactive = true;
-        })
 
         // focus
         onKeyPress("space", () => { 
@@ -195,8 +163,8 @@ export function duel1() {
                     tensionTarget -= 20 * dt()
                 }
 
-                // Inertie : tension suit tensionTarget lentement (Rédigé par Claude)
-                // Le 3 contrôle la réactivité : plus c'est bas, plus c'est "lourd"
+                // Inertie : tension suit tensionTarget lentement
+                // Le chiffre contrôle la réactivité : plus il est bas, plus il y de l'inertie
                 tensionTarget += naturalRise * dt()
                 tensionTarget = Math.max(0, Math.min(maxtension, tensionTarget))
                 tension += (tensionTarget - tension) * 1.5 * dt()
@@ -226,6 +194,10 @@ export function duel1() {
                 }
                 lastSpikeTime = 0
                 nextSpikeDelay = rand(6, 9)
+                ennemi.play("focus")
+                wait(2, () => {
+                    ennemi.play("idle")
+                })
             }
 
             if (inGreen) {
@@ -235,8 +207,8 @@ export function duel1() {
                 timeinred += dt()
                 console.log(timeinred)
             } else {
-                timeingreen = Math.max(0, timeingreen - dt() * 0.5) // se vide si on va dans le bleu
-                timeingreen = Math.max(0, timeinred - dt() * 0.5)
+                timeingreen = Math.max(0, timeingreen - dt() * 1) // se vide si on va dans le bleu
+                timeingreen = Math.max(0, timeinred - dt() * 1)
             }
 
             // déclencheurs d'anims
@@ -259,6 +231,17 @@ export function duel1() {
                 klint.play("relax")
             }
 
+            // Fin du duel l'adversaire à craqué
+            if (dueltime > 60) {
+                isduelactive = false;
+                bar.hidden = true;
+                barfond.hidden = true;
+                ennemi.play("shooting")
+                wait(1, () => {
+                    klint.play("affraid")
+                })
+            }
+
             // Fin du duel : tir automatique si trop longtemps dans le rouge
             if (timeinred > 10 && !hasshot) {
                 isduelactive = false;
@@ -274,80 +257,14 @@ export function duel1() {
             bar.width = (tension / maxtension) * 500
         })
 
-        const level = addLevel([
+        addLevel([
             "6nn5n61nn55",
             "00000000000",
-        ], {
-            pos: vec2(0, height()/2 + 250),
-            tileWidth: 50*3,
-            tileHeight: 51*3,
-
-            // Définition des syboles : 
-            tiles: {
-                "0": () => [
-                    sprite("tile0"),
-                    scale(3),
-                    anchor("bot"),
-                    area({shape : new Rect(vec2(), 50, 32)}),
-                    body({ isStatic: true }),
-                ],
-
-                "n": () => [
-                    sprite("tile0.5"),
-                    scale(3),
-                    anchor("bot"),
-                    area({shape : new Rect(vec2(), 50, 32)}),
-                    body({ isStatic: true }),
-                ],
-
-                "1": () => [
-                    sprite("tile1"),
-                    scale(3),
-                    anchor("bot"),
-                    area({shape : new Rect(vec2(), 50, 32)}),
-                    body({ isStatic: true }),
-                ],
-
-                "2": () => [
-                    sprite("tile2"),
-                    scale(3),
-                    anchor("bot"),
-                    area({shape : new Rect(vec2(), 50, 32)}),
-                    body({ isStatic: true }),
-                ],
-
-                "3": () => [
-                    sprite("tile3"),
-                    scale(3),
-                    anchor("bot"),
-                    area({shape : new Rect(vec2(), 50, 32)}),
-                    body({ isStatic: true }),
-                ],
-
-                "4": () => [
-                    sprite("tile4"),
-                    scale(3),
-                    anchor("bot"),
-                    area({shape : new Rect(vec2(), 50, 32)}),
-                    body({ isStatic: true }),
-                ],
-
-                "5": () => [
-                    sprite("tile5"),
-                    scale(3),
-                    anchor("bot"),
-                    area({shape : new Rect(vec2(), 50, 32)}),
-                    body({ isStatic: true }),
-                ],
-
-                "6": () => [
-                    sprite("tile6"),
-                    scale(3),
-                    anchor("bot"),
-                    area({shape : new Rect(vec2(), 50, 32)}),
-                    body({ isStatic: true }),
-                ],
-            },
+        ],{
+            pos: vec2(0, height() / 2 + 250),
+            tileWidth: 150,
+            tileHeight: 153,
+            tiles: myTiles,
         });
     });
 }

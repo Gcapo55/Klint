@@ -407,13 +407,17 @@ function N(e, o = {}) {
   )) : i.pos.y = height() - t.textBox.margin - i.height, i;
 }
 
+//--------IMPORTANT-------
+// La fonction ci-dessous à été générée par Claude (version free).
+// Sa tâche était de générer une fonction utilisable avec loquace qui permettrait à l'utilisateur de séléctionner une réponse à l'aide de son clavier.
+// Claude a reçu ce document en pièce jointe dans lequel il a directement inseré la fonction.
+// Certains détails ont par la suite été modifiés par mes soins.
+
 /**
- * choix(choices, opts) — affiche un panneau de choix centré à l'écran.
- *
  * @param {Array<{ label: string, onSelect: function }>} choices
  *   Liste des options proposées au joueur. Chaque entrée doit avoir :
  *     - label     : texte affiché sur le bouton
- *     - onSelect  : callback appelé quand le joueur clique sur ce choix
+ *     - onSelect  : callback appelé quand le joueur confirme ce choix
  *
  * @param {object} [opts={}]
  *   Options de surcharge (fusionnées avec x.choix par deep-merge) :
@@ -438,21 +442,28 @@ function N(e, o = {}) {
  * Usage avec options :
  *   choix([...], { width: 500, colors: { button: { r: 80, g: 160, b: 80 } } });
  */
-function choix(choices, opts = {}) {
+function choix(choices, opts = {width: 1000}) {
   const t = c(x.choix, opts);
 
   // Couleurs par défaut
-  const bgColor   = t.colors && t.colors.background  ? Object.values(t.colors.background)  : [255, 255, 255];
-  const btnColor  = t.colors && t.colors.button       ? Object.values(t.colors.button)       : [100, 160, 220];
-  const btnHover  = t.colors && t.colors.buttonHover  ? Object.values(t.colors.buttonHover)  : [60,  120, 180];
-  const txtColor  = t.colors && t.colors.text         ? Object.values(t.colors.text)         : [255, 255, 255];
-  const txtHover  = t.colors && t.colors.textHover    ? Object.values(t.colors.textHover)    : [255, 255, 255];
+  const bgColor  = t.colors && t.colors.background  ? Object.values(t.colors.background)  : [255, 255, 255];
+  const btnColor = t.colors && t.colors.button       ? Object.values(t.colors.button)       : [100, 160, 220];
+  const btnHover = t.colors && t.colors.buttonHover  ? Object.values(t.colors.buttonHover)  : [60,  120, 180];
+  const txtColor = t.colors && t.colors.text         ? Object.values(t.colors.text)         : [255, 255, 255];
 
-  // Largeur utile du texte à l'intérieur d'un bouton
-  const innerTextWidth = t.width - t.padding.left - t.padding.right;
+  // La flèche de sélection reprend la même couleur que le texte (blanc par défaut)
+  const arrowColor = txtColor;
+
+  // Largeur réservée à la flèche (sprite "right-arrow" + marge)
+  const arrowW = (t.nextPrompt && t.nextPrompt.options && t.nextPrompt.options.width)
+    ? t.nextPrompt.options.width
+    : 20;
+  const arrowMargin = 20; // espace entre la flèche et le texte
+
+  // Largeur utile du texte à l'intérieur d'un bouton (on réserve la place de la flèche à gauche)
+  const innerTextWidth = t.width - t.padding.left - t.padding.right - arrowW - arrowMargin;
 
   // ── Pré-calculer la hauteur de chaque bouton ──────────────────────────────
-  // On crée un texte temporaire pour mesurer la hauteur, puis on le détruit.
   const buttonHeights = choices.map((ch) => {
     const probe = add([
       text(ch.label, { ...t.textOptions, width: innerTextWidth }),
@@ -469,9 +480,10 @@ function choix(choices, opts = {}) {
   const panelHeight = t.padding.top + totalBtnHeight + t.gap * (choices.length - 1) + t.padding.bottom;
   const panelWidth  = t.width;
 
-  // Position centrale
-  const panelX = (width()  - panelWidth)  / 2;
-  const panelY = (height() - panelHeight) / 2;
+  // Position en bas de l'écran (comme les boîtes vn)
+  const margin = t.margin ?? 20;
+  const panelX = (width() - panelWidth) / 2;
+  const panelY = height() - margin - panelHeight;
 
   // ── Panneau racine ─────────────────────────────────────────────────────────
   const panel = add([
@@ -485,6 +497,8 @@ function choix(choices, opts = {}) {
 
   // ── Boutons ────────────────────────────────────────────────────────────────
   let cursorY = t.padding.top;
+  const btns = [];   // refs vers les GameObj bouton
+  const arrows = []; // refs vers les GameObj flèche de sélection
 
   choices.forEach((ch, idx) => {
     const btnH = buttonHeights[idx];
@@ -494,50 +508,102 @@ function choix(choices, opts = {}) {
       rect(btnW, btnH, t.buttonOptions),
       color(...btnColor),
       pos(t.padding.left, cursorY),
-      area(),
       opacity(1),
       "loquaceChoixBtn"
     ]);
+    btns.push(btn);
 
+    // ── Flèche de sélection (sprite right-arrow, cachée par défaut) ──────────
+    const arrowObj = btn.add([
+      sprite(
+        (t.nextPrompt && t.nextPrompt.name) ? t.nextPrompt.name : "right-arrow",
+        { width: arrowW }
+      ),
+      pos(
+        t.padding.left,
+        (btnH - arrowW) / 2   // centré verticalement dans le bouton
+      ),
+      color(...arrowColor),
+      opacity(0),              // invisible jusqu'à la sélection
+      anchor("topleft"),
+      animate()
+    ]);
+    arrows.push(arrowObj);
+
+    // ── Texte du choix (décalé pour laisser la place à la flèche) ────────────
     btn.add([
       text(ch.label, { ...t.textOptions, width: innerTextWidth }),
       color(...txtColor),
-      pos(t.padding.left, t.padding.top),
+      pos(t.padding.left + arrowW + arrowMargin, t.padding.top),
       opacity(1)
     ]);
-
-    // Hover : changement de couleur du bouton
-    btn.onHover(() => {
-      btn.color = color(...btnHover).color ?? rgb(...btnHover);
-    });
-    btn.onHoverEnd(() => {
-      btn.color = color(...btnColor).color ?? rgb(...btnColor);
-    });
-
-    // Clic : on détruit le panneau, puis on appelle onSelect
-    btn.onClick(() => {
-      // Tween de sortie puis destruction
-      if (t.doTween) {
-        tween(panel.opacity, 0, 0.3, (v) => {
-          panel.opacity = v;
-          panel.children.forEach((child) => child.opacity = v);
-        }, easings.easeOutQuad).onEnd(() => {
-          panel.destroy();
-          ch.onSelect();
-        });
-      } else {
-        panel.destroy();
-        ch.onSelect();
-      }
-    });
 
     cursorY += btnH + t.gap;
   });
 
+  // ── Gestion du curseur clavier ─────────────────────────────────────────────
+  let selectedIdx = 0;
+
+  // Applique visuellement la sélection sur l'index donné
+  function applySelection(newIdx) {
+    // Réinitialise l'ancien bouton
+    btns[selectedIdx].color = rgb(...btnColor);
+    arrows[selectedIdx].opacity = 0;
+    arrows[selectedIdx].paused  = true;
+
+    selectedIdx = newIdx;
+
+    // Met en valeur le nouveau bouton sélectionné
+    btns[selectedIdx].color = rgb(...btnHover);
+    arrows[selectedIdx].opacity = 1;
+    arrows[selectedIdx].paused  = false;
+    arrows[selectedIdx].animate(
+      "scale",
+      [vec2(1.2), vec2(1)],
+      { duration: 0.5, direction: "ping-pong" }
+    );
+  }
+
+  // Sélection initiale
+  applySelection(0);
+
+  // ── Gestionnaires clavier (actifs seulement quand le panel existe) ─────────
+  const evDown = onKeyPress("down", () => {
+    if (!panel.exists()) return;
+    applySelection((selectedIdx + 1) % choices.length);
+  });
+
+  const evUp = onKeyPress("up", () => {
+    if (!panel.exists()) return;
+    applySelection((selectedIdx - 1 + choices.length) % choices.length);
+  });
+
+  const evEnter = onKeyPress("enter", () => {
+    if (!panel.exists()) return;
+    const chosen = choices[selectedIdx];
+    // Désinscription des écouteurs clavier
+    evDown.cancel();
+    evUp.cancel();
+    evEnter.cancel();
+    // Tween de sortie puis destruction et callback
+    if (t.doTween) {
+      tween(panel.opacity, 0, 0, (v) => {
+        panel.opacity = v;
+        panel.children.forEach((child) => child.opacity = v);
+      }, easings.easeOutQuad).onEnd(() => {
+        panel.destroy();
+        chosen.onSelect();
+      });
+    } else {
+      panel.destroy();
+      chosen.onSelect();
+    }
+  });
+
   // ── Animation d'entrée ────────────────────────────────────────────────────
   if (t.doTween) {
-    tween(panel.pos.y, panelY,  0.5, (v) => panel.pos.y  = v, easings.easeOutQuad);
-    tween(panel.opacity,   1,   0.5, (v) => panel.opacity = v, easings.easeOutQuad);
+    tween(panel.pos.y, panelY, 0.5, (v) => panel.pos.y  = v, easings.easeOutQuad);
+    tween(panel.opacity,   1,  0.5, (v) => panel.opacity = v, easings.easeOutQuad);
   }
 
   return panel;
