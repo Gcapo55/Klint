@@ -43,7 +43,7 @@ loadSprite('klint', 'assets/cowboy/klint.png',{
           from: 1,
           to: 1,
       },
-      shooting: {
+      shoot: {
         from: 2,
         to: 13,
         speed: 6,
@@ -76,7 +76,7 @@ loadSprite("klintvener", "assets/cowboy/klintvener.png", {
           from: 1,
           to: 1,
       },
-      shooting: {
+      shoot: {
         from: 2,
         to: 13,
         speed: 6,
@@ -112,7 +112,7 @@ loadSprite("calamity", "assets/cowboy/Calamity.png", {
       from: 1,
       to: 1,
     },
-    shooting: {
+    shoot: {
       from: 6,
       to: 10,
       speed: 3,
@@ -134,6 +134,18 @@ loadSprite("birds", "assets/birds/birds.png", {
 });
 
 loadSound('homesound', 'assets/sounds/intro.mp3');
+loadSound('angry', "assets/sounds/angry.mp3");
+loadSound('holster', "assets/sounds/holster.mp3");
+loadSound('gunshot', "assets/sounds/gunshot.mp3");
+
+loadSound('vent', "assets/sounds/wind.mp3");
+loadSound('bird', "assets/sounds/bird1.mp3");
+loadSound('animal', "assets/sounds/animal.mp3");
+loadSound('mouse', "assets/sounds/mouse.mp3");
+loadSound('snake', "assets/sounds/snake.mp3");
+loadSound('dog', "assets/sounds/dog.mp3");
+
+loadSound('mainmusic', "assets/sounds/musics/main.mp3");
 
 loquace.characters({
   k: {
@@ -144,8 +156,15 @@ loquace.characters({
       position: 'topleft',
       doTween: true,
       showNextPrompt: false,
+      textBox: {
+        width: 600,
+      },
       dialogText: {
         color: BLACK,
+        options: {
+          width: 550,
+          align: "center",
+        },
       },
     },
   },
@@ -157,8 +176,15 @@ loquace.characters({
       position: 'topright',
       doTween: true,
       showNextPrompt: false,
+      textBox: {
+        width: 600,
+      },
       dialogText: {
         color: BLACK,
+        options: {
+          width: 550,
+          align: "center",
+        },
       },
     },
   },
@@ -167,17 +193,62 @@ loquace.characters({
       dialogType: 'vn',
       position: 'center',
       dialogOptions: {
-          doTween: true,
-          showNextPrompt: false,
-          dialogText: {
-              color: BLACK,
-          },
+        doTween: true,
+        showNextPrompt: false,
+        dialogText: {
+            color: BLACK,
+            options: {
+              align: "center",
+            },
+        },
       },
   },
 });
 
+let shotmeter = 0;
+
+// fonction pour arrêter la musique 
+const fondusonore = (music, duration = 2) => {
+    const startVolume = music.volume;
+    const interval = 0.05; // baisse le son toutes les 50ms
+    const step = startVolume / (duration / interval);
+
+    const fade = setInterval(() => {
+        if (music.volume > 0) {
+            music.volume -= step;
+        } else {
+            music.stop();
+            clearInterval(fade);
+        }
+    }, interval * 1000);
+};
+
+// créer l'ambiance sonore en background des duels
+function ambiancesonore() {
+  play("vent", {
+    loop: true,
+    volume: 0.8,
+  });
+
+  function loopAnimals() {
+    wait(rand(15, 25), () => {
+
+      const animals = ["bird", "animal", "dog", "mouse", "snake"];
+       
+      play(choose(animals), {
+        volume: 0.2,
+        detune: rand(-200, 200), // modifie la profondeur du son (pas de changements constatés)
+      });
+
+      loopAnimals();
+    });
+  }
+  // lancer la boucle des animaux pour la première fois
+  loopAnimals();
+}
+
 homeScene();
-duel1(myTiles);
-duel2(myTiles);
+duel1(myTiles, shotmeter, ambiancesonore);
+duel2(myTiles, shotmeter, fondusonore);
 
 go("duel1");

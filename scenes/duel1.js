@@ -1,4 +1,4 @@
-export function duel1(myTiles) {
+export function duel1(myTiles, shotmeter, ambiancesonore) {
     scene("duel1", () => {
 
         let tension = 0
@@ -6,7 +6,7 @@ export function duel1(myTiles) {
         let dueltime = 0
         let timeingreen = 0 // si reste dans la zone verte
         let timeinred = 0 // si reste dans la zone rouge
-        let isduelactive = true // en combat
+        let isduelactive = false // en combat
         let ishooting = false
         let isrelaxing = false
         let isfocusing = false
@@ -35,45 +35,106 @@ export function duel1(myTiles) {
             body(),
         ])
 
+        // Musiques et sons
+        let mainmusic = play("mainmusic", {
+            loop: true,
+            volume: 0.2,
+            paused: true, 
+        });
+
+        let angrysound = play("angry", {
+            paused: true,
+            volume: 1, 
+        });
+
+        ambiancesonore();
+
         // Dialogues
+        let badanswer = 0;
         let phase2 = false;
         let phase3 = false;
         let startfight = false;
+        let ispanelopen = false;
+
         if (!isduelactive) {
             wait(5, () => {
-                loquace.start("intro");
+                loquace.start("d1intro");
             });
             
             onKeyPress("space", () => {
+                if (ispanelopen) return; //bloque la fonction pour éviter de skipper les choix
+
                 const hasNext = loquace.next();
+
                 if (!hasNext) {
-                    if (phase3) {
+                    ispanelopen = true;
+                    if (startfight) {
                         isduelactive = true;
                     }
                     else if (phase3) {
                         startfight = true
-                        const panel = loquace.choix([
-                            { label: "vite fait la je crois", onSelect: () => loquace.start("brancheOui") },
-                            { label: "ok.", onSelect: () => loquace.start("brancheNon") }
-                        ]);
+                        if (isangry) { // passe le dernier choix si klint est déjà en colère
+                            loquace.start("d1phase4b");
+                            ispanelopen = false;
+                        } else {
+                            loquace.choix([
+                                { label: "Aucun, généralement j'évite les conflits.", onSelect: () => {loquace.start("d1phase4g"); ispanelopen = false;} },
+                                { label: "Je vais commencer par toi, vieux débris !", onSelect: () => {loquace.start("d1phase4b"); ispanelopen = false;} }
+                            ]);
+                        }
                     }
                     else if (phase2) {
                         phase3 = true;
-                        const panel = loquace.choix([
-                            { label: "Ouais trkl la", onSelect: () => loquace.start("brancheOui") },
-                            { label: "mmhh ouise.", onSelect: () => loquace.start("brancheNon") }
+                        loquace.choix([
+                            { label: "Je ne veux pas d'embrouille. Laisse-moi simplement passer...", onSelect: () => {loquace.start("d1phase3g"); ispanelopen = false;} },
+                            { label: "Je vais t'envoyer six pieds sous terre et passer quand même.", onSelect: () => {loquace.start("d1phase3b"); ispanelopen = false;} }
                         ]);
                     }
                     else {
                         phase2 = true;
-                        const panel = loquace.choix([
-                            { label: "Ouais trkl la", onSelect: () => loquace.start("brancheOui") },
-                            { label: "Non, laisse-moi tranquille.", onSelect: () => loquace.start("brancheNon") }
+                        loquace.choix([
+                            { label: "Si, clairement...", onSelect: () => {loquace.start("d1phase2b"); ispanelopen = false;} },
+                            { label: "Je comprends, mais ce chemin est ma seule chance de retrouver Bad Bill.", onSelect: () => {loquace.start("d1phase2g"); ispanelopen = false;} }
                         ]);
                     }
                 }
             });
+            // On enregistre le nombre de mauvaise réponses
+            loquace.registerCommand("bad", () => {
+                badanswer++;
+                console.log("Mauvaises réponses :", badanswer);
+            });
+
+            // affichage jauge pour explication
+            loquace.registerCommand("show", () => {
+                bar.hidden = false;
+                barfond.hidden = false;
+            });
+
+            //exemples positions
+            loquace.registerCommand("focus", () => {
+                klint.play("focus")
+            });
+            loquace.registerCommand("relax", () => {
+                klint.play("relax")
+            });
+            loquace.registerCommand("idle", () => {
+                klint.play("idle")
+            });
+    
+            // Change le sprite avec celui énervé (les noms des animations restent les mêmes)
+            let alreadyrage = false
+            onUpdate(() => {
+                if (badanswer >= 2 && !alreadyrage) {
+                    isangry = true;
+                    alreadyrage = true;
+                    klint.use(sprite("klintvener"));
+                    klint.play("rage");
+                    angrysound.play()
+                }
+            });
         }
+
 
         // Barre de tension
         let barfond = add([
@@ -130,12 +191,7 @@ export function duel1(myTiles) {
             if (isKeyDown("space")) isfocusing = true;
         });
 
-        // Change le sprite avec celui énervé (les noms des animations restent les mêmes)
-        if (isangry) {
-            klint.use(sprite("klintvener"));
-            klint.play("rage");
-        }
-
+        // Fonction qui s'execute à chaque seconde
         onUpdate(() => {
             if (!isduelactive) return
 
@@ -189,11 +245,12 @@ export function duel1(myTiles) {
                 let spikeDir = rand(0, 1) < 0.25 ? -1 : 1
                 if (isangry) {
                     tensionTarget += spikeDir * rand(25, 35)
+                    nextSpikeDelay = rand(6, 9)
                 } else {
                     tensionTarget += spikeDir * rand(15, 25)
+                    nextSpikeDelay = rand(6, 9)
                 }
                 lastSpikeTime = 0
-                nextSpikeDelay = rand(6, 9)
                 ennemi.play("focus")
                 wait(2, () => {
                     ennemi.play("idle")
@@ -236,7 +293,7 @@ export function duel1(myTiles) {
                 isduelactive = false;
                 bar.hidden = true;
                 barfond.hidden = true;
-                ennemi.play("shooting")
+                ennemi.play("shoot")
                 wait(1, () => {
                     klint.play("affraid")
                 })
@@ -247,10 +304,9 @@ export function duel1(myTiles) {
                 isduelactive = false;
                 bar.hidden = true;
                 barfond.hidden = true;
-                klint.play("shooting")
+                klint.play("shoot")
                 hasshot = true;
-
-                // tu peux ajouter un timer rouge ici si tu veux un délai avant le tir forcé
+                shotmeter++
             }
 
             // barre visuelle

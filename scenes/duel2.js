@@ -1,4 +1,4 @@
-export function duel2(myTiles) {
+export function duel2(myTiles, shotmeter) {
     scene("duel2", () => {
 
         addLevel([
