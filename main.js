@@ -3,6 +3,7 @@ import { loquacePlugin } from "./kaplay-loquace.js";
 import { homeScene } from "./scenes/home.js";
 import { duel1 } from "./scenes/duel1.js";
 import { duel2 } from "./scenes/duel2.js";
+import { perdu } from "./scenes/perdu.js";
 import { dialogues } from "./dialogues.js";
 import { myTiles } from "./tiledefinition.js";
 
@@ -46,7 +47,7 @@ loadSprite('klint', 'assets/cowboy/klint.png',{
       shoot: {
         from: 2,
         to: 13,
-        speed: 6,
+        speed: 4,
       },
       relax: {
         from: 14,
@@ -79,7 +80,7 @@ loadSprite("klintvener", "assets/cowboy/klintvener.png", {
       shoot: {
         from: 2,
         to: 13,
-        speed: 6,
+        speed: 4,
       },
       relax: {
         from: 14,
@@ -133,6 +134,7 @@ loadSprite("birds", "assets/birds/birds.png", {
   },
 });
 
+// Sons
 loadSound('homesound', 'assets/sounds/intro.mp3');
 loadSound('angry', "assets/sounds/angry.mp3");
 loadSound('holster', "assets/sounds/holster.mp3");
@@ -223,32 +225,53 @@ const fondusonore = (music, duration = 2) => {
     }, interval * 1000);
 };
 
-// créer l'ambiance sonore en background des duels
+// créer l'ambiance sonore en background des dialogues
+let touslessons = [];
+let animalTimer = null; // Pour stocker le wait en cours
+
 function ambiancesonore() {
-  play("vent", {
-    loop: true,
-    volume: 0.8,
-  });
+    stoptout();
 
-  function loopAnimals() {
-    wait(rand(15, 25), () => {
-
-      const animals = ["bird", "animal", "dog", "mouse", "snake"];
-       
-      play(choose(animals), {
-        volume: 0.2,
-        detune: rand(-200, 200), // modifie la profondeur du son (pas de changements constatés)
-      });
-
-      loopAnimals();
+    let vent = play("vent", {
+        loop: true,
+        volume: 0.8,
     });
-  }
-  // lancer la boucle des animaux pour la première fois
-  loopAnimals();
+    touslessons.push(vent);
+
+    function loopAnimals() {
+        // On stocke le timer dans une variable
+        animalTimer = wait(rand(15, 25), () => {
+            const animals = ["bird", "animal", "dog", "mouse", "snake"];
+            let cris = play(choose(animals), {
+                volume: 0.2,
+                detune: rand(-200, 200),
+            });
+            touslessons.push(cris);
+            loopAnimals(); // Relance la boucle
+        });
+    }
+    
+    loopAnimals();
+}
+
+// Arrête tous les sons stockés
+function stoptout() {
+    touslessons.forEach(son => {
+        if (son.stop) son.stop();
+    });
+    touslessons = [];
+
+    // CRUCIAL : On annule le timer en cours pour stopper la boucle infinie
+    if (animalTimer) {
+        animalTimer.cancel(); 
+        animalTimer = null;
+    }
 }
 
 homeScene();
-duel1(myTiles, shotmeter, ambiancesonore);
-duel2(myTiles, shotmeter, fondusonore);
+duel1(myTiles, shotmeter, ambiancesonore, stoptout);
+duel2(myTiles, shotmeter, ambiancesonore, stoptout);
+
+perdu();
 
 go("duel1");

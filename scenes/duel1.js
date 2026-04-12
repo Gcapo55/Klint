@@ -1,4 +1,4 @@
-export function duel1(myTiles, shotmeter, ambiancesonore) {
+export function duel1(myTiles, shotmeter, ambiancesonore, stoptout) {
     scene("duel1", () => {
 
         let tension = 0
@@ -16,8 +16,28 @@ export function duel1(myTiles, shotmeter, ambiancesonore) {
         let nextSpikeDelay = 10
         let isangry = false
 
-        setGravity(1000)
+        let rideau = add([
+            rect(width(), height()),
+            color(BLACK),
+            opacity(1), // tout est noir par défaut
+            fixed(),
+            z(999),
+        ]);
 
+        // fondu d'entrée
+        function ouvrirRideau(duree = 1) {
+            return tween(1, 0, duree, (val) => rideau.opacity = val, easings.linear); // easings.linear pour faire progresser l'anim de manière constante
+        }
+
+        // fondu de sortie
+        function fermerRideau(duree = 1) {
+            return tween(0, 1, duree, (val) => rideau.opacity = val, easings.linear);
+        }
+
+        setGravity(1000);
+        ouvrirRideau(3);
+
+        // éléments
         let klint = add([
             sprite("klint"),
             pos(100, 200),
@@ -26,7 +46,6 @@ export function duel1(myTiles, shotmeter, ambiancesonore) {
             body(),
         ])
 
-        
         let ennemi = add([
             sprite("calamity"),
             pos(width()-300, 200),
@@ -38,11 +57,19 @@ export function duel1(myTiles, shotmeter, ambiancesonore) {
         // Musiques et sons
         let mainmusic = play("mainmusic", {
             loop: true,
-            volume: 0.2,
+            volume: 0.8,
             paused: true, 
         });
 
         let angrysound = play("angry", {
+            paused: true,
+            volume: 1, 
+        });
+        let holstersound = play("holster", {
+            paused: true,
+            volume: 1, 
+        });
+        let gunsound = play("gunshot", {
             paused: true,
             volume: 1, 
         });
@@ -54,11 +81,12 @@ export function duel1(myTiles, shotmeter, ambiancesonore) {
         let phase2 = false;
         let phase3 = false;
         let startfight = false;
-        let ispanelopen = false;
+        let ispanelopen = true; //verrou pour éviter de pouvoir naviguer de choix choix quand le panneau est ouvert
 
         if (!isduelactive) {
             wait(5, () => {
                 loquace.start("d1intro");
+                ispanelopen = false;
             });
             
             onKeyPress("space", () => {
@@ -70,6 +98,8 @@ export function duel1(myTiles, shotmeter, ambiancesonore) {
                     ispanelopen = true;
                     if (startfight) {
                         isduelactive = true;
+                        stoptout();
+                        mainmusic.play();
                     }
                     else if (phase3) {
                         startfight = true
@@ -286,16 +316,26 @@ export function duel1(myTiles, shotmeter, ambiancesonore) {
                 barfond.hidden = true;
                 klint.use(sprite("klint"));
                 klint.play("relax")
+
             }
 
-            // Fin du duel l'adversaire à craqué
+            // Fin du duel : l'adversaire a craqué
             if (dueltime > 60) {
                 isduelactive = false;
                 bar.hidden = true;
                 barfond.hidden = true;
-                ennemi.play("shoot")
+                mainmusic.stop();
+                ennemi.play("shoot");
+                holstersound.play();
                 wait(1, () => {
-                    klint.play("affraid")
+                    gunsound.play();
+                })
+                wait(3, () => {
+                    klint.play("affraid");
+                    loquace.pop("e Lâche l'affaire fiston. Tu ne fais pas le poids...")
+                })
+                wait(15, () => {
+                    go("perdu")
                 })
             }
 
@@ -304,9 +344,19 @@ export function duel1(myTiles, shotmeter, ambiancesonore) {
                 isduelactive = false;
                 bar.hidden = true;
                 barfond.hidden = true;
+                mainmusic.stop()
                 klint.play("shoot")
+                holstersound.play();
+                wait(1, () => {
+                    gunsound.play();
+                })
                 hasshot = true;
                 shotmeter++
+                wait(15, () => {
+                    fermerRideau(3).onEnd(() => {
+                        go("perdu")
+                    })
+                })
             }
 
             // barre visuelle
