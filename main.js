@@ -34,7 +34,7 @@ loadSprite('tile6', 'assets/Floor/tile6.png');
 
 loadSprite('klint', 'assets/cowboy/klint.png',{
   sliceX: 6,
-  sliceY: 4,
+  sliceY: 5,
     anims: {
       idle: {
         from: 0,
@@ -57,8 +57,18 @@ loadSprite('klint', 'assets/cowboy/klint.png',{
       },
       affraid: {
         from: 16,
-        to: 23,
+        to: 22,
         speed: 2,
+      },
+      stress: {
+        from: 22,
+        to: 23,
+        speed: 9,
+        loop: true,
+      },
+      frustrate: {
+        from: 24,
+        to: 24,
       }
     },
 });
@@ -96,8 +106,14 @@ loadSprite("klintvener", "assets/cowboy/klintvener.png", {
       },
       affraid: {
         from: 32,
-        to: 39,
+        to: 38,
         speed: 3,
+      },
+      stress: {
+        from: 38,
+        to: 39,
+        speed: 9,
+        loop: true,
       },
     },
 });
@@ -135,7 +151,6 @@ loadSprite("birds", "assets/birds/birds.png", {
 });
 
 // Sons
-loadSound('homesound', 'assets/sounds/intro.mp3');
 loadSound('angry', "assets/sounds/angry.mp3");
 loadSound('holster', "assets/sounds/holster.mp3");
 loadSound('gunshot', "assets/sounds/gunshot.mp3");
@@ -144,10 +159,12 @@ loadSound('vent', "assets/sounds/wind.mp3");
 loadSound('bird', "assets/sounds/bird1.mp3");
 loadSound('animal', "assets/sounds/animal.mp3");
 loadSound('mouse', "assets/sounds/mouse.mp3");
-loadSound('snake', "assets/sounds/snake.mp3");
+loadSound('bird2', "assets/sounds/bird2.mp3");
 loadSound('dog', "assets/sounds/dog.mp3");
 
+loadSound('standoff', 'assets/sounds/musics/standoff.mp3');
 loadSound('mainmusic', "assets/sounds/musics/main.mp3");
+loadSound('endstandoff', "assets/sounds/musics/endstandoff.mp3");
 
 loquace.characters({
   k: {
@@ -241,7 +258,7 @@ function ambiancesonore() {
     function loopAnimals() {
         // On stocke le timer dans une variable
         animalTimer = wait(rand(15, 25), () => {
-            const animals = ["bird", "animal", "dog", "mouse", "snake"];
+            const animals = ["bird", "animal", "dog", "mouse", "bird2"];
             let cris = play(choose(animals), {
                 volume: 0.2,
                 detune: rand(-200, 200),
@@ -269,9 +286,9 @@ function stoptout() {
 }
 
 homeScene();
-duel1(myTiles, shotmeter, ambiancesonore, stoptout);
-duel2(myTiles, shotmeter, ambiancesonore, stoptout);
+duel1(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore);
+duel2(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore);
 
 perdu();
 
-go("duel1");
+go("duel2");

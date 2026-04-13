@@ -41,13 +41,6 @@ let klint = add([
         let hasshot = false; //si Klint à tiré, il ne peux plus utiliser le focus ni le realx
 
 
-klint.onAnimEnd((anim) => {
-    if (anim === "shooting") {
-        ishooting = false;
-        // On ne force pas "idle" ici, l'update s'en chargera
-    }
-});
-
 onUpdate(() => {
     if (ishooting) {
     } 

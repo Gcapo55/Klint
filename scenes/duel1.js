@@ -1,4 +1,4 @@
-export function duel1(myTiles, shotmeter, ambiancesonore, stoptout) {
+export function duel1(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore) {
     scene("duel1", () => {
 
         let tension = 0
@@ -41,15 +41,15 @@ export function duel1(myTiles, shotmeter, ambiancesonore, stoptout) {
         let klint = add([
             sprite("klint"),
             pos(100, 200),
-            scale(5),
+            scale(6),
             area(),
             body(),
         ])
 
         let ennemi = add([
             sprite("calamity"),
-            pos(width()-300, 200),
-            scale(5),
+            pos(width()-350, 200),
+            scale(6),
             area(),
             body(),
         ])
@@ -73,6 +73,16 @@ export function duel1(myTiles, shotmeter, ambiancesonore, stoptout) {
             paused: true,
             volume: 1, 
         });
+
+        let wind = play("vent", {
+            paused: true,
+            volume: 0.8,
+        })
+
+        const standoff = play("standoff", {
+                paused: true,
+                volume: 1,
+            })
 
         ambiancesonore();
 
@@ -108,7 +118,7 @@ export function duel1(myTiles, shotmeter, ambiancesonore, stoptout) {
                             ispanelopen = false;
                         } else {
                             loquace.choix([
-                                { label: "Aucun, généralement j'évite les conflits.", onSelect: () => {loquace.start("d1phase4g"); ispanelopen = false;} },
+                                { label: "Généralement, j'essaie d'éviter les conflits.", onSelect: () => {loquace.start("d1phase4g"); ispanelopen = false;} },
                                 { label: "Je vais commencer par toi, vieux débris !", onSelect: () => {loquace.start("d1phase4b"); ispanelopen = false;} }
                             ]);
                         }
@@ -116,7 +126,7 @@ export function duel1(myTiles, shotmeter, ambiancesonore, stoptout) {
                     else if (phase2) {
                         phase3 = true;
                         loquace.choix([
-                            { label: "Je ne veux pas d'embrouille. Laisse-moi simplement passer...", onSelect: () => {loquace.start("d1phase3g"); ispanelopen = false;} },
+                            { label: "Je ne veux pas d'embrouilles. Laisse-moi simplement passer...", onSelect: () => {loquace.start("d1phase3g"); ispanelopen = false;} },
                             { label: "Je vais t'envoyer six pieds sous terre et passer quand même.", onSelect: () => {loquace.start("d1phase3b"); ispanelopen = false;} }
                         ]);
                     }
@@ -154,8 +164,13 @@ export function duel1(myTiles, shotmeter, ambiancesonore, stoptout) {
     
             // Change le sprite avec celui énervé (les noms des animations restent les mêmes)
             let alreadyrage = false
+            let alreadyfrustrate = false
             onUpdate(() => {
-                if (badanswer >= 2 && !alreadyrage) {
+                if (badanswer === 1 && !alreadyfrustrate){
+                    alreadyfrustrate = true;
+                    klint.play("frustrate");
+                }
+                else if (badanswer >= 2 && !alreadyrage) {
                     isangry = true;
                     alreadyrage = true;
                     klint.use(sprite("klintvener"));
@@ -274,10 +289,10 @@ export function duel1(myTiles, shotmeter, ambiancesonore, stoptout) {
             if (lastSpikeTime >= nextSpikeDelay) {
                 let spikeDir = rand(0, 1) < 0.25 ? -1 : 1
                 if (isangry) {
-                    tensionTarget += spikeDir * rand(25, 35)
-                    nextSpikeDelay = rand(6, 9)
+                    tensionTarget += spikeDir * rand(45, 50)
+                    nextSpikeDelay = rand(3, 6)
                 } else {
-                    tensionTarget += spikeDir * rand(15, 25)
+                    tensionTarget += spikeDir * rand(25, 30)
                     nextSpikeDelay = rand(6, 9)
                 }
                 lastSpikeTime = 0
@@ -310,33 +325,61 @@ export function duel1(myTiles, shotmeter, ambiancesonore, stoptout) {
             }
 
             // Fin du duel : désamorçage
-            if (timeingreen > 10) {
+            if (timeingreen > 15) {
                 isduelactive = false;
                 bar.hidden = true;
                 barfond.hidden = true;
                 klint.use(sprite("klint"));
                 klint.play("relax")
 
+                wait(1, () => {
+                    loquace.start("d1goodend");
+                    onKeyPress("space", () => {
+                        const hasNext = loquace.next();
+                        if (!hasNext) {
+                            fondusonore(mainmusic, 4)
+                            wait(5, () => {
+                                standoff.play();
+                                fermerRideau(3).onEnd(() => {
+                                    go("duel2")
+                                });
+                            });
+                        }
+                    });
+                });
+
             }
 
-            // Fin du duel : l'adversaire a craqué
+            // Fin du duel : l'adversaire tire
             if (dueltime > 60) {
+                klint.play("idle")
                 isduelactive = false;
                 bar.hidden = true;
                 barfond.hidden = true;
                 mainmusic.stop();
                 ennemi.play("shoot");
                 holstersound.play();
-                wait(1, () => {
+                wind.play();
+                wait(0.5, () => {
                     gunsound.play();
-                })
-                wait(3, () => {
+                });
+                wait(0.8, () => {
                     klint.play("affraid");
-                    loquace.pop("e Lâche l'affaire fiston. Tu ne fais pas le poids...")
-                })
+                    klint.onAnimEnd((anim) => {
+                        if (anim === "affraid") {
+                            klint.play("stress");
+                        }
+                    });
+                });
+                wait(3, () => {
+                    loquace.start("d1badend");
+                });
                 wait(15, () => {
-                    go("perdu")
-                })
+                    standoff.play();
+                    fermerRideau(3).onEnd(() => {
+                        go("perdu")
+                    });
+                });
             }
 
             // Fin du duel : tir automatique si trop longtemps dans le rouge
@@ -346,15 +389,18 @@ export function duel1(myTiles, shotmeter, ambiancesonore, stoptout) {
                 barfond.hidden = true;
                 mainmusic.stop()
                 klint.play("shoot")
+                ennemi.play("idle")
                 holstersound.play();
-                wait(1, () => {
+                wind.play();
+                wait(0.5, () => {
                     gunsound.play();
-                })
+                });
                 hasshot = true;
                 shotmeter++
                 wait(15, () => {
+                    standoff.play();
                     fermerRideau(3).onEnd(() => {
-                        go("perdu")
+                        go("duel2")
                     })
                 })
             }
