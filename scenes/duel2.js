@@ -129,23 +129,23 @@ export function duel2(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
                             ispanelopen = false;
                         } else {
                             loquace.choix([
-                                { label: "Généralement, j'essaie d'éviter les conflits.", onSelect: () => {loquace.start("d2phase4g"); ispanelopen = false;} },
-                                { label: "Je vais commencer par toi, vieux débris !", onSelect: () => {loquace.start("d2phase4b"); ispanelopen = false;} }
+                                { label: "Ce n'est pas une raison pour défier tout le monde !", onSelect: () => {loquace.start("d2phase4g"); ispanelopen = false;} },
+                                { label: "Tu parles beaucoup trop...", onSelect: () => {loquace.start("d2phase4b"); ispanelopen = false;} }
                             ]);
                         }
                     }
                     else if (phase2) {
                         phase3 = true;
                         loquace.choix([
-                            { label: "Je ne veux pas d'embrouilles. Laisse-moi simplement passer...", onSelect: () => {loquace.start("d2phase3g"); ispanelopen = false;} },
-                            { label: "Je vais t'envoyer six pieds sous terre et passer quand même.", onSelect: () => {loquace.start("d2phase3b"); ispanelopen = false;} }
+                            { label: "Quoi !? Non, certainement pas !", onSelect: () => {loquace.start("d2phase3b"); ispanelopen = false;} },
+                            { label: "Si tu le dis...", onSelect: () => {loquace.start("d2phase3g"); ispanelopen = false;} }
                         ]);
                     }
                     else {
                         phase2 = true;
                         loquace.choix([
-                            { label: "Si, clairement...", onSelect: () => {loquace.start("d2phase2b"); ispanelopen = false;} },
-                            { label: "Je comprends, mais ce chemin est ma seule chance de retrouver Bad Bill.", onSelect: () => {loquace.start("d2phase2g"); ispanelopen = false;} }
+                            { label: "Je comprends toujours pas pourquoi on se battrait ?", onSelect: () => {loquace.start("d2phase2g"); ispanelopen = false;} },
+                            { label: "Moi pas impressionant ?? Tu sais même pas qui je suis !", onSelect: () => {loquace.start("d2phase2b"); ispanelopen = false;} }
                         ]);
                     }
                 }
