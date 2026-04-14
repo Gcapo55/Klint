@@ -59,7 +59,7 @@ export function duel2(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
         // indicateur de contre
         let parryIndicator = add([
             text("✓", { size: 48 }),
-            pos(klint.pos.x + 50, klint.pos.y - 60),
+            pos(ennemi.pos.x + 50, ennemi.pos.y - 60),
             fixed(),
             z(20),
             opacity(0),
@@ -307,7 +307,7 @@ export function duel2(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
 
             // focus de l'adversaire
             lastSpikeTime += dt()
-            parryIndicator.pos = vec2(klint.pos.x + 50, klint.pos.y - 60)
+            parryIndicator.pos = vec2(ennemi.pos.x + 50, ennemi.pos.y - 60)
 
             if (lastSpikeTime >= nextSpikeDelay * 0.8 && !isWarning) {
                 isWarning = true
