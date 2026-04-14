@@ -1,4 +1,4 @@
-export function duel1() {
+export function duel1(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore) {
     scene("duel1", () => {
 
         let tension = 0
@@ -16,80 +16,170 @@ export function duel1() {
         let nextSpikeDelay = 10
         let isangry = false
 
-        setGravity(1000)
+        let rideau = add([
+            rect(width(), height()),
+            color(BLACK),
+            opacity(1), // tout est noir par défaut
+            fixed(),
+            z(999),
+        ]);
 
+        // fondu d'entrée
+        function ouvrirRideau(duree = 1) {
+            return tween(1, 0, duree, (val) => rideau.opacity = val, easings.linear); // easings.linear pour faire progresser l'anim de manière constante
+        }
+
+        // fondu de sortie
+        function fermerRideau(duree = 1) {
+            return tween(0, 1, duree, (val) => rideau.opacity = val, easings.linear);
+        }
+
+        setGravity(1000);
+        ouvrirRideau(3);
+
+        // éléments
         let klint = add([
             sprite("klint"),
             pos(100, 200),
-            scale(5),
+            scale(6),
             area(),
             body(),
         ])
 
-        
         let ennemi = add([
-            rect(150, 270),
-            color(BLACK),
-            pos(width()-300, 200),
+            sprite("calamity"),
+            pos(width()-350, 200),
+            scale(6),
             area(),
             body(),
         ])
 
-        // Dialogues 
-        loquace.characters({
-            k: {
-                name: 'klint',
-                dialogType: 'pop',
-                position: 'center',
-                dialogOptions: {
-                    position: 'topleft',
-                    doTween: true,
-                    showNextPrompt: false,
-                    dialogText: {
-                        color: BLACK,
-                    },
-                },
-            },
-            e: {
-                name: 'ennemi',
-                dialogType: 'pop',
-                position: 'center',
-                dialogOptions: {
-                    position: 'topright',
-                    doTween: true,
-                    showNextPrompt: false,
-                    dialogText: {
-                        color: BLACK,
-                    },
-                },
-            },
-            n: {
-                name: 'narrateur',
-                dialogType: 'vn',
-                position: 'center',
-                dialogOptions: {
-                    doTween: true,
-                    dialogText: {
-                        color: BLACK,
-                    },
-                },
-            },
-
+        // Musiques et sons
+        let mainmusic = play("mainmusic", {
+            loop: true,
+            volume: 0.8,
+            paused: true, 
         });
 
-        // wait(5, () => {
-        //     loquace.script([
-        //         'n Appuye sur "Enter" pour faire défiler les dialogues !',
-        //         "e Halte étranger",
-        //         "k Bonjour ! Je parle dans une bulle.",
-        //         "k Et j'avance toujours avec Entrée.",
-        //     ]);
+        let angrysound = play("angry", {
+            paused: true,
+            volume: 1, 
+        });
+        let holstersound = play("holster", {
+            paused: true,
+            volume: 1, 
+        });
+        let gunsound = play("gunshot", {
+            paused: true,
+            volume: 1, 
+        });
 
-        // });
+        let wind = play("vent", {
+            paused: true,
+            volume: 0.8,
+        })
 
-        // onKeyPress("enter", ()=> {
-        //     loquace.next()
-        // })
+        const standoff = play("standoff", {
+                paused: true,
+                volume: 1,
+            })
+
+        ambiancesonore();
+
+        // Dialogues
+        let badanswer = 0;
+        let phase2 = false;
+        let phase3 = false;
+        let startfight = false;
+        let ispanelopen = true; //verrou pour éviter de pouvoir naviguer de choix choix quand le panneau est ouvert
+
+        if (!isduelactive) {
+            wait(5, () => {
+                loquace.start("d1intro");
+                ispanelopen = false;
+            });
+            
+            onKeyPress("space", () => {
+                if (ispanelopen) return; //bloque la fonction pour éviter de skipper les choix
+
+                const hasNext = loquace.next();
+
+                if (!hasNext) {
+                    ispanelopen = true;
+                    if (startfight) {
+                        isduelactive = true;
+                        stoptout();
+                        mainmusic.play();
+                    }
+                    else if (phase3) {
+                        startfight = true
+                        if (isangry) { // passe le dernier choix si klint est déjà en colère
+                            loquace.start("d1phase4b");
+                            ispanelopen = false;
+                        } else {
+                            loquace.choix([
+                                { label: "Généralement, j'essaie d'éviter les conflits.", onSelect: () => {loquace.start("d1phase4g"); ispanelopen = false;} },
+                                { label: "Je vais commencer par toi, vieux débris !", onSelect: () => {loquace.start("d1phase4b"); ispanelopen = false;} }
+                            ]);
+                        }
+                    }
+                    else if (phase2) {
+                        phase3 = true;
+                        loquace.choix([
+                            { label: "Je ne veux pas d'embrouilles. Laisse-moi simplement passer...", onSelect: () => {loquace.start("d1phase3g"); ispanelopen = false;} },
+                            { label: "Je vais t'envoyer six pieds sous terre et passer quand même.", onSelect: () => {loquace.start("d1phase3b"); ispanelopen = false;} }
+                        ]);
+                    }
+                    else {
+                        phase2 = true;
+                        loquace.choix([
+                            { label: "Si, clairement...", onSelect: () => {loquace.start("d1phase2b"); ispanelopen = false;} },
+                            { label: "Je comprends, mais ce chemin est ma seule chance de retrouver Bad Bill.", onSelect: () => {loquace.start("d1phase2g"); ispanelopen = false;} }
+                        ]);
+                    }
+                }
+            });
+            // On enregistre le nombre de mauvaise réponses
+            loquace.registerCommand("bad", () => {
+                badanswer++;
+                console.log("Mauvaises réponses :", badanswer);
+            });
+
+            // affichage jauge pour explication
+            loquace.registerCommand("show", () => {
+                bar.hidden = false;
+                barfond.hidden = false;
+            });
+
+            //exemples positions
+            loquace.registerCommand("focus", () => {
+                klint.play("focus")
+            });
+            loquace.registerCommand("relax", () => {
+                klint.play("relax")
+            });
+            loquace.registerCommand("idle", () => {
+                klint.play("idle")
+            });
+    
+            // Change le sprite avec celui énervé (les noms des animations restent les mêmes)
+            let alreadyrage = false
+            let alreadyfrustrate = false
+            onUpdate(() => {
+                if (badanswer === 1 && !alreadyfrustrate){
+                    alreadyfrustrate = true;
+                    klint.play("frustrate");
+                }
+                else if (badanswer >= 2 && !alreadyrage) {
+                    isangry = true;
+                    alreadyrage = true;
+                    klint.use(sprite("klintvener"));
+                    klint.play("rage");
+                    angrysound.play()
+                }
+            });
+        }
+
 
         // Barre de tension
         let barfond = add([
@@ -123,11 +213,6 @@ export function duel1() {
         bar.hidden = true;
         barfond.hidden = true;
 
-        // provoquer le duel
-        onKeyPress("d", () => {
-            isduelactive = true;
-        })
-
         // focus
         onKeyPress("space", () => { 
             isfocusing = true;
@@ -151,12 +236,7 @@ export function duel1() {
             if (isKeyDown("space")) isfocusing = true;
         });
 
-        // Change le sprite avec celui énervé (les noms des animations restent les mêmes)
-        if (isangry) {
-            klint.use(sprite("klintvener"));
-            klint.play("rage");
-        }
-
+        // Fonction qui s'execute à chaque seconde
         onUpdate(() => {
             if (!isduelactive) return
 
@@ -184,8 +264,8 @@ export function duel1() {
                     tensionTarget -= 20 * dt()
                 }
 
-                // Inertie : tension suit tensionTarget lentement (Rédigé par Claude)
-                // Le 3 contrôle la réactivité : plus c'est bas, plus c'est "lourd"
+                // Inertie : tension suit tensionTarget lentement
+                // Le chiffre contrôle la réactivité : plus il est bas, plus il y de l'inertie
                 tensionTarget += naturalRise * dt()
                 tensionTarget = Math.max(0, Math.min(maxtension, tensionTarget))
                 tension += (tensionTarget - tension) * 1.5 * dt()
@@ -209,12 +289,17 @@ export function duel1() {
             if (lastSpikeTime >= nextSpikeDelay) {
                 let spikeDir = rand(0, 1) < 0.25 ? -1 : 1
                 if (isangry) {
-                    tensionTarget += spikeDir * rand(25, 35)
+                    tensionTarget += spikeDir * rand(45, 50)
+                    nextSpikeDelay = rand(3, 6)
                 } else {
-                    tensionTarget += spikeDir * rand(15, 25)
+                    tensionTarget += spikeDir * rand(25, 30)
+                    nextSpikeDelay = rand(6, 9)
                 }
                 lastSpikeTime = 0
-                nextSpikeDelay = rand(6, 9)
+                ennemi.play("focus")
+                wait(2, () => {
+                    ennemi.play("idle")
+                })
             }
 
             if (inGreen) {
@@ -224,8 +309,8 @@ export function duel1() {
                 timeinred += dt()
                 console.log(timeinred)
             } else {
-                timeingreen = Math.max(0, timeingreen - dt() * 0.5) // se vide si on va dans le bleu
-                timeingreen = Math.max(0, timeinred - dt() * 0.5)
+                timeingreen = Math.max(0, timeingreen - dt() * 1) // se vide si on va dans le bleu
+                timeingreen = Math.max(0, timeinred - dt() * 1)
             }
 
             // déclencheurs d'anims
@@ -240,12 +325,61 @@ export function duel1() {
             }
 
             // Fin du duel : désamorçage
-            if (timeingreen > 10) {
+            if (timeingreen > 15) {
                 isduelactive = false;
                 bar.hidden = true;
                 barfond.hidden = true;
                 klint.use(sprite("klint"));
                 klint.play("relax")
+
+                wait(1, () => {
+                    loquace.start("d1goodend");
+                    onKeyPress("space", () => {
+                        const hasNext = loquace.next();
+                        if (!hasNext) {
+                            fondusonore(mainmusic, 4)
+                            wait(5, () => {
+                                standoff.play();
+                                fermerRideau(3).onEnd(() => {
+                                    go("duel2")
+                                });
+                            });
+                        }
+                    });
+                });
+
+            }
+
+            // Fin du duel : l'adversaire tire
+            if (dueltime > 60) {
+                klint.play("idle")
+                isduelactive = false;
+                bar.hidden = true;
+                barfond.hidden = true;
+                mainmusic.stop();
+                ennemi.play("shoot");
+                holstersound.play();
+                wind.play();
+                wait(0.5, () => {
+                    gunsound.play();
+                });
+                wait(0.8, () => {
+                    klint.play("affraid");
+                    klint.onAnimEnd((anim) => {
+                        if (anim === "affraid") {
+                            klint.play("stress");
+                        }
+                    });
+                });
+                wait(3, () => {
+                    loquace.start("d1badend");
+                });
+                wait(15, () => {
+                    standoff.play();
+                    fermerRideau(3).onEnd(() => {
+                        go("perdu")
+                    });
+                });
             }
 
             // Fin du duel : tir automatique si trop longtemps dans le rouge
@@ -253,90 +387,36 @@ export function duel1() {
                 isduelactive = false;
                 bar.hidden = true;
                 barfond.hidden = true;
-                klint.play("shooting")
+                mainmusic.stop()
+                klint.play("shoot")
+                ennemi.play("idle")
+                holstersound.play();
+                wind.play();
+                wait(0.5, () => {
+                    gunsound.play();
+                });
                 hasshot = true;
-
-                // tu peux ajouter un timer rouge ici si tu veux un délai avant le tir forcé
+                shotmeter++
+                wait(15, () => {
+                    standoff.play();
+                    fermerRideau(3).onEnd(() => {
+                        go("duel2")
+                    })
+                })
             }
 
             // barre visuelle
             bar.width = (tension / maxtension) * 500
         })
 
-        const level = addLevel([
+        addLevel([
             "6nn5n61nn55",
             "00000000000",
-        ], {
-            pos: vec2(0, height()/2 + 250),
-            tileWidth: 50*3,
-            tileHeight: 51*3,
-
-            // Définition des syboles : 
-            tiles: {
-                "0": () => [
-                    sprite("tile0"),
-                    scale(3),
-                    anchor("bot"),
-                    area({shape : new Rect(vec2(), 50, 32)}),
-                    body({ isStatic: true }),
-                ],
-
-                "n": () => [
-                    sprite("tile0.5"),
-                    scale(3),
-                    anchor("bot"),
-                    area({shape : new Rect(vec2(), 50, 32)}),
-                    body({ isStatic: true }),
-                ],
-
-                "1": () => [
-                    sprite("tile1"),
-                    scale(3),
-                    anchor("bot"),
-                    area({shape : new Rect(vec2(), 50, 32)}),
-                    body({ isStatic: true }),
-                ],
-
-                "2": () => [
-                    sprite("tile2"),
-                    scale(3),
-                    anchor("bot"),
-                    area({shape : new Rect(vec2(), 50, 32)}),
-                    body({ isStatic: true }),
-                ],
-
-                "3": () => [
-                    sprite("tile3"),
-                    scale(3),
-                    anchor("bot"),
-                    area({shape : new Rect(vec2(), 50, 32)}),
-                    body({ isStatic: true }),
-                ],
-
-                "4": () => [
-                    sprite("tile4"),
-                    scale(3),
-                    anchor("bot"),
-                    area({shape : new Rect(vec2(), 50, 32)}),
-                    body({ isStatic: true }),
-                ],
-
-                "5": () => [
-                    sprite("tile5"),
-                    scale(3),
-                    anchor("bot"),
-                    area({shape : new Rect(vec2(), 50, 32)}),
-                    body({ isStatic: true }),
-                ],
-
-                "6": () => [
-                    sprite("tile6"),
-                    scale(3),
-                    anchor("bot"),
-                    area({shape : new Rect(vec2(), 50, 32)}),
-                    body({ isStatic: true }),
-                ],
-            },
+        ],{
+            pos: vec2(0, height() / 2 + 250),
+            tileWidth: 150,
+            tileHeight: 153,
+            tiles: myTiles,
         });
     });
 }

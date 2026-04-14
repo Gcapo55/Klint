@@ -52,15 +52,15 @@ export function homeScene() {
         ]);
 
         let texte = box.add([
-            text("Appuye sur Espace pour commencer à traquer Bad Bill"),
+            text("Appuye sur Enter pour commencer à traquer Bad Bill"),
             anchor("center"),
             color(RED),
             scale(0.5),
             pos(0, 75),
         ]);
 
-        onKeyPress("space", () => {
-            const homesound = play("homesound", {
+        onKeyPress("enter", () => {
+            const homesound = play("standoff", {
                 volume: 1,
             })
             texte.destroy()
