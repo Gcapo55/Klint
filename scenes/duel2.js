@@ -59,7 +59,7 @@ export function duel2(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
         // indicateur de contre
         let parryIndicator = add([
             text("✓", { size: 48 }),
-            pos(ennemi.pos.x + 50, ennemi.pos.y - 60),
+            pos(ennemi.pos.x + 150, ennemi.pos.y - 50),
             fixed(),
             z(20),
             opacity(0),
@@ -106,7 +106,7 @@ export function duel2(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
 
         if (!isduelactive) {
             wait(5, () => {
-                loquace.start("d1intro");
+                loquace.start("d2intro");
                 ispanelopen = false;
             });
             
@@ -125,27 +125,27 @@ export function duel2(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
                     else if (phase3) {
                         startfight = true
                         if (isangry) { // passe le dernier choix si klint est déjà en colère
-                            loquace.start("d1phase4b");
+                            loquace.start("d2phase4b");
                             ispanelopen = false;
                         } else {
                             loquace.choix([
-                                { label: "Généralement, j'essaie d'éviter les conflits.", onSelect: () => {loquace.start("d1phase4g"); ispanelopen = false;} },
-                                { label: "Je vais commencer par toi, vieux débris !", onSelect: () => {loquace.start("d1phase4b"); ispanelopen = false;} }
+                                { label: "Généralement, j'essaie d'éviter les conflits.", onSelect: () => {loquace.start("d2phase4g"); ispanelopen = false;} },
+                                { label: "Je vais commencer par toi, vieux débris !", onSelect: () => {loquace.start("d2phase4b"); ispanelopen = false;} }
                             ]);
                         }
                     }
                     else if (phase2) {
                         phase3 = true;
                         loquace.choix([
-                            { label: "Je ne veux pas d'embrouilles. Laisse-moi simplement passer...", onSelect: () => {loquace.start("d1phase3g"); ispanelopen = false;} },
-                            { label: "Je vais t'envoyer six pieds sous terre et passer quand même.", onSelect: () => {loquace.start("d1phase3b"); ispanelopen = false;} }
+                            { label: "Je ne veux pas d'embrouilles. Laisse-moi simplement passer...", onSelect: () => {loquace.start("d2phase3g"); ispanelopen = false;} },
+                            { label: "Je vais t'envoyer six pieds sous terre et passer quand même.", onSelect: () => {loquace.start("d2phase3b"); ispanelopen = false;} }
                         ]);
                     }
                     else {
                         phase2 = true;
                         loquace.choix([
-                            { label: "Si, clairement...", onSelect: () => {loquace.start("d1phase2b"); ispanelopen = false;} },
-                            { label: "Je comprends, mais ce chemin est ma seule chance de retrouver Bad Bill.", onSelect: () => {loquace.start("d1phase2g"); ispanelopen = false;} }
+                            { label: "Si, clairement...", onSelect: () => {loquace.start("d2phase2b"); ispanelopen = false;} },
+                            { label: "Je comprends, mais ce chemin est ma seule chance de retrouver Bad Bill.", onSelect: () => {loquace.start("d2phase2g"); ispanelopen = false;} }
                         ]);
                     }
                 }
@@ -307,7 +307,6 @@ export function duel2(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
 
             // focus de l'adversaire
             lastSpikeTime += dt()
-            parryIndicator.pos = vec2(ennemi.pos.x + 50, ennemi.pos.y - 60)
 
             if (lastSpikeTime >= nextSpikeDelay * 0.8 && !isWarning) {
                 isWarning = true
@@ -373,7 +372,8 @@ export function duel2(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
                 bar.hidden = true;
                 barfond.hidden = true;
                 klint.use(sprite("klint"));
-                klint.play("relax")
+                klint.play("relax");
+                ennemi.play("idle");
 
                 wait(1, () => {
                     loquace.start("d1goodend");

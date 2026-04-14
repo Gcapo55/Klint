@@ -15,6 +15,8 @@ export function duel1(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
         let lastSpikeTime = 0
         let nextSpikeDelay = 10
         let isangry = false
+        let isWarning = false
+        let isParried = false
 
         let rideau = add([
             rect(width(), height()),
@@ -52,6 +54,15 @@ export function duel1(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
             scale(6),
             area(),
             body(),
+        ])
+
+        // indicateur de contre
+        let parryIndicator = add([
+            text("✓", { size: 48 }),
+            pos(ennemi.pos.x + 150, ennemi.pos.y - 50),
+            fixed(),
+            z(20),
+            opacity(0),
         ])
 
         // Musiques et sons
@@ -150,6 +161,12 @@ export function duel1(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
                 bar.hidden = false;
                 barfond.hidden = false;
             });
+            loquace.registerCommand("showi", () => {
+                parryIndicator.opacity = 1
+            });
+            loquace.registerCommand("hidei", () => {
+                parryIndicator.opacity = 0
+            });
 
             //exemples positions
             loquace.registerCommand("focus", () => {
@@ -161,10 +178,16 @@ export function duel1(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
             loquace.registerCommand("idle", () => {
                 klint.play("idle")
             });
+            loquace.registerCommand("efocus", () => {
+                ennemi.play("focus")
+            });
+            loquace.registerCommand("eidle", () => {
+                ennemi.play("idle")
+            });
     
             // Change le sprite avec celui énervé (les noms des animations restent les mêmes)
-            let alreadyrage = false
-            let alreadyfrustrate = false
+            let alreadyrage = false;
+            let alreadyfrustrate = false;
             onUpdate(() => {
                 if (badanswer === 1 && !alreadyfrustrate){
                     alreadyfrustrate = true;
@@ -175,7 +198,7 @@ export function duel1(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
                     alreadyrage = true;
                     klint.use(sprite("klintvener"));
                     klint.play("rage");
-                    angrysound.play()
+                    angrysound.play();
                 }
             });
         }
@@ -236,6 +259,16 @@ export function duel1(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
             if (isKeyDown("space")) isfocusing = true;
         });
 
+        // Contre
+        onKeyPress("d", () => {
+            if (isWarning && isduelactive) {
+                isParried = true;
+                parryIndicator.text = "✓";
+                parryIndicator.color = GREEN;
+                parryIndicator.opacity = 1;
+            }
+        })
+
         // Fonction qui s'execute à chaque seconde
         onUpdate(() => {
             if (!isduelactive) return
@@ -286,19 +319,40 @@ export function duel1(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
 
             // focus de l'adversaire
             lastSpikeTime += dt()
+
+            if (lastSpikeTime >= nextSpikeDelay * 0.8 && !isWarning) {
+                isWarning = true
+                isParried = false
+                ennemi.play("focus")
+            }
+
             if (lastSpikeTime >= nextSpikeDelay) {
+                isWarning = false
                 let spikeDir = rand(0, 1) < 0.25 ? -1 : 1
+                let spikeMult = isParried ? 0.25 : 1
                 if (isangry) {
-                    tensionTarget += spikeDir * rand(45, 50)
+                    tensionTarget += spikeDir * rand(45, 50) * spikeMult
                     nextSpikeDelay = rand(3, 6)
                 } else {
-                    tensionTarget += spikeDir * rand(25, 30)
+                    tensionTarget += spikeDir * rand(25, 30) * spikeMult
                     nextSpikeDelay = rand(6, 9)
                 }
+
+                // le symbole est différent si le timing a été foiré
+                if (isParried) {
+                    parryIndicator.text = "✓"
+                    parryIndicator.color = GREEN
+                } else {
+                    parryIndicator.text = "✗"
+                    parryIndicator.color = RED
+                }
+                parryIndicator.opacity = 1
+
                 lastSpikeTime = 0
-                ennemi.play("focus")
+                isParried = false
                 wait(2, () => {
                     ennemi.play("idle")
+                    parryIndicator.opacity = 0
                 })
             }
 
@@ -330,7 +384,8 @@ export function duel1(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
                 bar.hidden = true;
                 barfond.hidden = true;
                 klint.use(sprite("klint"));
-                klint.play("relax")
+                klint.play("relax");
+                ennemi.play("idle");
 
                 wait(1, () => {
                     loquace.start("d1goodend");
