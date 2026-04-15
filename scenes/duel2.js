@@ -320,7 +320,7 @@ export function duel2(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
                 let spikeMult = isParried ? 0.25 : 1
                 if (isangry) {
                     tensionTarget += spikeDir * rand(45, 50) * spikeMult
-                    nextSpikeDelay = rand(3, 6)
+                    nextSpikeDelay = rand(6, 9)
                 } else {
                     tensionTarget += spikeDir * rand(25, 30) * spikeMult
                     nextSpikeDelay = rand(6, 9)
@@ -368,6 +368,7 @@ export function duel2(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
 
             // Fin du duel : désamorçage
             if (timeingreen > 15) {
+                parryIndicator.opacity = 0;
                 isduelactive = false;
                 bar.hidden = true;
                 barfond.hidden = true;
@@ -395,6 +396,7 @@ export function duel2(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
 
             // Fin du duel : l'adversaire tire
             if (dueltime > 60) {
+                parryIndicator.opacity = 0;
                 klint.play("idle")
                 isduelactive = false;
                 bar.hidden = true;
@@ -403,7 +405,7 @@ export function duel2(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
                 ennemi.play("shoot");
                 holstersound.play();
                 wind.play();
-                wait(0.5, () => {
+                wait(1, () => {
                     gunsound.play();
                 });
                 wait(0.8, () => {
@@ -418,7 +420,7 @@ export function duel2(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
                     loquace.start("d1badend");
                 });
                 wait(15, () => {
-                    standoff.play();
+                    wind.stop();
                     fermerRideau(3).onEnd(() => {
                         go("perdu")
                     });
@@ -427,20 +429,22 @@ export function duel2(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
 
             // Fin du duel : tir automatique si trop longtemps dans le rouge
             if (timeinred > 10 && !hasshot) {
+                parryIndicator.opacity = 0;
                 isduelactive = false;
                 bar.hidden = true;
                 barfond.hidden = true;
-                mainmusic.stop()
-                klint.play("shoot")
-                ennemi.play("idle")
+                mainmusic.stop();
+                klint.play("shoot");
+                ennemi.play("idle");
                 holstersound.play();
                 wind.play();
-                wait(0.5, () => {
+                wait(1, () => {
                     gunsound.play();
                 });
                 hasshot = true;
                 shotmeter++
                 wait(15, () => {
+                    wind.stop();
                     standoff.play();
                     fermerRideau(3).onEnd(() => {
                         go("duel2")
@@ -453,7 +457,7 @@ export function duel2(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
         })
 
         addLevel([
-            "6nn5n61nn55",
+            "6nn5141nn55",
             "00000000000",
         ],{
             pos: vec2(0, height() / 2 + 250),

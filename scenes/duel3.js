@@ -1,5 +1,5 @@
-export function duel1(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore) {
-    scene("duel1", () => {
+export function duel3(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore) {
+    scene("duel3", () => {
 
         let tension = 0
         let maxtension = 100
@@ -333,7 +333,7 @@ export function duel1(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
                 let spikeMult = isParried ? 0.25 : 1
                 if (isangry) {
                     tensionTarget += spikeDir * rand(45, 50) * spikeMult
-                    nextSpikeDelay = rand(6, 9)
+                    nextSpikeDelay = rand(3, 6)
                 } else {
                     tensionTarget += spikeDir * rand(25, 30) * spikeMult
                     nextSpikeDelay = rand(6, 9)
@@ -404,7 +404,8 @@ export function duel1(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
                         }
                     });
                 });
-            };
+
+            }
 
             // Fin du duel : l'adversaire tire
             if (dueltime > 60) {
@@ -459,7 +460,7 @@ export function duel1(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
                     wind.stop();
                     standoff.play();
                     fermerRideau(3).onEnd(() => {
-                        go("duel2")
+                        go("duel3")
                     })
                 })
             }

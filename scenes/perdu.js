@@ -14,17 +14,16 @@ export function perdu() {
             color(BLACK),
         ]);
         background.add([
-            text("Klint n'est pas le héros qu'il pensait être..."/n + "Appuye sur Enter pour recommencer"),
+            text("Klint n'est pas le héros qu'il pensait être...\nAppuie sur Enter pour recommencer"),
             pos(width()/2, height()/2),
             color(WHITE),
             anchor('center'),
         ]);
 
-        tween(1, 0, 3, (val) => rideau.opacity = val, easings.linear).onEnd(() => {
-            const outro = play("endstandoff", {
-                volume: 1,
-            })
+        const outro = play("endstandoff", {
+            volume: 1,
         })
+        tween(1, 0, 3, (val) => rideau.opacity = val, easings.linear)
 
         onKeyPress("enter", () => {
             tween(0, 1, 3, (val) => rideau.opacity = val, easings.linear).onEnd(() => {

@@ -3,6 +3,7 @@ import { loquacePlugin } from "./kaplay-loquace.js";
 import { homeScene } from "./scenes/home.js";
 import { duel1 } from "./scenes/duel1.js";
 import { duel2 } from "./scenes/duel2.js";
+import { duel3 } from "./scenes/duel3.js";
 import { perdu } from "./scenes/perdu.js";
 import { dialogues } from "./dialogues.js";
 import { myTiles } from "./tiledefinition.js";
@@ -288,7 +289,8 @@ function stoptout() {
 homeScene();
 duel1(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore);
 duel2(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore);
+duel3(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore);
 
 perdu();
 
-go("duel2");
+go("menu"); 

@@ -132,7 +132,7 @@ export const dialogues = {
         "e C'est faire parler son revolver !",
     ],
     "d2phase4g": [
-        "k Ce n'est pas vrai !",
+        "idle k Ce n'est pas vrai !",
         "k Tu as probablement d'autres qualités, j'en suis sûr.",
         "e Assez, gringo !",
         "e Ramon ne peut prouver sa vrai valeur que par la confrontation.",
@@ -153,6 +153,6 @@ export const dialogues = {
         "e C'est d'accord, gringo, tu m'as eu..."
     ],
     "d2badend": [
-        "e ",
+        "e File, gringo. Tu n'est pas digne de rester auprès de Ramon El Magnifico...",
     ],
 };

@@ -408,7 +408,7 @@ function N(e, o = {}) {
 }
 
 //--------IMPORTANT-------
-// La fonction ci-dessous à été générée par Claude (version free).
+// La fonction ci-dessous a été générée par Claude (version free).
 // Sa tâche était de générer une fonction utilisable avec loquace qui permettrait à l'utilisateur de séléctionner une réponse à l'aide de son clavier.
 // Claude a reçu ce document en pièce jointe dans lequel il a directement inseré la fonction.
 // Certains détails ont par la suite été modifiés par mes soins.
