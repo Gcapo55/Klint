@@ -1,6 +1,12 @@
 export function homeScene() {
     scene("menu", () => {
 
+        // fct pour mettre en plein écran 
+        onKeyPress("p", () => {
+            setFullscreen(!isFullscreen());
+            console.log("ouais la on est en plein écran la")
+        });
+
         add([
             sprite('homebg'),
             pos(0, 0),

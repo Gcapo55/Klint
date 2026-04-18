@@ -46,6 +46,7 @@ export function duel1(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
             scale(6),
             area(),
             body(),
+            z(5),
         ])
 
         let ennemi = add([
@@ -54,7 +55,44 @@ export function duel1(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
             scale(6),
             area(),
             body(),
+            z(5),
         ])
+
+        let fond = add([
+            sprite("bgduel1"),
+            scale(width() / 112, height() / 48),
+        ])
+
+        add([
+            sprite("cactus"),
+            scale(8),
+            pos(900, height()/2-100),
+        ])
+
+        add([
+            sprite("rock"),
+            scale(5),
+            pos(width()-50*5, 300),
+        ])
+
+        let fences = add([
+            sprite("fences"),
+            scale(2),
+            pos(0, 340),
+        ])
+
+
+        let crow = fences.add([
+            sprite("crow"),
+            scale(0.5),
+            pos(327, -25),
+        ])
+        crow.flipX = true;
+        crow.play("idle");
+        loop(20, () => {
+            const anim = choose(["jump", "turn"]); //choisi soit jump soit turn au hasard
+            crow.play(anim);
+        });
 
         // indicateur de contre
         let parryIndicator = add([

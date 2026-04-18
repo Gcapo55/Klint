@@ -4,6 +4,7 @@ const baseTile = (spriteName) => [
     anchor("bot"),
     area({ width: 50, height: 32, offset: vec2(0, 19) }), 
     body({ isStatic: true }),
+    z(6),
 ];
 
 export const myTiles = {

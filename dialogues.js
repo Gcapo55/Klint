@@ -36,7 +36,7 @@ export const dialogues = {
         "e T'as vaincu qui toi ? Personne j'imagine ?",
     ],
     "d1phase4g": [
-        "k Généralement, j'essaie d'éviter les conflits.",
+        "idle k Généralement, j'essaie d'éviter les conflits.",
         "e Sans blague...",
         "e Il faut une première fois à tout alors.",
         "e Allez, affrontons-nous !",

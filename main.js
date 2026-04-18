@@ -16,13 +16,16 @@ kaplay(
 
 loadSprite("fleche","assets/fleche.png")
 
-loquace.init({
-});
+loquace.init({});
 loquace.script(dialogues)
 
 
 loadSprite("homebg", "assets/backgrounds/menubg2.png");
+loadSprite("bgduel1", "assets/backgrounds/bgduel1.png");
 loadSprite('poteau', 'assets/affiches/badbillpoteau.png');
+loadSprite('cactus', 'assets/backgrounds/cactus.PNG');
+loadSprite('rock', 'assets/backgrounds/rock.png');
+loadSprite('fences', 'assets/backgrounds/poteaux.png');
 
 loadSprite('tile0', 'assets/Floor/tile0.png');
 loadSprite('tile0.5', 'assets/Floor/tile0.5.png');
@@ -150,6 +153,40 @@ loadSprite("birds", "assets/birds/birds.png", {
     },
   },
 });
+
+loadSprite("vulture", "assets/birds/vulture2.png", {
+  sliceX: 3,
+  sliceY: 4,
+  anims: {
+    fly: {
+      from: 0,
+      to: 9,
+      loop: true,
+      speed: 6, 
+    },
+  },
+});
+loadSprite("crow", "assets/birds/crow.png", {
+  sliceX: 2,
+  sliceY: 8,
+  anims: {
+    idle: {
+      from: 8,
+      to: 8,
+    },
+    jump: {
+      from: 0,
+      to: 7,
+      speed: 6, 
+    },
+    turn: {
+      from: 8,
+      to: 15,
+      speed: 6, 
+    },
+  },
+});
+
 
 // Sons
 loadSound('angry', "assets/sounds/angry.mp3");
@@ -279,7 +316,7 @@ function stoptout() {
     });
     touslessons = [];
 
-    // CRUCIAL : On annule le timer en cours pour stopper la boucle infinie
+    // On annule le timer en cours pour stopper la boucle infinie
     if (animalTimer) {
         animalTimer.cancel(); 
         animalTimer = null;
@@ -290,7 +327,6 @@ homeScene();
 duel1(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore);
 duel2(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore);
 duel3(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore);
-
 perdu();
 
-go("menu"); 
+go("duel1"); 
