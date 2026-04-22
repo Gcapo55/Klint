@@ -155,4 +155,118 @@ export const dialogues = {
     "d2badend": [
         "e File, gringo. Tu n'est pas digne de rester auprès de Ramon El Magnifico...",
     ],
+
+    // Arrestation
+    "Aintro": [
+        "e Klint !",
+        "e C'est bien toi, Klint ?",
+    ],
+    "Aphase2g": [
+        "k C'est moi.",
+        "k Que me veut-tu ?",
+        "e C'est terminé Klint...",
+        "e Tu es en état d'arrestation.",
+        "e Tu as terrorisé toute la région en poussant toutes les personnes que tu as rencontré à t'affronter en duel.",
+        "e Il est l'heure de répondre de tes actes.",
+    ],
+    "Aphase2b": [
+        "k Connais pas...",
+        "e Ça suffit !",
+        "e Je sais qui tu es.",
+        "e Tu as terrorisé toute la région en poussant toutes les personnes que tu as rencontré à t'affronter en duel.",
+        "k Quoi ! Mais ...",
+        "e Il est l'heure de répondre de tes actes.",
+    ],
+    "Aphase3g": [
+        "k Je comprends pas...",
+        "k Je suis recherché ?",
+        "e Bien vu, cowboy !",
+        "e Il fallait peut-être réféchir un peu plus avant de tirer sur tes adversaires...",
+        "e Si tu te rends sans faire d'histoires, je ferais en sorte d'alléger ta peine.",
+        "e Qu'en dis-tu ?",
+    ],
+    "Aphase3b": [
+        "bad k Répondre de mes actes ???",
+        "k Comme si j'avais quelque chose à me reprocher.",
+        "e Ne rends pas la situation plus difficile qu'elle ne l'est déjà...",
+        "e Si tu te rends sans faire d'histoires, je ferais en sorte d'alléger ta peine.",
+        "e Qu'en dis-tu ?",
+    ],
+    "Aphase4g": [
+        "relax k C'est d'accord, je me rends.",
+        "k C'est vrai que j'aurais pu trouver d'autres solutions pour résoudre ces duels...",
+        "e C'est la bonne décision, cowboy.",
+        "e Je suis sure que la justice saura se montrer clémente avec toi...",
+    ],
+    "Aphase4b": [
+        "bad k J'en dis que tu commences à me gonfler !",
+        "k Écarte-toi, ou tu subiras le même sort que mes précédents adversaires.",
+        "e Bon, tu ne me laisse pas le choix cowboy.",
+        "k Voyons ce que tu vaut alors...",
+    ],
+    "Agoodend": [
+        "k C'est bon...",
+        "k Tu es plus forte, je me rends.",
+        "e Tu fais le bon choix.",
+        "e Cette fois, tu ne faisait pas le poids..."
+    ],
+
+    // Duel final
+    "DFintro": [
+        "k Bad Bill !",
+        "k Enfin te voilà...",
+        "e Ça alors...",
+        "e Klint, je ne m'attendais pas à te croiser si loin de Rio Bravo.",
+        "e Qu'est que tu me veux ?",
+    ],
+    "DFphase2g": [
+        "k Rends-toi, Bad Bill.",
+        "k Tu as dévalisé l'épicerie de mes parents...",
+        "k Tu dois répondre de tes actes à présent.",
+        "e Comme si j'allais écouter un froussard comme toi !",
+        "e Et qu'est-ce que tu comptes faire exactement, hein ?",
+        "e Tu ne comptes quand même pas m'affronter ?",
+    ],
+    "DFphase2b": [
+        "k Je veux me venger !",
+        "k Tu as dévalisé l'épicerie de mes parents...",
+        "k Tu va en payer les conséquence tout de suite.",
+        "e Ah Klint, tu es toujours aussi idiot...",
+        "e Et comment tu compte t'y prendre, hein ?",
+        "e Tu ne comptes quand même pas m'affronter ?",
+    ],
+    "DFphase3g": [
+        "k Effectivement, je ne compte pas t'affronter.",
+        "k Tu es coupable et tu le sais...",
+        "k C'est le moment de te remettre en question.",
+        "k Tu ne peux pas continuer à terroriser tout le monde...",
+        "e Raah, mais pour qui tu te prends !",
+        "e Si tu te rends sans faire d'histoires, je ferais en sorte d'alléger ta peine.",
+        "e Qu'en dis-tu ?",
+    ],
+    "DFphase3b": [
+        "bad k Répondre de mes actes ???",
+        "k Comme si j'avais quelque chose à me reprocher.",
+        "e Ne rends pas la situation plus difficile qu'elle ne l'est déjà...",
+        "e Si tu te rends sans faire d'histoires, je ferais en sorte d'alléger ta peine.",
+        "e Qu'en dis-tu ?",
+    ],
+    "DFphase4g": [
+        "relax k C'est d'accord, je me rends.",
+        "k C'est vrai que j'aurais pu trouver d'autres solutions pour résoudre ces duels...",
+        "e C'est la bonne décision, cowboy.",
+        "e Je suis sure que la justice saura se montrer clémente avec toi...",
+    ],
+    "DFphase4b": [
+        "bad k J'en dis que tu commences à me gonfler !",
+        "k Écarte-toi, ou tu subiras le même sort que mes précédents adversaires.",
+        "e Bon, tu ne me laisse pas le choix cowboy.",
+        "k Voyons ce que tu vaut alors...",
+    ],
+    "DFgoodend": [
+        "k C'est bon...",
+        "k Tu es plus forte, je me rends.",
+        "e Tu fais le bon choix.",
+        "e Cette fois, tu ne faisait pas le poids..."
+    ],
 };
