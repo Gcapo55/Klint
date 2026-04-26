@@ -230,7 +230,7 @@ export const dialogues = {
     "DFphase2b": [
         "k Je veux me venger !",
         "k Tu as dévalisé l'épicerie de mes parents...",
-        "k Tu va en payer les conséquence tout de suite.",
+        "k Tu va en payer les conséquences tout de suite.",
         "e Ah Klint, tu es toujours aussi idiot...",
         "e Et comment tu compte t'y prendre, hein ?",
         "e Tu ne comptes quand même pas m'affronter ?",
