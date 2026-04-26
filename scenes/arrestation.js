@@ -1,5 +1,5 @@
-export function duel3(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore) {
-    scene("duel3", () => {
+export function arrestation(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore) {
+    scene("arrestation", () => {
 
         let tension = 0
         let maxtension = 100
@@ -58,8 +58,8 @@ export function duel3(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
 
         // indicateur de contre
         let parryIndicator = add([
-            text("✓", { size: 48 }),
-            pos(ennemi.pos.x + 150, ennemi.pos.y - 50),
+            text("✓", { size: 100 }),
+            pos(ennemi.pos.x + 125, ennemi.pos.y - 100),
             fixed(),
             z(20),
             opacity(0),

@@ -96,8 +96,8 @@ export function duel1(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
 
         // indicateur de contre
         let parryIndicator = add([
-            text("✓", { size: 48 }),
-            pos(ennemi.pos.x + 150, ennemi.pos.y - 50),
+            text("✓", { size: 100 }),
+            pos(ennemi.pos.x + 125, ennemi.pos.y - 100),
             fixed(),
             z(20),
             opacity(0),

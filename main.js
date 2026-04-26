@@ -3,7 +3,7 @@ import { loquacePlugin } from "./kaplay-loquace.js";
 import { homeScene } from "./scenes/home.js";
 import { duel1 } from "./scenes/duel1.js";
 import { duel2 } from "./scenes/duel2.js";
-import { duel3 } from "./scenes/duel3.js";
+import { arrestation } from "./scenes/arrestation.js";
 import { perdu } from "./scenes/perdu.js";
 import { dialogues } from "./dialogues.js";
 import { myTiles } from "./tiledefinition.js";
@@ -123,7 +123,7 @@ loadSprite("klintvener", "assets/cowboy/klintvener.png", {
 });
 loadSprite("calamity", "assets/cowboy/Calamity.png", {
   sliceX: 5,
-  sliceY: 3,
+  sliceY: 4,
   anims: {
     idle: {
       from: 0,
@@ -134,8 +134,8 @@ loadSprite("calamity", "assets/cowboy/Calamity.png", {
       to: 1,
     },
     shoot: {
-      from: 6,
-      to: 10,
+      from: 2,
+      to: 21,
       speed: 3,
     }
   },
@@ -326,7 +326,7 @@ function stoptout() {
 homeScene();
 duel1(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore);
 duel2(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore);
-duel3(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore);
+arrestation(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore);
 perdu();
 
 go("duel1"); 
