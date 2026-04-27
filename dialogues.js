@@ -259,14 +259,15 @@ export const dialogues = {
     "DFphase4g": [
         "relax k On est pas obligé de tout règler avec les revolvers...",
         "k Je veux simplement que tu t'excuses et que tu rembourses ce que tu as volé.",
-        "e La ferme !",
+        "angry e La ferme !",
         "e T'es pas en position pour me faire la morale...",
-        "angry e Mais je suis CALME.",
+        "k Du calme, Bad Bill...",
+        "e Mais je suis CALME.",
         "k C'est pas vraiment l'impression que ça donne...",
-        "e Assez, en garde !",
+        "e Assez, tu me gonfles, en garde !",
     ],
     "DFphase4b": [
-        "bad k J'en dis que tu commences à me gonfler !",
+        "bad k ",
         "k Écarte-toi, ou tu subiras le même sort que mes précédents adversaires.",
         "e Bon, tu ne me laisse pas le choix cowboy.",
         "k Voyons ce que tu vaut alors...",
@@ -276,5 +277,10 @@ export const dialogues = {
         "k Tu es plus forte, je me rends.",
         "e Tu fais le bon choix.",
         "e Cette fois, tu ne faisait pas le poids..."
+    ],
+    "DFbadend": [
+        "e AHAHA, pitoyable...",
+        "e Tu pensais vraiment pouvoir me battre ?",
+        "e File, il vaudrait mieux pour toi que je ne te revois plus jamais...",
     ],
 };
