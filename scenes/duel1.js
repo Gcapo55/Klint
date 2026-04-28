@@ -394,6 +394,8 @@ export function duel1(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
                     parryIndicator.opacity = 0
                 })
             }
+            // barre visuelle
+            bar.width = (tension / maxtension) * 500
 
             if (inGreen) {
                 timeingreen += dt()
@@ -483,9 +485,9 @@ export function duel1(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
                 isduelactive = false;
                 bar.hidden = true;
                 barfond.hidden = true;
-                mainmusic.stop()
-                klint.play("shoot")
-                ennemi.play("idle")
+                mainmusic.stop();
+                klint.play("shoot");
+                ennemi.play("idle");
                 holstersound.play();
                 wind.play();
                 wait(1, () => {
@@ -501,9 +503,6 @@ export function duel1(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
                     })
                 })
             }
-
-            // barre visuelle
-            bar.width = (tension / maxtension) * 500
         })
 
         addLevel([

@@ -49,7 +49,7 @@ export function duel2(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
         ])
 
         let ennemi = add([
-            sprite("calamity"),
+            sprite("badbill"),
             pos(width()-350, 200),
             scale(6),
             area(),
@@ -106,7 +106,7 @@ export function duel2(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
 
         if (!isduelactive) {
             wait(5, () => {
-                loquace.start("d2intro");
+                loquace.start("DFintro");
                 ispanelopen = false;
             });
             
@@ -125,27 +125,27 @@ export function duel2(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
                     else if (phase3) {
                         startfight = true
                         if (isangry) { // passe le dernier choix si klint est déjà en colère
-                            loquace.start("d2phase4b");
+                            loquace.start("DFphase4b");
                             ispanelopen = false;
                         } else {
                             loquace.choix([
-                                { label: "Ce n'est pas une raison pour défier tout le monde !", onSelect: () => {loquace.start("d2phase4g"); ispanelopen = false;} },
-                                { label: "Tu parles beaucoup trop...", onSelect: () => {loquace.start("d2phase4b"); ispanelopen = false;} }
+                                { label: "On est pas obligé de tout règler avec les revolvers...", onSelect: () => {loquace.start("DFphase4g"); ispanelopen = false;} },
+                                { label: "On parie ?.", onSelect: () => {loquace.start("DFphase4b"); ispanelopen = false;} }
                             ]);
                         }
                     }
                     else if (phase2) {
                         phase3 = true;
                         loquace.choix([
-                            { label: "Quoi !? Non, certainement pas !", onSelect: () => {loquace.start("d2phase3b"); ispanelopen = false;} },
-                            { label: "Si tu le dis...", onSelect: () => {loquace.start("d2phase3g"); ispanelopen = false;} }
+                            { label: "Effectivement, je ne compte pas t'affronter.", onSelect: () => {loquace.start("DFphase3g"); ispanelopen = false;} },
+                            { label: "Bien sûr que si que je compte t'affronter !", onSelect: () => {loquace.start("DFphase3b"); ispanelopen = false;} }
                         ]);
                     }
                     else {
                         phase2 = true;
                         loquace.choix([
-                            { label: "Je comprends toujours pas pourquoi on se battrait ?", onSelect: () => {loquace.start("d2phase2g"); ispanelopen = false;} },
-                            { label: "Moi, pas impressionant ?? Tu sais même pas qui je suis !", onSelect: () => {loquace.start("d2phase2b"); ispanelopen = false;} }
+                            { label: "Je veux que tu te rendes.", onSelect: () => {loquace.start("DFphase2g"); ispanelopen = false;} },
+                            { label: "Je veux me venger !", onSelect: () => {loquace.start("DFphase2b"); ispanelopen = false;} }
                         ]);
                     }
                 }
@@ -155,11 +155,10 @@ export function duel2(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
                 badanswer++;
                 console.log("Mauvaises réponses :", badanswer);
             });
-
-            // affichage jauge pour explication
-            loquace.registerCommand("show", () => {
-                bar.hidden = false;
-                barfond.hidden = false;
+            // et de bonnes réponses
+            loquace.registerCommand("good", () => {
+                goodanswer++;
+                console.log("Mauvaises réponses :", badanswer);
             });
 
             //exemples positions
@@ -176,6 +175,8 @@ export function duel2(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
             // Change le sprite avec celui énervé (les noms des animations restent les mêmes)
             let alreadyrage = false
             let alreadyfrustrate = false
+            let billalreadyrage = false
+            let billalreadyfrustrate = false
             onUpdate(() => {
                 if (badanswer === 1 && !alreadyfrustrate){
                     alreadyfrustrate = true;
@@ -186,6 +187,16 @@ export function duel2(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
                     alreadyrage = true;
                     klint.use(sprite("klintvener"));
                     klint.play("rage");
+                    angrysound.play()
+                }
+                if (goodanswer === 1 && !billalreadyfrustrate){
+                    billalreadyfrustrate = true;
+                    ennemi.play("frustrate");
+                }
+                else if (goodanswer >= 2 && !billalreadyrage) {
+                    billalreadyrage = true;
+                    ennemi.use(sprite("badbillvener"));
+                    ennemi.play("rage");
                     angrysound.play()
                 }
             });

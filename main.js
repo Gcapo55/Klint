@@ -36,9 +36,10 @@ loadSprite('tile4', 'assets/Floor/tile4.png');
 loadSprite('tile5', 'assets/Floor/tile5.png');
 loadSprite('tile6', 'assets/Floor/tile6.png');
 
+//Personnages
 loadSprite('klint', 'assets/cowboy/klint.png',{
-  sliceX: 6,
-  sliceY: 5,
+  sliceX: 7,
+  sliceY: 4,
     anims: {
       idle: {
         from: 0,
@@ -73,7 +74,13 @@ loadSprite('klint', 'assets/cowboy/klint.png',{
       frustrate: {
         from: 24,
         to: 24,
-      }
+      },
+      handsup: {
+        from: 25,
+        to: 26,
+        speed: 3,
+        loop: true,
+      },
     },
 });
 
@@ -121,7 +128,7 @@ loadSprite("klintvener", "assets/cowboy/klintvener.png", {
       },
     },
 });
-loadSprite("calamity", "assets/cowboy/Calamity.png", {
+loadSprite("calamity", "assets/cowboy/kalamity.png", {
   sliceX: 5,
   sliceY: 4,
   anims: {
@@ -135,12 +142,63 @@ loadSprite("calamity", "assets/cowboy/Calamity.png", {
     },
     shoot: {
       from: 2,
-      to: 21,
-      speed: 3,
+      to: 18,
+      speed: 4,
     }
   },
 });
 
+loadSprite('badbill', 'assets/cowboy/badbill.png',{
+  sliceX: 5,
+  sliceY: 4,
+    anims: {
+      idle: {
+        from: 0,
+        to: 0,
+      },
+      focus: {
+          from: 1,
+          to: 1,
+      },
+      shoot: {
+        from: 2,
+        to: 13,
+        speed: 4,
+      },
+      frustrate: {
+        from: 14,
+        to: 14,
+      }
+    },
+});
+
+loadSprite('badbillvener', 'assets/cowboy/badbillvener.png',{
+  sliceX: 6,
+  sliceY: 5,
+    anims: {
+      idle: {
+        from: 0,
+        to: 0,
+      },
+      focus: {
+          from: 1,
+          to: 1,
+      },
+      shoot: {
+        from: 2,
+        to: 13,
+        speed: 4,
+      },
+      rage: {
+        from: 14,
+        to: 23,
+        speed:4,
+        loop: true,
+      }
+    },
+});
+
+//Piafs
 loadSprite("birds", "assets/birds/birds.png", {
   sliceX: 1,
   sliceY: 3,
@@ -329,4 +387,4 @@ duel2(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore);
 arrestation(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore);
 perdu();
 
-go("duel1"); 
+go("arrestation"); 

@@ -101,12 +101,13 @@ export function arrestation(myTiles, shotmeter, ambiancesonore, stoptout, fondus
         let badanswer = 0;
         let phase2 = false;
         let phase3 = false;
+        let phase4 = false;
         let startfight = false;
         let ispanelopen = true; //verrou pour éviter de pouvoir naviguer de choix choix quand le panneau est ouvert
 
         if (!isduelactive) {
             wait(5, () => {
-                loquace.start("d1intro");
+                loquace.start("Aintro");
                 ispanelopen = false;
             });
             
@@ -122,51 +123,48 @@ export function arrestation(myTiles, shotmeter, ambiancesonore, stoptout, fondus
                         stoptout();
                         mainmusic.play();
                     }
+                    else if (phase4) {
+                        wait(5, () => {
+                            stoptout();
+                            standoff.play();
+                            fermerRideau(3).onEnd(() => {
+                                go("perdu")
+                            });
+                        });
+                    }
                     else if (phase3) {
-                        startfight = true
                         if (isangry) { // passe le dernier choix si klint est déjà en colère
-                            loquace.start("d1phase4b");
+                            loquace.start("Aphase4b");
                             ispanelopen = false;
+                            startfight = true;
                         } else {
                             loquace.choix([
-                                { label: "Généralement, j'essaie d'éviter les conflits.", onSelect: () => {loquace.start("d1phase4g"); ispanelopen = false;} },
-                                { label: "Je vais commencer par toi, vieux débris !", onSelect: () => {loquace.start("d1phase4b"); ispanelopen = false;} }
+                                { label: "Tu commences à me gonfler !", onSelect: () => {loquace.start("Aphase4b"); ispanelopen = false; startfight = true;} },
+                                { label: "C'est d'accord, je me rends.", onSelect: () => {loquace.start("Aphase4g"); ispanelopen = false; phase4 = true;} }
                             ]);
                         }
                     }
                     else if (phase2) {
                         phase3 = true;
                         loquace.choix([
-                            { label: "Je ne veux pas d'embrouilles. Laisse-moi simplement passer...", onSelect: () => {loquace.start("d1phase3g"); ispanelopen = false;} },
-                            { label: "Je vais t'envoyer six pieds sous terre et passer quand même.", onSelect: () => {loquace.start("d1phase3b"); ispanelopen = false;} }
+                            { label: "Comme si j'avais quelque chose à me reprocher.", onSelect: () => {loquace.start("Aphase3b"); ispanelopen = false;} },
+                            { label: "Je comprends pas...", onSelect: () => {loquace.start("Aphase3g"); ispanelopen = false;} }
                         ]);
                     }
                     else {
                         phase2 = true;
                         loquace.choix([
-                            { label: "Si, clairement...", onSelect: () => {loquace.start("d1phase2b"); ispanelopen = false;} },
-                            { label: "Je comprends, mais ce chemin est ma seule chance de retrouver Bad Bill.", onSelect: () => {loquace.start("d1phase2g"); ispanelopen = false;} }
+                            { label: "C'est moi.", onSelect: () => {loquace.start("Aphase2g"); ispanelopen = false;} },
+                            { label: "Je ne sais pas qui c'est.", onSelect: () => {loquace.start("Aphase2b"); ispanelopen = false;} }
                         ]);
                     }
                 }
             });
+
             // On enregistre le nombre de mauvaise réponses
             loquace.registerCommand("bad", () => {
                 badanswer++;
                 console.log("Mauvaises réponses :", badanswer);
-            });
-
-            // affichage jauge pour explication
-            loquace.registerCommand("show", () => {
-                bar.hidden = false;
-                barfond.hidden = false;
-            });
-            loquace.registerCommand("showi", () => {
-                parryIndicator.opacity = 1
-                parryIndicator.color = GREEN
-            });
-            loquace.registerCommand("hidei", () => {
-                parryIndicator.opacity = 0
             });
 
             //exemples positions
@@ -178,6 +176,9 @@ export function arrestation(myTiles, shotmeter, ambiancesonore, stoptout, fondus
             });
             loquace.registerCommand("idle", () => {
                 klint.play("idle")
+            });
+            loquace.registerCommand("handsup", () => {
+                klint.play("handsup")
             });
             loquace.registerCommand("efocus", () => {
                 ennemi.play("focus")
@@ -203,7 +204,6 @@ export function arrestation(myTiles, shotmeter, ambiancesonore, stoptout, fondus
                 }
             });
         }
-
 
         // Barre de tension
         let barfond = add([
@@ -233,7 +233,6 @@ export function arrestation(myTiles, shotmeter, ambiancesonore, stoptout, fondus
             opacity(1),
             z(10),
         ])
-
         bar.hidden = true;
         barfond.hidden = true;
 
@@ -282,10 +281,10 @@ export function arrestation(myTiles, shotmeter, ambiancesonore, stoptout, fondus
             // montée naturelle de la tension selon le temps  (à custom en fonction du combat)
             let naturalRise = 0
             if      (dueltime <= 30) naturalRise = 0
-            else if (dueltime <= 40) naturalRise = 0
-            else if (dueltime <= 50) naturalRise = 0
-            else if (dueltime <= 60) naturalRise = 0
-            else                     naturalRise = 0
+            else if (dueltime <= 40) naturalRise = 5
+            else if (dueltime <= 50) naturalRise = 10
+            else if (dueltime <= 60) naturalRise = 10
+            else                     naturalRise = 15
 
             let inRed, inGreen
             inGreen = tension >= 70 && tension <= 80
@@ -332,7 +331,7 @@ export function arrestation(myTiles, shotmeter, ambiancesonore, stoptout, fondus
                 let spikeDir = rand(0, 1) < 0.25 ? -1 : 1
                 let spikeMult = isParried ? 0.25 : 1
                 if (isangry) {
-                    tensionTarget += spikeDir * rand(45, 50) * spikeMult
+                    tensionTarget += spikeDir * rand(60, 70) * spikeMult
                     nextSpikeDelay = rand(3, 6)
                 } else {
                     tensionTarget += spikeDir * rand(25, 30) * spikeMult
@@ -356,6 +355,9 @@ export function arrestation(myTiles, shotmeter, ambiancesonore, stoptout, fondus
                     parryIndicator.opacity = 0
                 })
             }
+
+            // barre visuelle
+            bar.width = (tension / maxtension) * 500
 
             if (inGreen) {
                 timeingreen += dt()
@@ -390,7 +392,7 @@ export function arrestation(myTiles, shotmeter, ambiancesonore, stoptout, fondus
                 ennemi.play("idle");
 
                 wait(1, () => {
-                    loquace.start("d1goodend");
+                    loquace.start("Agoodend");
                     onKeyPress("space", () => {
                         const hasNext = loquace.next();
                         if (!hasNext) {
@@ -398,7 +400,7 @@ export function arrestation(myTiles, shotmeter, ambiancesonore, stoptout, fondus
                             wait(5, () => {
                                 standoff.play();
                                 fermerRideau(3).onEnd(() => {
-                                    go("duel2")
+                                    go("perdu")
                                 });
                             });
                         }
@@ -407,8 +409,8 @@ export function arrestation(myTiles, shotmeter, ambiancesonore, stoptout, fondus
 
             }
 
-            // Fin du duel : l'adversaire tire
-            if (dueltime > 60) {
+            // Fin du duel : l'adversaire tire ou le joueur reste trop longtemps dans le rouge = même issue poru ce combat.
+            if (dueltime > 90 || timeinred >10) {
                 klint.play("idle")
                 isduelactive = false;
                 bar.hidden = true;
@@ -418,7 +420,7 @@ export function arrestation(myTiles, shotmeter, ambiancesonore, stoptout, fondus
                 ennemi.play("shoot");
                 holstersound.play();
                 wind.play();
-                wait(1, () => {
+                wait(0.7, () => {
                     gunsound.play();
                 });
                 wait(0.8, () => {
@@ -430,7 +432,7 @@ export function arrestation(myTiles, shotmeter, ambiancesonore, stoptout, fondus
                     });
                 });
                 wait(3, () => {
-                    loquace.start("d1badend");
+                    loquace.start("Abadend");
                 });
                 wait(15, () => {
                     wind.stop();
@@ -439,34 +441,6 @@ export function arrestation(myTiles, shotmeter, ambiancesonore, stoptout, fondus
                     });
                 });
             }
-
-            // Fin du duel : tir automatique si trop longtemps dans le rouge
-            if (timeinred > 10 && !hasshot) {
-                parryIndicator.opacity = 0;
-                isduelactive = false;
-                bar.hidden = true;
-                barfond.hidden = true;
-                mainmusic.stop()
-                klint.play("shoot")
-                ennemi.play("idle")
-                holstersound.play();
-                wind.play();
-                wait(1, () => {
-                    gunsound.play();
-                });
-                hasshot = true;
-                shotmeter++
-                wait(15, () => {
-                    wind.stop();
-                    standoff.play();
-                    fermerRideau(3).onEnd(() => {
-                        go("duel3")
-                    })
-                })
-            }
-
-            // barre visuelle
-            bar.width = (tension / maxtension) * 500
         })
 
         addLevel([
