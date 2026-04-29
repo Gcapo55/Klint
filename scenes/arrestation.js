@@ -10,7 +10,6 @@ export function arrestation(myTiles, shotmeter, ambiancesonore, stoptout, fondus
         let ishooting = false
         let isrelaxing = false
         let isfocusing = false
-        let hasshot = false //si Klint à tiré, il ne peux plus utiliser le focus ni le realx
         let tensionTarget = 0
         let lastSpikeTime = 0
         let nextSpikeDelay = 10
@@ -57,13 +56,13 @@ export function arrestation(myTiles, shotmeter, ambiancesonore, stoptout, fondus
         ])
 
         // indicateur de contre
-        let parryIndicator = add([
-            text("✓", { size: 100 }),
-            pos(ennemi.pos.x + 125, ennemi.pos.y - 100),
-            fixed(),
-            z(20),
-            opacity(0),
-        ])
+        // let parryIndicator = add([
+        //     text("✓", { size: 100 }),
+        //     pos(ennemi.pos.x + 125, ennemi.pos.y - 100),
+        //     fixed(),
+        //     z(20),
+        //     opacity(0),
+        // ])
 
         // Musiques et sons
         let mainmusic = play("mainmusic", {
@@ -260,14 +259,14 @@ export function arrestation(myTiles, shotmeter, ambiancesonore, stoptout, fondus
         });
 
         // Contre
-        onKeyPress("d", () => {
-            if (isWarning && isduelactive) {
-                isParried = true;
-                parryIndicator.text = "✓";
-                parryIndicator.color = GREEN;
-                parryIndicator.opacity = 1;
-            }
-        })
+        // onKeyPress("d", () => {
+        //     if (isWarning && isduelactive) {
+        //         isParried = true;
+        //         parryIndicator.text = "✓";
+        //         parryIndicator.color = GREEN;
+        //         parryIndicator.opacity = 1;
+        //     }
+        // })
 
         // Fonction qui s'execute à chaque seconde
         onUpdate(() => {
@@ -322,37 +321,37 @@ export function arrestation(myTiles, shotmeter, ambiancesonore, stoptout, fondus
 
             if (lastSpikeTime >= nextSpikeDelay * 0.8 && !isWarning) {
                 isWarning = true
-                isParried = false
+                // isParried = false
                 ennemi.play("focus")
             }
 
             if (lastSpikeTime >= nextSpikeDelay) {
                 isWarning = false
                 let spikeDir = rand(0, 1) < 0.25 ? -1 : 1
-                let spikeMult = isParried ? 0.25 : 1
+                // let spikeMult = isParried ? 0.25 : 1
                 if (isangry) {
-                    tensionTarget += spikeDir * rand(60, 70) * spikeMult
+                    tensionTarget += spikeDir * rand(60, 70)
                     nextSpikeDelay = rand(3, 6)
                 } else {
-                    tensionTarget += spikeDir * rand(25, 30) * spikeMult
+                    tensionTarget += spikeDir * rand(25, 30)
                     nextSpikeDelay = rand(6, 9)
                 }
 
                 // le symbole est différent si le timing a été foiré
-                if (isParried) {
-                    parryIndicator.text = "✓"
-                    parryIndicator.color = GREEN
-                } else {
-                    parryIndicator.text = "✗"
-                    parryIndicator.color = RED
-                }
-                parryIndicator.opacity = 1
+                // if (isParried) {
+                //     parryIndicator.text = "✓"
+                //     parryIndicator.color = GREEN
+                // } else {
+                //     parryIndicator.text = "✗"
+                //     parryIndicator.color = RED
+                // }
+                // parryIndicator.opacity = 1
 
                 lastSpikeTime = 0
-                isParried = false
+                // isParried = false
                 wait(2, () => {
                     ennemi.play("idle")
-                    parryIndicator.opacity = 0
+                    // parryIndicator.opacity = 0
                 })
             }
 
@@ -386,7 +385,7 @@ export function arrestation(myTiles, shotmeter, ambiancesonore, stoptout, fondus
                 isduelactive = false;
                 bar.hidden = true;
                 barfond.hidden = true;
-                parryIndicator.opacity = 0
+                // parryIndicator.opacity = 0
                 klint.use(sprite("klint"));
                 klint.play("relax");
                 ennemi.play("idle");
@@ -416,7 +415,7 @@ export function arrestation(myTiles, shotmeter, ambiancesonore, stoptout, fondus
                 bar.hidden = true;
                 barfond.hidden = true;
                 mainmusic.stop();
-                parryIndicator.opacity = 0;
+                // parryIndicator.opacity = 0
                 ennemi.play("shoot");
                 holstersound.play();
                 wind.play();

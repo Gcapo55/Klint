@@ -10,6 +10,9 @@ import { myTiles } from "./tiledefinition.js";
 
 kaplay(
   {
+    // width:960,
+    // height:600,
+    // scale:1,
     plugins: [loquacePlugin],
   }
 );
@@ -387,4 +390,4 @@ duel2(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore);
 arrestation(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore);
 perdu();
 
-go("arrestation"); 
+go("menu"); 
