@@ -42,8 +42,8 @@ export function duel1(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
         // éléments
         let klint = add([
             sprite("klint"),
-            pos(100, 200),
-            scale(6),
+            pos(75, 200),
+            scale(4),
             area(),
             body(),
             z(5),
@@ -51,33 +51,40 @@ export function duel1(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
 
         let ennemi = add([
             sprite("calamity"),
-            pos(width()-350, 200),
-            scale(6),
+            pos(width()-225, 200),
+            scale(4),
             area(),
             body(),
             z(5),
         ])
 
         let fond = add([
-            sprite("bgduel1"),
-            scale(width() / 112, height() / 48),
+            sprite('bgduel1', { 
+                width: width(),
+                height: height(),
+            }),
         ])
 
         add([
             sprite("cactus"),
-            scale(8),
-            pos(900, height()/2-100),
+            scale(3),
+            pos(600, height()/2+60),
+        ])
+        add([
+            sprite("cactus"),
+            scale(6),
+            pos(500, height()/2-30),
         ])
 
         add([
             sprite("rock"),
             scale(5),
-            pos(width()-50*5, 300),
+            pos(width()-50*5, 200),
         ])
 
         let fences = add([
             sprite("fences"),
-            scale(2),
+            scale(1.2),
             pos(0, 340),
         ])
 
@@ -89,7 +96,7 @@ export function duel1(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
         ])
         crow.flipX = true;
         crow.play("idle");
-        loop(20, () => {
+        loop(15, () => {
             const anim = choose(["jump", "turn"]); //choisi soit jump soit turn au hasard
             crow.play(anim);
         });
@@ -506,12 +513,12 @@ export function duel1(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
         })
 
         addLevel([
-            "6nn5n61nn55",
-            "00000000000",
+            "6n561nn5",
+            "00000000",
         ],{
             pos: vec2(0, height() / 2 + 250),
             tileWidth: 150,
-            tileHeight: 153,
+            tileHeight: 53,
             tiles: myTiles,
         });
     });

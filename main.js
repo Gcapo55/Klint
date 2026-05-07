@@ -10,9 +10,9 @@ import { myTiles } from "./tiledefinition.js";
 
 kaplay(
   {
-    // width:960,
-    // height:600,
-    // scale:1,
+    width:1000,
+    height:600,
+    letterbox: true,
     plugins: [loquacePlugin],
   }
 );
@@ -25,6 +25,8 @@ loquace.script(dialogues)
 
 loadSprite("homebg", "assets/backgrounds/menubg2.png");
 loadSprite("bgduel1", "assets/backgrounds/bgduel1.png");
+loadSprite("bgduel2", "assets/backgrounds/bgduel2.png");
+loadSprite("bgend", "assets/backgrounds/bgend.png");
 loadSprite('poteau', 'assets/affiches/badbillpoteau.png');
 loadSprite('cactus', 'assets/backgrounds/cactus.PNG');
 loadSprite('rock', 'assets/backgrounds/rock.png');
@@ -247,6 +249,18 @@ loadSprite("crow", "assets/birds/crow.png", {
     },
   },
 });
+loadSprite("tumbleweed", "assets/backgrounds/tumbleweed.png", {
+  sliceX: 3,
+  sliceY: 3,
+  anims: {
+    roll: {
+      from: 0,
+      to: 7,
+      sped: 8,
+      loop: true,
+    },
+  },
+});
 
 
 // Sons
@@ -275,12 +289,12 @@ loquace.characters({
       doTween: true,
       showNextPrompt: false,
       textBox: {
-        width: 600,
+        width: 450,
       },
       dialogText: {
         color: BLACK,
         options: {
-          width: 550,
+          width: 400,
           align: "center",
         },
       },
@@ -295,12 +309,12 @@ loquace.characters({
       doTween: true,
       showNextPrompt: false,
       textBox: {
-        width: 600,
+        width: 450,
       },
       dialogText: {
         color: BLACK,
         options: {
-          width: 550,
+          width: 400,
           align: "center",
         },
       },
@@ -316,6 +330,7 @@ loquace.characters({
         dialogText: {
             color: BLACK,
             options: {
+              width: 350,
               align: "center",
             },
         },
@@ -390,4 +405,4 @@ duel2(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore);
 arrestation(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore);
 perdu();
 
-go("menu"); 
+go("duel2");

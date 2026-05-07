@@ -442,36 +442,37 @@ function N(e, o = {}) {
  * Usage avec options :
  *   choix([...], { width: 500, colors: { button: { r: 80, g: 160, b: 80 } } });
  */
-function choix(choices, opts = {}) {
-  // Valeurs par défaut plus compactes (fusionnées avec x.choix)
-  const defaultCompact = {
+function choix(choices, opts = { 
     width: 800,
-    gap: 6,
-    padding: { top: 12, right: 12, bottom: 12, left: 12 },
-    textOptions: { size: 18, letterSpacing: 0, lineSpacing: 4 },
-    buttonOptions: { radius: 6 }
-  };
-  const t = c(x.choix, defaultCompact, opts);
+    height: 200,                    // Largeur réduite du panneau
+    gap: 8,                        // Moins d'espace entre les boutons
+    padding: {                     // Moins de vide autour du texte
+        top: 10, 
+        right: 15, 
+        bottom: 10, 
+        left: 15 
+    },
+    textOptions: { size: 20 },     // Texte plus petit (32 par défaut normalement)
+    buttonOptions: { radius: 5 }   // Boutons un peu plus "smooth"
+}) {
+  const t = c(x.choix, opts);
 
   // Couleurs par défaut
   const bgColor  = t.colors && t.colors.background  ? Object.values(t.colors.background)  : [255, 255, 255];
-  const btnColor = t.colors && t.colors.button       ? Object.values(t.colors.button)       : [225, 155, 60];
-  // Hover : gris foncé par défaut (si non surchargé)
-  const btnHover = t.colors && t.colors.buttonHover  ? Object.values(t.colors.buttonHover)  : [205, 135, 45];
-  const txtColor = t.colors && t.colors.text         ? Object.values(t.colors.text)         : [255, 245, 230];
-  // Texte au hover : noir par défaut (si non surchargé)
-  const txtHover = t.colors && t.colors.textHover    ? Object.values(t.colors.textHover)    : [255, 245, 230];
+  const btnColor = t.colors && t.colors.button       ? Object.values(t.colors.button)       : [100, 160, 220];
+  const btnHover = t.colors && t.colors.buttonHover  ? Object.values(t.colors.buttonHover)  : [60,  120, 180];
+  const txtColor = t.colors && t.colors.text         ? Object.values(t.colors.text)         : [255, 255, 255];
 
-  // Nom du sprite pour l'icône de sélection (remplace l'ancienne flèche)
-  const arrowSpriteName = (t.nextPrompt && t.nextPrompt.name) ? t.nextPrompt.name : "right-arrow";
+  // La flèche de sélection reprend la même couleur que le texte (blanc par défaut)
+  const arrowColor = txtColor;
 
-  // Largeur réservée à l'icône de sélection + marge
+  // Largeur réservée à la flèche (sprite "right-arrow" + marge)
   const arrowW = (t.nextPrompt && t.nextPrompt.options && t.nextPrompt.options.width)
     ? t.nextPrompt.options.width
-    : 16;
-  const arrowMargin = 10; // espace entre l'icône et le texte
+    : 20;
+  const arrowMargin = 20; // espace entre la flèche et le texte
 
-  // Largeur utile du texte à l'intérieur d'un bouton (on réserve la place de l'icône à gauche)
+  // Largeur utile du texte à l'intérieur d'un bouton (on réserve la place de la flèche à gauche)
   const innerTextWidth = t.width - t.padding.left - t.padding.right - arrowW - arrowMargin;
 
   // ── Pré-calculer la hauteur de chaque bouton ──────────────────────────────
@@ -508,9 +509,8 @@ function choix(choices, opts = {}) {
 
   // ── Boutons ────────────────────────────────────────────────────────────────
   let cursorY = t.padding.top;
-  const btns      = []; // refs vers les GameObj bouton
-  const arrows    = []; // refs vers les GameObj icône de sélection
-  const btnTexts  = []; // refs vers les GameObj texte (pour changer la couleur au hover)
+  const btns = [];   // refs vers les GameObj bouton
+  const arrows = []; // refs vers les GameObj flèche de sélection
 
   choices.forEach((ch, idx) => {
     const btnH = buttonHeights[idx];
@@ -520,33 +520,35 @@ function choix(choices, opts = {}) {
       rect(btnW, btnH, t.buttonOptions),
       color(...btnColor),
       pos(t.padding.left, cursorY),
-      outline(1, rgb(0, 0, 0)),  // bordure noire
       opacity(1),
       "loquaceChoixBtn"
     ]);
     btns.push(btn);
 
-    // ── Icône de sélection (sprite configurable, caché par défaut) ────────────
+    // ── Flèche de sélection (sprite right-arrow, cachée par défaut) ──────────
     const arrowObj = btn.add([
-      sprite(arrowSpriteName, { width: arrowW }),
+      sprite(
+        (t.nextPrompt && t.nextPrompt.name) ? t.nextPrompt.name : "right-arrow",
+        { width: arrowW }
+      ),
       pos(
         t.padding.left,
         (btnH - arrowW) / 2   // centré verticalement dans le bouton
       ),
+      color(...arrowColor),
       opacity(0),              // invisible jusqu'à la sélection
       anchor("topleft"),
       animate()
     ]);
     arrows.push(arrowObj);
 
-    // ── Texte du choix (décalé pour laisser la place à l'icône) ──────────────
-    const lblObj = btn.add([
+    // ── Texte du choix (décalé pour laisser la place à la flèche) ────────────
+    btn.add([
       text(ch.label, { ...t.textOptions, width: innerTextWidth }),
       color(...txtColor),
       pos(t.padding.left + arrowW + arrowMargin, t.padding.top),
       opacity(1)
     ]);
-    btnTexts.push(lblObj);
 
     cursorY += btnH + t.gap;
   });
@@ -558,7 +560,6 @@ function choix(choices, opts = {}) {
   function applySelection(newIdx) {
     // Réinitialise l'ancien bouton
     btns[selectedIdx].color = rgb(...btnColor);
-    btnTexts[selectedIdx].color = rgb(...txtColor);
     arrows[selectedIdx].opacity = 0;
     arrows[selectedIdx].paused  = true;
 
@@ -566,7 +567,6 @@ function choix(choices, opts = {}) {
 
     // Met en valeur le nouveau bouton sélectionné
     btns[selectedIdx].color = rgb(...btnHover);
-    btnTexts[selectedIdx].color = rgb(...txtHover);
     arrows[selectedIdx].opacity = 1;
     arrows[selectedIdx].paused  = false;
     arrows[selectedIdx].animate(
@@ -574,26 +574,6 @@ function choix(choices, opts = {}) {
       [vec2(1.2), vec2(1)],
       { duration: 0.5, direction: "ping-pong" }
     );
-  }
-
-  // Confirme le choix sélectionné et ferme le panneau
-  function confirmChoice() {
-    const chosen = choices[selectedIdx];
-    evDown.cancel();
-    evUp.cancel();
-    evEnter.cancel();
-    if (t.doTween) {
-      tween(panel.opacity, 0, 0, (v) => {
-        panel.opacity = v;
-        panel.children.forEach((child) => child.opacity = v);
-      }, easings.easeOutQuad).onEnd(() => {
-        panel.destroy();
-        chosen.onSelect();
-      });
-    } else {
-      panel.destroy();
-      chosen.onSelect();
-    }
   }
 
   // Sélection initiale
@@ -612,7 +592,24 @@ function choix(choices, opts = {}) {
 
   const evEnter = onKeyPress("enter", () => {
     if (!panel.exists()) return;
-    confirmChoice();
+    const chosen = choices[selectedIdx];
+    // Désinscription des écouteurs clavier
+    evDown.cancel();
+    evUp.cancel();
+    evEnter.cancel();
+    // Tween de sortie puis destruction et callback
+    if (t.doTween) {
+      tween(panel.opacity, 0, 0, (v) => {
+        panel.opacity = v;
+        panel.children.forEach((child) => child.opacity = v);
+      }, easings.easeOutQuad).onEnd(() => {
+        panel.destroy();
+        chosen.onSelect();
+      });
+    } else {
+      panel.destroy();
+      chosen.onSelect();
+    }
   });
 
   // ── Animation d'entrée ────────────────────────────────────────────────────

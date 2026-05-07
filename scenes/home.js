@@ -4,14 +4,15 @@ export function homeScene() {
         // fct pour mettre en plein écran 
         onKeyPress("p", () => {
             setFullscreen(!isFullscreen());
-            console.log("ouais la on est en plein écran la")
         });
 
         add([
-            sprite('homebg'),
+            sprite('homebg', { 
+                width: width(),
+                height: height(),
+            }),
             pos(0, 0),
-            scale(width() / 200, height() / 133),
-            anchor("topleft"), 
+            anchor("topleft"),
         ]);
 
         loop(20, () => {
@@ -33,17 +34,16 @@ export function homeScene() {
             }
         });
 
-
         add([
             sprite('poteau'),
-            pos(650, -500),
-            scale(2),
+            pos(450, -350),
+            scale(1.4),
             z(70),
         ]);
 
         const box = add([
             rect(650, 250, { radius: 20 }),
-            pos(width()/2 -230, height()/2),
+            pos(width()/2 -200, height()/2),
             anchor('center'),
             opacity(0),
             z(100),
@@ -52,7 +52,7 @@ export function homeScene() {
         box.add([
             text("KLINT"),
             anchor("center"),
-            scale(4),
+            scale(3),
             color(256, 8, 8),
             pos(0, 0),
         ]);

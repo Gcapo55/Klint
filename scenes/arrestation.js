@@ -39,20 +39,29 @@ export function arrestation(myTiles, shotmeter, ambiancesonore, stoptout, fondus
         ouvrirRideau(3);
 
         // éléments
+        let fond = add([
+            sprite('bgend', { 
+                width: width(),
+                height: 700,
+            }),
+        ]);
+
         let klint = add([
             sprite("klint"),
-            pos(100, 200),
-            scale(6),
+            pos(75, 200),
+            scale(4),
             area(),
             body(),
+            z(5),
         ])
 
         let ennemi = add([
             sprite("calamity"),
-            pos(width()-350, 200),
-            scale(6),
+            pos(width()-225, 200),
+            scale(4),
             area(),
             body(),
+            z(5),
         ])
 
         // indicateur de contre

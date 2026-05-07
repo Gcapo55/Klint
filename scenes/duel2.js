@@ -40,21 +40,48 @@ export function duel2(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
         ouvrirRideau(3);
 
         // éléments
+        let fond = add([
+            sprite('bgduel2', { 
+                width: width(),
+                height: 700,
+            }),
+        ]);
+
         let klint = add([
             sprite("klint"),
-            pos(100, 200),
-            scale(6),
+            pos(75, 200),
+            scale(4),
             area(),
             body(),
+            z(5),
         ])
 
         let ennemi = add([
             sprite("calamity"),
-            pos(width()-350, 200),
-            scale(6),
+            pos(width()-225, 200),
+            scale(4),
             area(),
             body(),
+            z(5),
         ])
+
+        loop(10, () => {
+
+            const tumbleweed = add([
+                sprite("tumbleweed"),
+                pos(-50, rand(20, 200)),
+                area(),
+                move(RIGHT, 200),
+                z(10),
+                "tumbleweed",
+            ]);
+            tumbleweed.play("roll");
+        });
+        onUpdate("tumbleweed", (b) => {
+            if (b.pos.x > width() + 50) {
+                destroy(b);
+            }
+        });
 
         // indicateur de contre
         // let parryIndicator = add([
