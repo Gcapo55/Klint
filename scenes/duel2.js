@@ -16,7 +16,7 @@ export function duel2(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
         let nextSpikeDelay = 10
         let isangry = false
         let isWarning = false
-        // let isParried = false
+        let isParried = false
 
         let rideau = add([
             rect(width(), height()),
@@ -65,14 +65,25 @@ export function duel2(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
             z(5),
         ])
 
-        loop(10, () => {
+        add([
+            sprite("cactus"),
+            scale(3),
+            pos(200, height()/2+60),
+        ])
+        add([
+            sprite("cactus"),
+            scale(6),
+            pos(300, height()/2-30),
+        ])
+
+        loop(rand(15,20), () => {
 
             const tumbleweed = add([
                 sprite("tumbleweed"),
-                pos(-50, rand(20, 200)),
+                pos(-50, 410),
                 area(),
                 move(RIGHT, 200),
-                z(10),
+                z(4),
                 "tumbleweed",
             ]);
             tumbleweed.play("roll");
@@ -477,20 +488,22 @@ export function duel2(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
                     wind.stop();
                     standoff.play();
                     fermerRideau(3).onEnd(() => {
-                        go("duel2")
+                        go("duel2");
                     })
                 })
             }
         })
 
-        addLevel([
-            "6nn5141nn55",
-            "00000000000",
+        let sol = addLevel([
+            "6nn514n5",
+            "00000000",
         ],{
             pos: vec2(0, height() / 2 + 250),
             tileWidth: 150,
             tileHeight: 153,
             tiles: myTiles,
         });
+
+        sol.use(z(10));
     });
 }

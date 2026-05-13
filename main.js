@@ -256,7 +256,7 @@ loadSprite("tumbleweed", "assets/backgrounds/tumbleweed.png", {
     roll: {
       from: 0,
       to: 7,
-      sped: 8,
+      sped: 6,
       loop: true,
     },
   },

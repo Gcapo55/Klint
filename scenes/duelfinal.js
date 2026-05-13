@@ -40,6 +40,14 @@ export function duel2(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
         ouvrirRideau(3);
 
         // éléments
+
+        let fond = add([
+            sprite('bgend', { 
+                width: width(),
+                height: 700,
+            }),
+        ]);
+
         let klint = add([
             sprite("klint"),
             pos(100, 200),
