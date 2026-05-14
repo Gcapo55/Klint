@@ -502,6 +502,7 @@ function choix(choices, opts = {}) {
     color(...bgColor),
     pos(panelX, t.doTween ? height() + panelHeight : panelY),
     opacity(t.doTween ? 0 : 1),
+    z(100),
     "loquaceDialog",
     "loquaceChoix"
   ]);
@@ -522,6 +523,7 @@ function choix(choices, opts = {}) {
       pos(t.padding.left, cursorY),
       outline(1, rgb(0, 0, 0)),  // bordure noire
       opacity(1),
+      z(100),
       "loquaceChoixBtn"
     ]);
     btns.push(btn);
@@ -535,7 +537,8 @@ function choix(choices, opts = {}) {
       ),
       opacity(0),              // invisible jusqu'à la sélection
       anchor("topleft"),
-      animate()
+      animate(),
+      z(100),
     ]);
     arrows.push(arrowObj);
 
@@ -544,7 +547,8 @@ function choix(choices, opts = {}) {
       text(ch.label, { ...t.textOptions, width: innerTextWidth }),
       color(...txtColor),
       pos(t.padding.left + arrowW + arrowMargin, t.padding.top),
-      opacity(1)
+      opacity(1),
+      z(100),
     ]);
     btnTexts.push(lblObj);
 

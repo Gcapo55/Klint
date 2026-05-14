@@ -1,9 +1,9 @@
 export function homeScene() {
     scene("menu", () => {
 
-        // fct pour mettre en plein écran 
+        // fct pour mettre en plein écran
         onKeyPress("p", () => {
-            setFullscreen(!isFullscreen());
+          setFullscreen(!isFullscreen());
         });
 
         add([

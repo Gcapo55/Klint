@@ -133,6 +133,53 @@ loadSprite("klintvener", "assets/cowboy/klintvener.png", {
       },
     },
 });
+
+loadSprite("ramon", "assets/cowboy/ramon.png", {
+  sliceX: 7,
+  sliceY: 4,
+  anims: {
+    idle: {
+      from: 0,
+      to: 0, 
+    },
+    focus: {
+      from: 1,
+      to: 1,
+    },
+    shoot: {
+      from: 2,
+      to: 12,
+      speed: 4,
+    },
+    affraid: {
+        from: 13,
+        to: 21,
+        speed: 3,
+    },
+    stress: {
+      from: 21,
+      to: 22,
+      speed: 9,
+      loop: true,
+    },
+    smile: {
+      from: 23,
+      to: 23,
+    },
+    flex: {
+      from: 23,
+      to: 25,
+      speed: 3,
+    },
+    sad: {
+      from: 26,
+      to: 27,
+      speed: 2,
+      loop: true,
+    },
+  },
+});
+
 loadSprite("calamity", "assets/cowboy/kalamity.png", {
   sliceX: 5,
   sliceY: 4,
@@ -405,4 +452,4 @@ duel2(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore);
 arrestation(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore);
 perdu();
 
-go("duel2");
+go("duel1");

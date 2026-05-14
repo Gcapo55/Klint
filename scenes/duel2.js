@@ -1,6 +1,11 @@
 export function duel2(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore) {
     scene("duel2", () => {
 
+        // fct pour mettre en plein écran
+        onKeyPress("p", () => {
+          setFullscreen(!isFullscreen());
+        });
+
         let tension = 0
         let maxtension = 100
         let dueltime = 0
@@ -28,7 +33,7 @@ export function duel2(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
 
         // fondu d'entrée
         function ouvrirRideau(duree = 1) {
-            return tween(1, 0, duree, (val) => rideau.opacity = val, easings.linear); // easings.linear pour faire progresser l'anim de manière constante
+            return tween(1, 0, duree, (val) => rideau.opacity = val, easings.linear); // easings.linear pour faire progresser l'anim de manière fluide
         }
 
         // fondu de sortie
@@ -41,10 +46,8 @@ export function duel2(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
 
         // éléments
         let fond = add([
-            sprite('bgduel2', { 
-                width: width(),
-                height: 700,
-            }),
+            sprite('bgduel2'),
+            scale(width()/112, height()/48),
         ]);
 
         let klint = add([
@@ -57,7 +60,7 @@ export function duel2(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
         ])
 
         let ennemi = add([
-            sprite("calamity"),
+            sprite("ramon"),
             pos(width()-225, 200),
             scale(4),
             area(),
@@ -181,6 +184,7 @@ export function duel2(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
                     }
                     else {
                         phase2 = true;
+                        console.log("premier choix")
                         loquace.choix([
                             { label: "Je comprends toujours pas pourquoi on se battrait ?", onSelect: () => {loquace.start("d2phase2g"); ispanelopen = false;} },
                             { label: "Moi, pas impressionant ?? Tu sais même pas qui je suis !", onSelect: () => {loquace.start("d2phase2b"); ispanelopen = false;} }
@@ -194,12 +198,6 @@ export function duel2(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
                 console.log("Mauvaises réponses :", badanswer);
             });
 
-            // affichage jauge pour explication
-            loquace.registerCommand("show", () => {
-                bar.hidden = false;
-                barfond.hidden = false;
-            });
-
             //exemples positions
             loquace.registerCommand("focus", () => {
                 klint.play("focus")
@@ -209,6 +207,21 @@ export function duel2(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
             });
             loquace.registerCommand("idle", () => {
                 klint.play("idle")
+            });
+            loquace.registerCommand("eidle", () => {
+                ennemi.play("idle")
+            });
+            loquace.registerCommand("efocus", () => {
+                ennemi.play("focus")
+            });
+            loquace.registerCommand("esmile", () => {
+                ennemi.play("smile")
+            });
+            loquace.registerCommand("eflex", () => {
+                ennemi.play("flex")
+            });
+            loquace.registerCommand("esad", () => {
+                ennemi.play("sad")
             });
     
             // Change le sprite avec celui énervé (les noms des animations restent les mêmes)
@@ -422,14 +435,14 @@ export function duel2(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
                     onKeyPress("space", () => {
                         const hasNext = loquace.next();
                         if (!hasNext) {
-                            fondusonore(mainmusic, 4)
-                            wait(5, () => {
+                            fondusonore(mainmusic, 2)
+                            wait(2, () => {
                                 standoff.play();
                                 fermerRideau(3).onEnd(() => {
                                     go("duel2")
                                 });
                             });
-                        }
+                        };
                     });
                 });
 
@@ -446,7 +459,7 @@ export function duel2(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
                 ennemi.play("shoot");
                 holstersound.play();
                 wind.play();
-                wait(1, () => {
+                wait(0.7, () => {
                     gunsound.play();
                 });
                 wait(0.8, () => {
@@ -459,12 +472,17 @@ export function duel2(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
                 });
                 wait(3, () => {
                     loquace.start("d2badend");
-                });
-                wait(15, () => {
-                    wind.stop();
-                    fermerRideau(3).onEnd(() => {
-                        go("perdu")
-                    });
+                    onKeyPress("space", () => {
+                        const hasNext = loquace.next();
+                        if (!hasNext) {
+                            wait(2, () => {
+                                wind.stop();
+                                fermerRideau(3).onEnd(() => {
+                                    go("perdu")
+                                });
+                            });
+                        };
+                    })
                 });
             }
 
@@ -479,18 +497,34 @@ export function duel2(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
                 ennemi.play("idle");
                 holstersound.play();
                 wind.play();
-                wait(1, () => {
+                wait(0.7, () => {
                     gunsound.play();
+                });
+                wait(0.8, () => {
+                    ennemi.play("affraid");
+                    ennemi.onAnimEnd((anim) => {
+                        if (anim === "affraid") {
+                            ennemi.play("stress");
+                        }
+                    });
                 });
                 hasshot = true;
                 shotmeter++
-                wait(15, () => {
-                    wind.stop();
-                    standoff.play();
-                    fermerRideau(3).onEnd(() => {
-                        go("duel2");
+                wait(3, () => {
+                    loquace.start("d2shot");
+                    onKeyPress("space", () => {
+                        const hasNext = loquace.next();
+                        if (!hasNext) {
+                            wait(2, () => {
+                                wind.stop();
+                                standoff.play();
+                                fermerRideau(3).onEnd(() => {
+                                    go("perdu")
+                                });
+                            });
+                        };
                     })
-                })
+                });
             }
         })
 

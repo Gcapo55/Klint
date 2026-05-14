@@ -1,6 +1,11 @@
 export function arrestation(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore) {
     scene("arrestation", () => {
 
+        // fct pour mettre en plein écran
+        onKeyPress("p", () => {
+          setFullscreen(!isFullscreen());
+        });
+
         let tension = 0
         let maxtension = 100
         let dueltime = 0

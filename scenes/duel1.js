@@ -1,6 +1,11 @@
 export function duel1(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore) {
     scene("duel1", () => {
 
+        // fct pour mettre en plein écran
+        onKeyPress("p", () => {
+          setFullscreen(!isFullscreen());
+        });
+
         let tension = 0
         let maxtension = 100
         let dueltime = 0
@@ -269,6 +274,14 @@ export function duel1(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
             color(GREEN),
             z(2),
         ])
+        barfond.add([
+            pos(250, 30),
+            anchor("center"),
+            text("◀ Maj | Espace ▶"),
+            scale(0.4),
+            color(BLACK),
+            z(2),
+        ])
 
         // barre ajustable
         let bar = add([
@@ -278,9 +291,25 @@ export function duel1(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
             opacity(1),
             z(10),
         ])
+        
+        let fullscreenindicator = add([
+            text("P = plein écran"),
+            color(BLACK),
+            pos(5, 5),
+            scale(0.3)
+        ])
+
+        onUpdate(() => {
+            if (isFullscreen()){
+                fullscreenindicator.hidden = true;
+            }
+            else {
+                fullscreenindicator.hidden = false;
+            }
+        });
 
         bar.hidden = true;
-        barfond.hidden = true;
+        barfond.hidden = false;
 
         // focus
         onKeyPress("space", () => { 
@@ -518,7 +547,7 @@ export function duel1(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
         ],{
             pos: vec2(0, height() / 2 + 250),
             tileWidth: 150,
-            tileHeight: 53,
+            tileHeight: 153,
             tiles: myTiles,
         });
     });

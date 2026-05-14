@@ -1,6 +1,11 @@
 export function duel2(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore) {
     scene("duel2", () => {
 
+        // fct pour mettre en plein écran
+        onKeyPress("p", () => {
+          setFullscreen(!isFullscreen());
+        });
+
         let tension = 0
         let maxtension = 100
         let dueltime = 0
