@@ -210,6 +210,7 @@ export function duel1(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
             loquace.registerCommand("show", () => {
                 bar.hidden = false;
                 barfond.hidden = false;
+                indications.hidden = true; 
             });
             // loquace.registerCommand("showi", () => {
             //     parryIndicator.opacity = 1
@@ -219,7 +220,44 @@ export function duel1(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
             //     parryIndicator.opacity = 0
             // });
 
-            //exemples positions
+            let grow = false;
+            let decrease = false;
+            let jump = false;
+            let jumptimer = 0;
+
+            onUpdate(() => {
+                if (grow) {
+                    tension += 20 * dt();
+                    tensionTarget = tension; 
+                } else if (decrease) {
+                    tension -= 20 * dt();
+                    tensionTarget = tension;
+                } else if (jump) {
+                    jumptimer += dt();
+
+                    if (jumptimer >= 3) {
+                        ennemi.play("focus")
+                        let jumpdir = rand(0, 1) < 0.5 ? -1 : 1;
+                        tensionTarget = clamp(tension + (jumpdir * 30), 0, 100);
+                        jumptimer = 0;
+                        wait(2, () => {
+                            ennemi.play("idle")
+                        })
+                    }
+
+                    tension = lerp(tension, tensionTarget, 3 * dt());
+                }
+
+                if (!jump) {
+                    if (tension > 100) tension = 0;
+                    if (tension < 0) tension = 100;
+                } else {
+                    tension = clamp(tension, 0, 100);
+                }
+
+                bar.width = (tension / maxtension) * 500;
+            });
+
             loquace.registerCommand("focus", () => {
                 klint.play("focus")
             });
@@ -235,7 +273,27 @@ export function duel1(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
             loquace.registerCommand("eidle", () => {
                 ennemi.play("idle")
             });
-    
+            loquace.registerCommand("aug", () => {
+                grow = true;
+            });
+            loquace.registerCommand("dec", () => {
+                decrease = true;
+            });
+            loquace.registerCommand("jump", () => {
+                jump = true;
+                tension = 50;
+                tensionTarget = 50;
+                jumptimer = 3;
+            });
+            loquace.registerCommand("stop", () => {
+                decrease = false;
+                grow = false;
+                jump = false;
+                tension = 0;
+                tensionTarget = 0;
+            });
+            
+
             // Change le sprite avec celui énervé (les noms des animations restent les mêmes)
             let alreadyrage = false;
             let alreadyfrustrate = false;
@@ -274,11 +332,11 @@ export function duel1(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
             color(GREEN),
             z(2),
         ])
-        barfond.add([
+        let indications = barfond.add([
             pos(250, 30),
             anchor("center"),
             text("◀ Maj | Espace ▶"),
-            scale(0.4),
+            scale(0.3),
             color(BLACK),
             z(2),
         ])
@@ -309,7 +367,7 @@ export function duel1(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
         });
 
         bar.hidden = true;
-        barfond.hidden = false;
+        barfond.hidden = true;
 
         // focus
         onKeyPress("space", () => { 
@@ -350,6 +408,7 @@ export function duel1(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
 
             bar.hidden = false;
             barfond.hidden = false;
+            indications.hidden = false;
 
             dueltime += dt()
 
