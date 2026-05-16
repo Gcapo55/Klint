@@ -71,9 +71,15 @@ export function duel2(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
         add([
             sprite("cactus"),
             scale(3),
+            pos(350, height()/2+60),
+        ])
+        add([
+            sprite("cactus"),
+            scale(3),
             pos(200, height()/2+60),
         ])
         add([
+            flip.X = true,
             sprite("cactus"),
             scale(6),
             pos(300, height()/2-30),
@@ -260,6 +266,14 @@ export function duel2(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
             pos(350, 0),
             rect(50, 20),
             color(GREEN),
+            z(2),
+        ])
+        let indications = barfond.add([
+            pos(250, 30),
+            anchor("center"),
+            text("◀ Maj | Espace ▶"),
+            scale(0.3),
+            color(BLACK),
             z(2),
         ])
 

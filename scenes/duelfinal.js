@@ -235,6 +235,14 @@ export function duel2(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
             color(GREEN),
             z(2),
         ])
+        let indications = barfond.add([
+            pos(250, 30),
+            anchor("center"),
+            text("◀ Maj | Espace ▶"),
+            scale(0.3),
+            color(BLACK),
+            z(2),
+        ])
 
         // barre ajustable
         let bar = add([

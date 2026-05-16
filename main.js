@@ -134,6 +134,53 @@ loadSprite("klintvener", "assets/cowboy/klintvener.png", {
     },
 });
 
+loadSprite("oldben", "assets/cowboy/old ben.png", {
+  sliceX: 7,
+  sliceY: 7,
+    anims: {
+      idle: {
+        from: 0,
+        to: 0,
+      },
+      focus: {
+          from: 1,
+          to: 1,
+      },
+      shoot: {
+        from: 2,
+        to: 13,
+        speed: 4,
+      },
+      affraid: {
+        from: 14,
+        to: 20,
+        speed: 3,
+      },
+      stress: {
+        from: 21,
+        to: 22,
+        speed: 6,
+        loop: true,
+      },
+      switch: {
+        from: 23,
+        to: 27,
+        speed: 3,
+      },
+      rage: {
+        from: 27,
+        to: 28,
+        speed: 6,
+        loop: true,
+      },
+      spit: {
+        from: 29,
+        to: 42,
+        speed: 6,
+      },
+    },
+});
+
 loadSprite("ramon", "assets/cowboy/ramon.png", {
   sliceX: 7,
   sliceY: 4,
@@ -314,6 +361,7 @@ loadSprite("tumbleweed", "assets/backgrounds/tumbleweed.png", {
 loadSound('angry', "assets/sounds/angry.mp3");
 loadSound('holster', "assets/sounds/holster.mp3");
 loadSound('gunshot', "assets/sounds/gunshot.mp3");
+loadSound('spit', "assets/sounds/spit.mp3");
 
 loadSound('vent', "assets/sounds/wind.mp3");
 loadSound('bird', "assets/sounds/bird1.mp3");

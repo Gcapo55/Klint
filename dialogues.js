@@ -11,16 +11,17 @@ export const dialogues = {
         "e On me surnomme Old Ben.",
         "e Cette parcelle est mon territoire.",
         "e Personne ne peut y pénétrer.",
-        "e Cela ne te pose pas de problème, n'est-ce pas ?"
+        "espit e ...",
+        "e Cela ne te pose pas de problème, n'est-ce pas ?",
     ],
     "d1phase2g": [
         "k Je comprends, mais ce chemin est ma seule chance de retrouver Bad Bill.",
-        "e Eh bah voyons...",
+        "e Eh bah voyons !",
         "e Et si je refuse qu'est-ce que tu va faire, hein ?"
     ],
     "d1phase2b": [
         "bad k Si, ça me dérange.",
-        "e Tu m'as l'air agressif toi... Pas cool !",
+        "e Tu m'as l'air agressif toi.",
         "e Et si je refuse qu'est-ce que tu va faire, hein ?"
     ],
     "d1phase3g": [
@@ -38,15 +39,16 @@ export const dialogues = {
     "d1phase4g": [
         "idle k Généralement, j'essaie d'éviter les conflits.",
         "e Sans blague...",
+        "espit e ...",
         "e Il faut une première fois à tout alors.",
         "e Allez, affrontons-nous !",
         "n Le duel va commencer !",
         "idle show n Voici la jauge de duel.",
         "focus n Maintiens Espace lors du combat pour utiliser la position de concentration.",
         "aug n Cette position fait augmenter la jauge.",
-        "stop relax n Maintiens Maj lors du combat pour utiliser la position de détente.",
+        "stop relax n Maintiens Majuscule lors du combat pour utiliser la position de détente.",
         "dec n Cette position fait diminuer la jauge.",
-        "stop idle n Reste le plus longtemps possible dans la zone verte pour désamorcer le combat avec un dialogue.",
+        "idle stop idle n Reste le plus longtemps possible dans la zone verte pour désamorcer le combat avec un dialogue.",
         "n Au contraire, rester dans la zone rouge provoquera un tir dans la direction de ton adversaire.",
         "efocus n Tout au long du combat, l'adversaire tentera d'intimider Klint en adoptant sa position de concentration.",
         "jump n Lorsque cela sera le cas, la jauge bondira en avant ou en arrière.", 
@@ -57,15 +59,16 @@ export const dialogues = {
         "bad k Je vais commencer par toi, vieux débris !",
         "k Tu me fais perdre mon temps.",
         "e Tu m'as l'air bien trop confiant...",
+        "espit e ...",
         "e Voyons ce que tu vaut alors.",
         "e Allez, affrontons-nous !",
         "n Le duel va commencer !",
         "idle show n Voici la jauge de duel.",
         "focus n Maintiens Espace lors du combat pour utiliser la position de concentration.",
         "aug n Cette position fait augmenter la jauge.",
-        "stop relax n Maintiens Maj lors du combat pour utiliser la position de détente.",
+        "stop relax n Maintiens Majuscule lors du combat pour utiliser la position de détente.",
         "dec n Cette position fait diminuer la jauge.",
-        "stop n Reste le plus longtemps possible dans la zone verte pour désamorcer le combat avec un dialogue.",
+        "idle stop n Reste le plus longtemps possible dans la zone verte pour désamorcer le combat avec un dialogue.",
         "n Au contraire, rester dans la zone rouge provoquera un tir dans la direction de ton adversaire.",
         "efocus n Tout au long du combat, l'adversaire tentera d'intimider Klint en adoptant sa position de concentration.",
         "jump n Lorsque cela sera le cas, la jauge bondira en avant ou en arrière.", 
@@ -82,6 +85,13 @@ export const dialogues = {
         "e Bon... passe. Mais reste sur tes gardes fiston.",
         "k Merci.",
     ],
+    "d1shot": [
+        "e ...",
+        "e Raah, tu peux passer...",
+        "e Voyou !",
+        "e Crapule !",
+        "e Tu ne vaut pas mieux que celui que tu cherches...",
+    ],
     "d1badend": [
         "e Lâche l'affaire fiston. Tu n'fais pas le poids..."
     ],
@@ -92,7 +102,7 @@ export const dialogues = {
         "e Tu sais où se trouve Rio Bravo ?",
         "k Euh... oui, c'est à un jour de marche vers le nord.",
         "e Vers le nord...",
-        "esmile e Bien sûr, je le savais déjà. Je te testais.",
+        "esmile e Bien sûr, je le savais déjà. Je te testais !",
         "efocus e Bon. Maintenant, en garde !",
         "k Attends, tu veux te battre ?",
         "k Mais pourquoi ?",
@@ -157,6 +167,7 @@ export const dialogues = {
     "d2shot": [
         "k Ah bah tu vois...",
         "k C'est moi le plus grand duelliste !",
+        "k File maintenant ...",
     ],
     "d2badend": [
         "e File, gringo. Tu n'est pas digne de rester auprès de Ramon El Magnifico...",

@@ -55,8 +55,8 @@ export function duel1(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
         ])
 
         let ennemi = add([
-            sprite("calamity"),
-            pos(width()-225, 200),
+            sprite("oldben"),
+            pos(width()-275, 200),
             scale(4),
             area(),
             body(),
@@ -121,7 +121,6 @@ export function duel1(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
             volume: 0.8,
             paused: true, 
         });
-
         let angrysound = play("angry", {
             paused: true,
             volume: 1, 
@@ -134,10 +133,13 @@ export function duel1(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
             paused: true,
             volume: 1, 
         });
-
         let wind = play("vent", {
             paused: true,
             volume: 0.8,
+        })
+        let spitsound = play("spit", {
+            paused: true,
+            volume: 1,
         })
 
         const standoff = play("standoff", {
@@ -224,6 +226,7 @@ export function duel1(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
             let decrease = false;
             let jump = false;
             let jumptimer = 0;
+            let switchDir = true;
 
             onUpdate(() => {
                 if (grow) {
@@ -237,8 +240,10 @@ export function duel1(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
 
                     if (jumptimer >= 3) {
                         ennemi.play("focus")
-                        let jumpdir = rand(0, 1) < 0.5 ? -1 : 1;
-                        tensionTarget = clamp(tension + (jumpdir * 30), 0, 100);
+
+                        switchDir = !switchDir;
+                        let jumpdir = switchDir ? -1 : 1;
+                        tensionTarget = clamp(tension + (jumpdir * 35), 0, 100);
                         jumptimer = 0;
                         wait(2, () => {
                             ennemi.play("idle")
@@ -272,6 +277,12 @@ export function duel1(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
             });
             loquace.registerCommand("eidle", () => {
                 ennemi.play("idle")
+            });
+            loquace.registerCommand("espit", () => {
+                wait(0.4, () => {
+                    ennemi.play("spit")
+                });
+                spitsound.play();
             });
             loquace.registerCommand("aug", () => {
                 grow = true;
@@ -516,10 +527,10 @@ export function duel1(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
 
             // Fin du duel : désamorçage
             if (timeingreen > 15) {
+                // parryIndicator.opacity = 0;
                 isduelactive = false;
                 bar.hidden = true;
                 barfond.hidden = true;
-                // parryIndicator.opacity = 0
                 klint.use(sprite("klint"));
                 klint.play("relax");
                 ennemi.play("idle");
@@ -529,30 +540,31 @@ export function duel1(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
                     onKeyPress("space", () => {
                         const hasNext = loquace.next();
                         if (!hasNext) {
-                            fondusonore(mainmusic, 4)
-                            wait(5, () => {
+                            fondusonore(mainmusic, 2)
+                            wait(2, () => {
                                 standoff.play();
                                 fermerRideau(3).onEnd(() => {
                                     go("duel2")
                                 });
                             });
-                        }
+                        };
                     });
                 });
-            };
+
+            }
 
             // Fin du duel : l'adversaire tire
             if (dueltime > 60) {
+                // parryIndicator.opacity = 0;
                 klint.play("idle")
                 isduelactive = false;
                 bar.hidden = true;
                 barfond.hidden = true;
                 mainmusic.stop();
-                // parryIndicator.opacity = 0;
                 ennemi.play("shoot");
                 holstersound.play();
                 wind.play();
-                wait(1, () => {
+                wait(0.7, () => {
                     gunsound.play();
                 });
                 wait(0.8, () => {
@@ -563,19 +575,24 @@ export function duel1(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
                         }
                     });
                 });
-                wait(3, () => {
+                wait(4, () => {
                     loquace.start("d1badend");
-                });
-                wait(15, () => {
-                    wind.stop();
-                    fermerRideau(3).onEnd(() => {
-                        go("perdu")
-                    });
+                    onKeyPress("space", () => {
+                        const hasNext = loquace.next();
+                        if (!hasNext) {
+                            wait(2, () => {
+                                wind.stop();
+                                fermerRideau(3).onEnd(() => {
+                                    go("perdu")
+                                });
+                            });
+                        };
+                    })
                 });
             }
 
             // Fin du duel : tir automatique si trop longtemps dans le rouge
-            if (timeinred > 10 && !hasshot) {
+            if (timeinred > 8 && !hasshot) {
                 // parryIndicator.opacity = 0;
                 isduelactive = false;
                 bar.hidden = true;
@@ -585,18 +602,44 @@ export function duel1(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
                 ennemi.play("idle");
                 holstersound.play();
                 wind.play();
-                wait(1, () => {
+                wait(0.7, () => {
                     gunsound.play();
+                });
+                wait(0.8, () => {
+                    ennemi.play("affraid");
+                    
+                    ennemi.onAnimEnd((anim) => {
+                        if (anim === "affraid") {
+                            ennemi.play("stress");
+
+                            wait(5, () => {
+                                ennemi.play("switch");
+                                ennemi.onAnimEnd((anim) => {
+                                    if (anim === "switch") {
+                                        ennemi.play("rage");
+                                    }
+                                });
+                            });
+                        }
+                    });
                 });
                 hasshot = true;
                 shotmeter++
-                wait(15, () => {
-                    wind.stop();
-                    standoff.play();
-                    fermerRideau(3).onEnd(() => {
-                        go("duel2")
+                wait(8, () => {
+                    loquace.start("d1shot");
+                    onKeyPress("space", () => {
+                        const hasNext = loquace.next();
+                        if (!hasNext) {
+                            wait(2, () => {
+                                wind.stop();
+                                standoff.play();
+                                fermerRideau(3).onEnd(() => {
+                                    go("duel2")
+                                });
+                            });
+                        };
                     })
-                })
+                });
             }
         })
 
