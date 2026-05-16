@@ -227,6 +227,58 @@ loadSprite("ramon", "assets/cowboy/ramon.png", {
   },
 });
 
+loadSprite("leviticus", "assets/cowboy/leviticus.png", {
+  sliceX: 8,
+  sliceY: 5,
+  anims: {
+    idle: {
+      from: 0,
+      to: 0, 
+    },
+    focus: {
+      from: 1,
+      to: 1,
+    },
+    shoot: {
+      from: 2,
+      to: 12,
+      speed: 4,
+    },
+    affraid: {
+        from: 13,
+        to: 19,
+        speed: 3,
+    },
+    stress: {
+      from: 20,
+      to: 21,
+      speed: 9,
+      loop: true,
+    },
+    smoke: {
+      from: 22,
+      to: 27,
+      speed: 6,
+      loop: true,
+    },
+    stopsmoke: {
+      from: 28,
+      to: 33,
+      speed: 3,
+    },
+    givemoney: {
+      from: 34,
+      to: 36,
+      speed: 2,
+    },
+    takemoney: {
+      from: 37,
+      to: 38,
+      speed: 2,
+    },
+  },
+});
+
 loadSprite("calamity", "assets/cowboy/kalamity.png", {
   sliceX: 5,
   sliceY: 4,
