@@ -226,8 +226,8 @@ export const dialogues = {
     "e Puisque la raison ne vous atteint pas...",
 ],
 "d3phase4g": [
-    "k Écoutez, monsieur Flint. J'veux pas d'histoires.",
-    "k Si vous m'laissez passer tranquillement, ça coûte rien à personne.",
+    "k Écoutez, Monsieur Flint. J'veux pas d'histoires.",
+    "k Si vous me laissez passer tranquillement, ça coûte rien à personne.",
     "e Vous laisser passer ? Dans MON champ ?",
     "e Ce serait donner raison aux sans-gêne et aux sans-le-sou.",
     "e Non, non et non. Un Flint ne cède pas.",
