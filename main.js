@@ -358,12 +358,12 @@ loadSprite('badbillvener', 'assets/cowboy/badbillvener.png',{
       rmrage: {
         from: 29,
         to: 32,
-        speed: 4,
+        speed: 2,
       },
       rmmask: {
         from: 33,
         to: 41,
-        speed: 6,
+        speed: 3,
       },
       excited: {
         from: 41,
@@ -528,8 +528,10 @@ loquace.characters({
   },
 });
 
-let shotmeter = 0;
-window.shotmeter = shotmeter; 
+const gamestate = { 
+  shotmeter: 0
+}
+window.shotmeter = gamestate.shotmeter; 
 
 // fonction pour arrêter la musique 
 const fondusonore = (music, duration = 2) => {
@@ -590,12 +592,12 @@ function stoptout() {
     }
 }
 
-homeScene(shotmeter);
-duel1(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore);
-duel2(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore);
-duel3(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore);
-arrestation(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore);
-duelfinal(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore);
+homeScene(gamestate);
+duel1(myTiles, gamestate, ambiancesonore, stoptout, fondusonore);
+duel2(myTiles, gamestate, ambiancesonore, stoptout, fondusonore);
+duel3(myTiles, gamestate, ambiancesonore, stoptout, fondusonore);
+arrestation(myTiles, ambiancesonore, stoptout, fondusonore);
+duelfinal(myTiles, ambiancesonore, stoptout, fondusonore);
 perdu();
 
 go("duelfinal");

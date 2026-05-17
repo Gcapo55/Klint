@@ -1,4 +1,4 @@
-export function duelfinal(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore) {
+export function duelfinal(myTiles, ambiancesonore, stoptout, fondusonore) {
     scene("duelfinal", () => {
 
         // fct pour mettre en plein écran
@@ -15,10 +15,9 @@ export function duelfinal(myTiles, shotmeter, ambiancesonore, stoptout, fonduson
         let ishooting = false
         let isrelaxing = false
         let isfocusing = false
-        let hasshot = false //si Klint à tiré, il ne peux plus utiliser le focus ni le realx
         let tensionTarget = 0
         let lastSpikeTime = 0
-        let nextSpikeDelay = 10
+        let nextSpikeDelay = 3
         let isangry = false
         let isWarning = false
         // let isParried = false
@@ -211,6 +210,9 @@ export function duelfinal(myTiles, shotmeter, ambiancesonore, stoptout, fonduson
             });
             loquace.registerCommand("rmrage", () => {
                 ennemi.play("rmrage")
+            });
+            loquace.registerCommand("rmmask", () => {
+                ennemi.play("rmmask")
             });
             loquace.registerCommand("excited", () => {
                 ennemi.play("excited")
@@ -437,6 +439,7 @@ export function duelfinal(myTiles, shotmeter, ambiancesonore, stoptout, fonduson
 
             // Fin du duel : désamorçage
             if (timeingreen > 15 && !isangry) {
+                let verrou = false;
                 // parryIndicator.opacity = 0;
                 isduelactive = false;
                 bar.hidden = true;
@@ -449,9 +452,10 @@ export function duelfinal(myTiles, shotmeter, ambiancesonore, stoptout, fonduson
                     loquace.start("DFgoodend");
                     onKeyPress("space", () => {
                         const hasNext = loquace.next();
-                        if (!hasNext) {
-                            fondusonore(mainmusic, 4)
-                            wait(5, () => {
+                        if (!hasNext && !verrou) {
+                            verrou = true;
+                            fondusonore(mainmusic, 2)
+                            wait(2, () => {
                                 standoff.play();
                                 fermerRideau(3).onEnd(() => {
                                     go("menu")
@@ -465,6 +469,7 @@ export function duelfinal(myTiles, shotmeter, ambiancesonore, stoptout, fonduson
 
             // Fin du duel : l'adversaire tire
             if (dueltime > 90 || timeinred > 8) {
+                let verrou = false;
                 // parryIndicator.opacity = 0;
                 klint.play("idle")
                 isduelactive = false;
@@ -489,7 +494,8 @@ export function duelfinal(myTiles, shotmeter, ambiancesonore, stoptout, fonduson
                     loquace.start("DFbadend");
                     onKeyPress("space", () => {
                         const hasNext = loquace.next();
-                        if (!hasNext) {
+                        if (!hasNext && !verrou) {
+                            verrou = true;
                             wait(2, () => {
                                 wind.stop();
                                 fermerRideau(3).onEnd(() => {

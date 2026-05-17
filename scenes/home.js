@@ -1,7 +1,7 @@
-export function homeScene(shotmeter) {
+export function homeScene(gamestate) {
     scene("menu", () => {
 
-        shotmeter = 0
+        gamestate.shotmeter = 0
 
         // fct pour mettre en plein écran
         onKeyPress("p", () => {
@@ -67,23 +67,28 @@ export function homeScene(shotmeter) {
             pos(0, 75),
         ]);
 
-        onKeyPress("enter", () => {
-            const homesound = play("standoff", {
-                volume: 1,
-            })
-            texte.destroy()
-            const mask = add([
-                rect(width(), height()),
-                color(0, 0, 0),
-                opacity(0),
-                fixed(),
-                z(100),
-            ])
+        let alreadyenter = false;
 
-            tween(0, 1, 4, (val) => mask.opacity = val, easings.linear).onEnd(() => {
-                go("duel1")
-            })
-        });
+        if (!alreadyenter) {
+            onKeyPress("enter", () => {
+                alreadyenter = true;
+                play("standoff", {
+                    volume: 1,
+                })
+                texte.destroy()
+                const mask = add([
+                    rect(width(), height()),
+                    color(0, 0, 0),
+                    opacity(0),
+                    fixed(),
+                    z(100),
+                ])
+
+                tween(0, 1, 4, (val) => mask.opacity = val, easings.linear).onEnd(() => {
+                    go("duel1")
+                })
+            });
+        };
     });
 }
 

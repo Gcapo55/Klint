@@ -1,4 +1,4 @@
-export function duel3(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore) {
+export function duel3(myTiles, gamestate, ambiancesonore, stoptout, fondusonore) {
     scene("duel3", () => {
 
         // fct pour mettre en plein écran
@@ -18,10 +18,9 @@ export function duel3(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
         let hasshot = false //si Klint à tiré, il ne peux plus utiliser le focus ni le realx
         let tensionTarget = 0
         let lastSpikeTime = 0
-        let nextSpikeDelay = 10
+        let nextSpikeDelay = 6
         let isangry = false
         let isWarning = false
-        let isParried = false
 
         let rideau = add([
             rect(width(), height()),
@@ -409,6 +408,7 @@ export function duel3(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
 
             // Fin du duel : désamorçage
             if (timeingreen > 15) {
+                let verrou = false;
                 // parryIndicator.opacity = 0;
                 isduelactive = false;
                 bar.hidden = true;
@@ -421,12 +421,13 @@ export function duel3(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
                     loquace.start("d3goodend");
                     onKeyPress("space", () => {
                         const hasNext = loquace.next();
-                        if (!hasNext) {
+                        if (!hasNext && !verrou) {
+                            verrou = true;
                             fondusonore(mainmusic, 2)
                             wait(2, () => {
                                 standoff.play();
                                 fermerRideau(3).onEnd(() => {
-                                    if (shotmeter > 1) {
+                                    if (gamestate.shotmeter > 1) {
                                         go("arrestation")
                                     } else {
                                         go("duelfinal")
@@ -441,6 +442,7 @@ export function duel3(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
 
             // Fin du duel : l'adversaire tire
             if (dueltime > 60) {
+                let verrou = false;
                 // parryIndicator.opacity = 0;
                 klint.play("idle")
                 isduelactive = false;
@@ -465,7 +467,8 @@ export function duel3(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
                     loquace.start("d3badend");
                     onKeyPress("space", () => {
                         const hasNext = loquace.next();
-                        if (!hasNext) {
+                        if (!hasNext && !verrou) {
+                            verrou = true;
                             wait(2, () => {
                                 wind.stop();
                                 fermerRideau(3).onEnd(() => {
@@ -479,6 +482,7 @@ export function duel3(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
 
             // Fin du duel : tir automatique si trop longtemps dans le rouge
             if (timeinred > 10 && !hasshot) {
+                let verrou = false;
                 // parryIndicator.opacity = 0;
                 isduelactive = false;
                 bar.hidden = true;
@@ -500,17 +504,18 @@ export function duel3(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
                     });
                 });
                 hasshot = true;
-                shotmeter++
+                gamestate.shotmeter++;
                 wait(3, () => {
                     loquace.start("d3shot");
                     onKeyPress("space", () => {
                         const hasNext = loquace.next();
-                        if (!hasNext) {
+                        if (!hasNext && !verrou) {
+                            verrou = true;
                             wait(2, () => {
                                 wind.stop();
                                 standoff.play();
                                 fermerRideau(3).onEnd(() => {
-                                    if (shotmeter > 1) {
+                                    if (gamestate.shotmeter > 1) {
                                         go("arrestation")
                                     } else {
                                         go("duelfinal")

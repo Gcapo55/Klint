@@ -1,4 +1,4 @@
-export function arrestation(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore) {
+export function arrestation(myTiles, ambiancesonore, stoptout, fondusonore) {
     scene("arrestation", () => {
 
         // fct pour mettre en plein écran
@@ -137,7 +137,7 @@ export function arrestation(myTiles, shotmeter, ambiancesonore, stoptout, fondus
                         mainmusic.play();
                     }
                     else if (phase4) {
-                        wait(5, () => {
+                        wait(2, () => {
                             stoptout();
                             standoff.play();
                             fermerRideau(3).onEnd(() => {
@@ -404,6 +404,7 @@ export function arrestation(myTiles, shotmeter, ambiancesonore, stoptout, fondus
 
             // Fin du duel : désamorçage
             if (timeingreen > 15) {
+                let verrou = false;
                 isduelactive = false;
                 bar.hidden = true;
                 barfond.hidden = true;
@@ -416,9 +417,10 @@ export function arrestation(myTiles, shotmeter, ambiancesonore, stoptout, fondus
                     loquace.start("Agoodend");
                     onKeyPress("space", () => {
                         const hasNext = loquace.next();
-                        if (!hasNext) {
-                            fondusonore(mainmusic, 4)
-                            wait(5, () => {
+                        if (!hasNext && !verrou) {
+                            verrou = true;
+                            fondusonore(mainmusic, 2)
+                            wait(2, () => {
                                 standoff.play();
                                 fermerRideau(3).onEnd(() => {
                                     go("perdu")
@@ -432,6 +434,7 @@ export function arrestation(myTiles, shotmeter, ambiancesonore, stoptout, fondus
 
             // Fin du duel : l'adversaire tire ou le joueur reste trop longtemps dans le rouge = même issue poru ce combat.
             if (dueltime > 90 || timeinred >10) {
+                let verrou = false;
                 klint.play("idle")
                 isduelactive = false;
                 bar.hidden = true;
@@ -454,12 +457,18 @@ export function arrestation(myTiles, shotmeter, ambiancesonore, stoptout, fondus
                 });
                 wait(3, () => {
                     loquace.start("Abadend");
-                });
-                wait(15, () => {
-                    wind.stop();
-                    fermerRideau(3).onEnd(() => {
-                        go("perdu")
-                    });
+                    onKeyPress("space", () => {
+                        const hasNext = loquace.next();
+                        if (!hasNext && !verrou) {
+                            verrou = true;
+                            wait(2, () => {
+                                wind.stop();
+                                fermerRideau(3).onEnd(() => {
+                                    go("perdu")
+                                });
+                            });
+                        };
+                    })
                 });
             }
         })

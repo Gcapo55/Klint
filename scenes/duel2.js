@@ -1,10 +1,12 @@
-export function duel2(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore) {
+export function duel2(myTiles, gamestate, ambiancesonore, stoptout, fondusonore) {
     scene("duel2", () => {
 
         // fct pour mettre en plein écran
         onKeyPress("p", () => {
           setFullscreen(!isFullscreen());
         });
+
+        console.log(gamestate.shotmeter)
 
         let tension = 0
         let maxtension = 100
@@ -18,10 +20,9 @@ export function duel2(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
         let hasshot = false //si Klint à tiré, il ne peux plus utiliser le focus ni le realx
         let tensionTarget = 0
         let lastSpikeTime = 0
-        let nextSpikeDelay = 10
+        let nextSpikeDelay = 3
         let isangry = false
         let isWarning = false
-        let isParried = false
 
         let rideau = add([
             rect(width(), height()),
@@ -337,10 +338,10 @@ export function duel2(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
             // montée naturelle de la tension selon le temps  (à custom en fonction du combat)
             let naturalRise = 0
             if      (dueltime <= 30) naturalRise = 0
-            else if (dueltime <= 40) naturalRise = 0
-            else if (dueltime <= 50) naturalRise = 0
-            else if (dueltime <= 60) naturalRise = 0
-            else                     naturalRise = 0
+            else if (dueltime <= 40) naturalRise = 2
+            else if (dueltime <= 50) naturalRise = -2
+            else if (dueltime <= 60) naturalRise = 4
+            else                     naturalRise = 5
 
             let inRed, inGreen
             inGreen = tension >= 70 && tension <= 80
@@ -388,7 +389,7 @@ export function duel2(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
                 // let spikeMult = isParried ? 0.25 : 1
                 if (isangry) {
                     tensionTarget += spikeDir * rand(45, 50)
-                    nextSpikeDelay = rand(6, 9)
+                    nextSpikeDelay = rand(3, 6)
                 } else {
                     tensionTarget += spikeDir * rand(25, 30)
                     nextSpikeDelay = rand(6, 9)
@@ -439,6 +440,7 @@ export function duel2(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
 
             // Fin du duel : désamorçage
             if (timeingreen > 15) {
+                let verrou = false;
                 // parryIndicator.opacity = 0;
                 isduelactive = false;
                 bar.hidden = true;
@@ -451,12 +453,13 @@ export function duel2(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
                     loquace.start("d2goodend");
                     onKeyPress("space", () => {
                         const hasNext = loquace.next();
-                        if (!hasNext) {
+                        if (!hasNext && !verrou) {
+                            verrou = true;
                             fondusonore(mainmusic, 2)
                             wait(2, () => {
                                 standoff.play();
                                 fermerRideau(3).onEnd(() => {
-                                    go("duel2")
+                                    go("duel3")
                                 });
                             });
                         };
@@ -467,6 +470,7 @@ export function duel2(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
 
             // Fin du duel : l'adversaire tire
             if (dueltime > 60) {
+                let verrou = false;
                 // parryIndicator.opacity = 0;
                 klint.play("idle")
                 isduelactive = false;
@@ -491,7 +495,8 @@ export function duel2(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
                     loquace.start("d2badend");
                     onKeyPress("space", () => {
                         const hasNext = loquace.next();
-                        if (!hasNext) {
+                        if (!hasNext && !verrou) {
+                            verrou = true;
                             wait(2, () => {
                                 wind.stop();
                                 fermerRideau(3).onEnd(() => {
@@ -504,7 +509,8 @@ export function duel2(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
             }
 
             // Fin du duel : tir automatique si trop longtemps dans le rouge
-            if (timeinred > 10 && !hasshot) {
+            if (timeinred > 8 && !hasshot) {
+                let verrou = false;
                 // parryIndicator.opacity = 0;
                 isduelactive = false;
                 bar.hidden = true;
@@ -526,17 +532,18 @@ export function duel2(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
                     });
                 });
                 hasshot = true;
-                shotmeter++
+                gamestate.shotmeter++;
                 wait(3, () => {
                     loquace.start("d2shot");
                     onKeyPress("space", () => {
                         const hasNext = loquace.next();
-                        if (!hasNext) {
+                        if (!hasNext && !verrou) {
+                            verrou = true;
                             wait(2, () => {
                                 wind.stop();
                                 standoff.play();
                                 fermerRideau(3).onEnd(() => {
-                                    go("perdu")
+                                    go("duel3")
                                 });
                             });
                         };

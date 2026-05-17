@@ -1,4 +1,4 @@
-export function duel1(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore) {
+export function duel1(myTiles, gamestate, ambiancesonore, stoptout, fondusonore) {
     scene("duel1", () => {
 
         // fct pour mettre en plein écran
@@ -527,6 +527,7 @@ export function duel1(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
 
             // Fin du duel : désamorçage
             if (timeingreen > 15) {
+                let verrou = false;
                 // parryIndicator.opacity = 0;
                 isduelactive = false;
                 bar.hidden = true;
@@ -539,7 +540,8 @@ export function duel1(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
                     loquace.start("d1goodend");
                     onKeyPress("space", () => {
                         const hasNext = loquace.next();
-                        if (!hasNext) {
+                        if (!hasNext && !verrou) {
+                            verrou = true;
                             fondusonore(mainmusic, 2)
                             wait(2, () => {
                                 standoff.play();
@@ -555,6 +557,7 @@ export function duel1(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
 
             // Fin du duel : l'adversaire tire
             if (dueltime > 60) {
+                let verrou = false;
                 // parryIndicator.opacity = 0;
                 klint.play("idle")
                 isduelactive = false;
@@ -579,7 +582,8 @@ export function duel1(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
                     loquace.start("d1badend");
                     onKeyPress("space", () => {
                         const hasNext = loquace.next();
-                        if (!hasNext) {
+                        if (!hasNext && !verrou) {
+                            verrou = true;
                             wait(2, () => {
                                 wind.stop();
                                 fermerRideau(3).onEnd(() => {
@@ -593,6 +597,7 @@ export function duel1(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
 
             // Fin du duel : tir automatique si trop longtemps dans le rouge
             if (timeinred > 8 && !hasshot) {
+                let verrou = false;
                 // parryIndicator.opacity = 0;
                 isduelactive = false;
                 bar.hidden = true;
@@ -624,12 +629,13 @@ export function duel1(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
                     });
                 });
                 hasshot = true;
-                shotmeter++
+                gamestate.shotmeter++;
                 wait(8, () => {
                     loquace.start("d1shot");
                     onKeyPress("space", () => {
                         const hasNext = loquace.next();
-                        if (!hasNext) {
+                        if (!hasNext && !verrou) {
+                            verrou = true;
                             wait(2, () => {
                                 wind.stop();
                                 standoff.play();
