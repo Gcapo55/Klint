@@ -46,9 +46,11 @@ export function duel2(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
 
         // éléments
         let fond = add([
-            sprite('bgduel2'),
-            scale(width()/112, height()/48),
-        ]);
+            sprite('bgduel2', { 
+                width: width(),
+                height: height(),
+            }),
+        ])
 
         let klint = add([
             sprite("klint"),
@@ -78,12 +80,13 @@ export function duel2(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore)
             scale(3),
             pos(200, height()/2+60),
         ])
-        add([
-            flip.X = true,
+        let cactus = add([
             sprite("cactus"),
             scale(6),
             pos(300, height()/2-30),
         ])
+        cactus.flipX = true;
+
 
         loop(rand(15,20), () => {
 

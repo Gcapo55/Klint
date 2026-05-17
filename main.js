@@ -3,7 +3,9 @@ import { loquacePlugin } from "./kaplay-loquace.js";
 import { homeScene } from "./scenes/home.js";
 import { duel1 } from "./scenes/duel1.js";
 import { duel2 } from "./scenes/duel2.js";
+import { duel3 } from "./scenes/duel3.js";
 import { arrestation } from "./scenes/arrestation.js";
+import { duelfinal } from "./scenes/duelfinal.js";
 import { perdu } from "./scenes/perdu.js";
 import { dialogues } from "./dialogues.js";
 import { myTiles } from "./tiledefinition.js";
@@ -26,6 +28,7 @@ loquace.script(dialogues)
 loadSprite("homebg", "assets/backgrounds/menubg2.png");
 loadSprite("bgduel1", "assets/backgrounds/bgduel1.png");
 loadSprite("bgduel2", "assets/backgrounds/bgduel2.png");
+loadSprite("bgduel3", "assets/backgrounds/bgduel3.png");
 loadSprite("bgend", "assets/backgrounds/bgend.png");
 loadSprite('poteau', 'assets/affiches/badbillpoteau.png');
 loadSprite('cactus', 'assets/backgrounds/cactus.PNG');
@@ -258,7 +261,7 @@ loadSprite("leviticus", "assets/cowboy/leviticus.png", {
     smoke: {
       from: 22,
       to: 27,
-      speed: 6,
+      speed: 5,
       loop: true,
     },
     stopsmoke: {
@@ -324,8 +327,8 @@ loadSprite('badbill', 'assets/cowboy/badbill.png',{
 });
 
 loadSprite('badbillvener', 'assets/cowboy/badbillvener.png',{
-  sliceX: 6,
-  sliceY: 5,
+  sliceX: 8,
+  sliceY: 6,
     anims: {
       idle: {
         from: 0,
@@ -345,7 +348,29 @@ loadSprite('badbillvener', 'assets/cowboy/badbillvener.png',{
         to: 23,
         speed:4,
         loop: true,
-      }
+      },
+      reflexion: {
+        from: 27,
+        to: 28,
+        speed: 4,
+        loop: true,
+      },
+      rmrage: {
+        from: 29,
+        to: 32,
+        speed: 4,
+      },
+      rmmask: {
+        from: 33,
+        to: 41,
+        speed: 6,
+      },
+      excited: {
+        from: 41,
+        to: 42,
+        speed: 3,
+        loop: true,
+      },
     },
 });
 
@@ -395,6 +420,7 @@ loadSprite("crow", "assets/birds/crow.png", {
     },
   },
 });
+
 loadSprite("tumbleweed", "assets/backgrounds/tumbleweed.png", {
   sliceX: 3,
   sliceY: 3,
@@ -408,9 +434,25 @@ loadSprite("tumbleweed", "assets/backgrounds/tumbleweed.png", {
   },
 });
 
+loadSprite('oilwell', 'assets/backgrounds/oilwell.png', {
+  sliceX: 4,
+  sliceY: 2,
+  anims: {
+    oil: {
+      from: 0,
+      to: 5,
+      sped: 9,
+      loop: true,
+    },
+  },
+});
+
 
 // Sons
 loadSound('angry', "assets/sounds/angry.mp3");
+loadSound('badbillangry', "assets/sounds/bbillangry.mp3");
+loadSound('grunt', "assets/sounds/grunt.mp3");
+loadSound('badbillrage', "assets/sounds/bbillrage.mp3");
 loadSound('holster', "assets/sounds/holster.mp3");
 loadSound('gunshot', "assets/sounds/gunshot.mp3");
 loadSound('spit', "assets/sounds/spit.mp3");
@@ -422,8 +464,9 @@ loadSound('mouse', "assets/sounds/mouse.mp3");
 loadSound('bird2', "assets/sounds/bird2.mp3");
 loadSound('dog', "assets/sounds/dog.mp3");
 
-loadSound('standoff', 'assets/sounds/musics/standoff.mp3');
 loadSound('mainmusic', "assets/sounds/musics/main.mp3");
+loadSound('musicduelfinal', "assets/sounds/musics/Americana.mp3");
+loadSound('standoff', 'assets/sounds/musics/standoff.mp3');
 loadSound('endstandoff', "assets/sounds/musics/endstandoff.mp3");
 
 loquace.characters({
@@ -486,6 +529,7 @@ loquace.characters({
 });
 
 let shotmeter = 0;
+window.shotmeter = shotmeter; 
 
 // fonction pour arrêter la musique 
 const fondusonore = (music, duration = 2) => {
@@ -546,10 +590,12 @@ function stoptout() {
     }
 }
 
-homeScene();
+homeScene(shotmeter);
 duel1(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore);
 duel2(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore);
+duel3(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore);
 arrestation(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore);
+duelfinal(myTiles, shotmeter, ambiancesonore, stoptout, fondusonore);
 perdu();
 
-go("duel1");
+go("duelfinal");

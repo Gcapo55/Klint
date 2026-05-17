@@ -1,5 +1,7 @@
-export function homeScene() {
+export function homeScene(shotmeter) {
     scene("menu", () => {
+
+        shotmeter = 0
 
         // fct pour mettre en plein écran
         onKeyPress("p", () => {
