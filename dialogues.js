@@ -107,7 +107,7 @@ export const dialogues = {
     "d2phase2g": [
         "k Je comprends pas pourquoi on se batterait ?",
         "e Parce que...",
-        "esmile e Parce que je suis Ramon El Magnifico !",
+        "nreveal esmile e Parce que je suis Ramon El Magnifico !",
         "eflex e Le plus grand duelliste que ce désert n'ait jamais connu.",
     ],
     "d2phase2b": [
@@ -116,7 +116,7 @@ export const dialogues = {
         "k Je suis Klint.",
         "e C'est bien ce que je pensais, tu n'es personne...",
         "k Gngngn, et toi alors, t'es qui hein ?",
-        "esmile e Je suis Ramon El Magnifico !",
+        "nreveal esmile e Je suis Ramon El Magnifico !",
         "eflex e Le plus grand duelliste que ce désert n'ait jamais connu.",
     ],
     "d2phase3g": [
@@ -210,7 +210,7 @@ export const dialogues = {
     "etakemoney k Je suis à la poursuite d'un criminel.",
     "k Il me faut à tout prix passer, mon temps est compté.",
     "e Hors de question !",
-    "e Je ne peux me permettre de laisser un homme de votre condition traverser ma propriété.",
+    "e Je ne peux me permettre de laisser un homme de votre statut traverser ma propriété.",
 ],
 "d3phase3b": [
     "bad k Garde ton fric, vieux croûton !",

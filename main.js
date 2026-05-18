@@ -468,6 +468,7 @@ loadSound('mainmusic', "assets/sounds/musics/main.mp3");
 loadSound('musicduelfinal', "assets/sounds/musics/Americana.mp3");
 loadSound('standoff', 'assets/sounds/musics/standoff.mp3');
 loadSound('endstandoff', "assets/sounds/musics/endstandoff.mp3");
+loadSound('namereveal', "assets/sounds/musics/namereveal.mp3");
 
 loquace.characters({
   k: {

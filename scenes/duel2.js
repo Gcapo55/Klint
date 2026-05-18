@@ -142,9 +142,13 @@ export function duel2(myTiles, gamestate, ambiancesonore, stoptout, fondusonore)
         })
 
         const standoff = play("standoff", {
-                paused: true,
-                volume: 1,
-            })
+            paused: true,
+            volume: 1,
+        })
+        const namereveal = play("namereveal", {
+            paused: true,
+            volume: 1,
+        })
 
         ambiancesonore();
 
@@ -232,6 +236,9 @@ export function duel2(myTiles, gamestate, ambiancesonore, stoptout, fondusonore)
             });
             loquace.registerCommand("esad", () => {
                 ennemi.play("sad")
+            });
+            loquace.registerCommand("nreveal", () => {
+                namereveal.play()
             });
     
             // Change le sprite avec celui énervé (les noms des animations restent les mêmes)

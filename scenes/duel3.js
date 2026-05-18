@@ -423,7 +423,7 @@ export function duel3(myTiles, gamestate, ambiancesonore, stoptout, fondusonore)
                         const hasNext = loquace.next();
                         if (!hasNext && !verrou) {
                             verrou = true;
-                            fondusonore(mainmusic, 2)
+                            fondusonore(mainmusic, 2);
                             wait(2, () => {
                                 standoff.play();
                                 fermerRideau(3).onEnd(() => {
