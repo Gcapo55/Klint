@@ -12,6 +12,7 @@ export function arrestation(myTiles, ambiancesonore, stoptout, fondusonore) {
         let timeingreen = 0 // si reste dans la zone verte
         let timeinred = 0 // si reste dans la zone rouge
         let isduelactive = false // en combat
+        let isendsequence = false
         let ishooting = false
         let isrelaxing = false
         let isfocusing = false
@@ -399,13 +400,14 @@ export function arrestation(myTiles, ambiancesonore, stoptout, fondusonore) {
             } else if (isrelaxing) {
                 if (klint.curAnim() !== "relax") klint.play("relax")
             } else {
-                if (klint.curAnim() !== "idle")  klint.play("idle")
+                if (!isendsequence && klint.curAnim() !== "idle") klint.play("idle")
             }
 
             // Fin du duel : désamorçage
             if (timeingreen > 15) {
                 let verrou = false;
                 isduelactive = false;
+                isendsequence = true;
                 bar.hidden = true;
                 barfond.hidden = true;
                 // parryIndicator.opacity = 0
@@ -437,6 +439,7 @@ export function arrestation(myTiles, ambiancesonore, stoptout, fondusonore) {
                 let verrou = false;
                 klint.play("idle")
                 isduelactive = false;
+                isendsequence = true;
                 bar.hidden = true;
                 barfond.hidden = true;
                 mainmusic.stop();

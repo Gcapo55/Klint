@@ -3,11 +3,11 @@ export const dialogues = {
     "d1intro": [
         "n Appuye sur Espace pour faire défiler les dialogues.",
         "e Halte étranger!",
-        "e Qui est-tu ?",
+        "e Qui es-tu ?",
         "k Je suis Klint.",
         "k Je suis à la recherche d'un criminel prénomé Bad Bill.",
         "e Mmhh, connais pas...",
-        "k Et toi, qui est-tu ?",
+        "k Et toi, qui es-tu ?",
         "e On me surnomme Old Ben.",
         "e Cette parcelle est mon territoire.",
         "e Personne ne peut y pénétrer.",
@@ -17,12 +17,12 @@ export const dialogues = {
     "d1phase2g": [
         "k Je comprends, mais ce chemin est ma seule chance de retrouver Bad Bill.",
         "e Eh bah voyons !",
-        "e Et si je refuse qu'est-ce que tu va faire, hein ?"
+        "e Et si je refuse qu'est-ce que tu vas faire, hein ?"
     ],
     "d1phase2b": [
         "bad k Si, ça me dérange.",
         "e Tu m'as l'air agressif toi.",
-        "e Et si je refuse qu'est-ce que tu va faire, hein ?"
+        "e Et si je refuse qu'est-ce que tu vas faire, hein ?"
     ],
     "d1phase3g": [
         "relax k Je ne veux pas d'embrouilles. Laisse-moi simplement passer...",
@@ -101,7 +101,7 @@ export const dialogues = {
         "k Attends, tu veux te battre ?",
         "k Mais pourquoi ?",
         "e Pour passer le temps.",
-        "eidle e J'éspérais tomber sur quelqu'un d'un peu plus... impressionant.",
+        "eidle e J'éspérais tomber sur quelqu'un d'un peu plus... impressionnant.",
         "e Mais bon, je n'ai rencontré que toi, gringo...",
     ],
     "d2phase2g": [
@@ -111,7 +111,7 @@ export const dialogues = {
         "eflex e Le plus grand duelliste que ce désert n'ait jamais connu.",
     ],
     "d2phase2b": [
-        "bad k Moi pas impressionant ?? Tu sais même pas qui je suis !",
+        "bad k Moi pas impressionnant ?? Tu sais même pas qui je suis !",
         "eidle e Qui es-tu alors ?",
         "k Je suis Klint.",
         "e C'est bien ce que je pensais, tu n'es personne...",
@@ -191,7 +191,7 @@ export const dialogues = {
     "e ... mais vous n'êtes qu'un vulgaire cowboy.",
     "e Enfin bon. Puisque vous insistez pour jouer les pitoyables...",
     "e Moi, Leviticus Flint, je vais vous faire une proposition :",
-    "egivemoney e Prennez ces quelques dollars et allez voir ailleurs.",
+    "egivemoney e ez ces quelques dollars et allez voir ailleurs.",
 ],
 "d3phase2b": [
     "bad k Bien sûr que je sais lire !",
@@ -203,7 +203,7 @@ export const dialogues = {
     "e Je suis Leviticus Flint !",
     "e Propriétaire de la Flint Oil Company.",
     "e Et je vais vous faire une proposition :",
-    "egivemoney e Prennez ces quelques dollars et allez voir ailleurs.",
+    "egivemoney e Prenez ces quelques dollars et allez voir ailleurs.",
 ],
 "d3phase3g": [
     "k Je ne suis pas là pour l'argent.",

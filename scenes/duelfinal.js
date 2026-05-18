@@ -12,6 +12,7 @@ export function duelfinal(myTiles, ambiancesonore, stoptout, fondusonore) {
         let timeingreen = 0 // si reste dans la zone verte
         let timeinred = 0 // si reste dans la zone rouge
         let isduelactive = false // en combat
+        let isendsequence = false
         let ishooting = false
         let isrelaxing = false
         let isfocusing = false
@@ -69,6 +70,43 @@ export function duelfinal(myTiles, ambiancesonore, stoptout, fondusonore) {
             body(),
             z(5),
         ])
+
+        loop(18, () => {
+
+            const tumbleweed = add([
+                sprite("tumbleweed"),
+                pos(width()+50, 410),
+                area(),
+                move(LEFT, 200),
+                z(4),
+                "tumbleweed",
+            ]);
+            tumbleweed.flipX = true;
+            tumbleweed.play("roll");
+        });
+        onUpdate("tumbleweed", (b) => {
+            if (b.pos.x < -100) {
+                destroy(b);
+            }
+        });
+
+        add([
+            sprite("cactus"),
+            scale(3),
+            pos(350, height()/2+60),
+        ])
+        add([
+            sprite("cactus"),
+            scale(3),
+            pos(500, height()/2+60),
+        ])
+        let cactus = add([
+            sprite("cactus"),
+            scale(6),
+            pos(600, height()/2-30),
+            z(3),
+        ])
+        cactus.flipX = true;
 
         // indicateur de contre
         // let parryIndicator = add([
@@ -434,7 +472,7 @@ export function duelfinal(myTiles, ambiancesonore, stoptout, fondusonore) {
             } else if (isrelaxing) {
                 if (klint.curAnim() !== "relax") klint.play("relax")
             } else {
-                if (klint.curAnim() !== "idle")  klint.play("idle")
+                if (!isendsequence && klint.curAnim() !== "idle") klint.play("idle")
             }
 
             // Fin du duel : désamorçage
@@ -442,6 +480,7 @@ export function duelfinal(myTiles, ambiancesonore, stoptout, fondusonore) {
                 let verrou = false;
                 // parryIndicator.opacity = 0;
                 isduelactive = false;
+                isendsequence = true;
                 bar.hidden = true;
                 barfond.hidden = true;
                 klint.use(sprite("klint"));
@@ -473,6 +512,7 @@ export function duelfinal(myTiles, ambiancesonore, stoptout, fondusonore) {
                 // parryIndicator.opacity = 0;
                 klint.play("idle")
                 isduelactive = false;
+                isendsequence = true;
                 bar.hidden = true;
                 barfond.hidden = true;
                 mainmusic.stop();

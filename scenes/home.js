@@ -37,15 +37,15 @@ export function homeScene(gamestate) {
         });
 
         add([
-            sprite('poteau'),
-            pos(450, -350),
-            scale(1.4),
+            sprite('grandpoteau'),
+            pos(630, 50),
+            scale(1.3),
             z(70),
         ]);
 
         const box = add([
-            rect(650, 250, { radius: 20 }),
-            pos(width()/2 -200, height()/2),
+            rect(550, 250, { radius: 20 }),
+            pos(width()/2 -175, height()/2),
             anchor('center'),
             opacity(0),
             z(100),
@@ -62,7 +62,7 @@ export function homeScene(gamestate) {
         let texte = box.add([
             text("Appuye sur Enter pour commencer à traquer Bad Bill"),
             anchor("center"),
-            color(RED),
+            color(WHITE),
             scale(0.5),
             pos(0, 75),
         ]);
