@@ -61,6 +61,31 @@ export function arrestation(myTiles, ambiancesonore, stoptout, fondusonore) {
             z(5),
         ])
 
+        add([
+            sprite("cactus"),
+            scale(3),
+            pos(350, height()/2+60),
+        ])
+        add([
+            sprite("cactus"),
+            scale(3),
+            pos(500, height()/2+60),
+        ])
+        let cactus = add([
+            sprite("cactus"),
+            scale(6),
+            pos(600, height()/2-30),
+            z(3),
+        ])
+        cactus.flipX = true;
+
+        let rocher = add([
+            sprite("rocher"),
+            scale(3),
+            pos(100, height()/2+50),
+            z(3),
+        ])
+
         let ennemi = add([
             sprite("calamity"),
             pos(width()-225, 200),
@@ -80,7 +105,7 @@ export function arrestation(myTiles, ambiancesonore, stoptout, fondusonore) {
         // ])
 
         // Musiques et sons
-        let mainmusic = play("mainmusic", {
+        let mainmusic = play("musicduelfinal", {
             loop: true,
             volume: 0.8,
             paused: true, 

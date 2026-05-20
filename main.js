@@ -9,6 +9,7 @@ import { duelfinal } from "./scenes/duelfinal.js";
 import { perdu } from "./scenes/perdu.js";
 import { dialogues } from "./dialogues.js";
 import { myTiles } from "./tiledefinition.js";
+import { gagné } from "./scenes/gagné.js";
 
 kaplay(
   {
@@ -35,6 +36,7 @@ loadSprite('grandpoteau', 'assets/affiches/grandpoteau.png');
 loadSprite('klintsitting', 'assets/backgrounds/klintsitting.png');
 loadSprite('cactus', 'assets/backgrounds/cactus.PNG');
 loadSprite('rock', 'assets/backgrounds/rock.png');
+loadSprite('rocher', 'assets/backgrounds/rocher.png');
 loadSprite('fences', 'assets/backgrounds/poteaux.png');
 
 loadSprite('tile0', 'assets/Floor/tile0.png');
@@ -605,5 +607,6 @@ duel3(myTiles, gamestate, ambiancesonore, stoptout, fondusonore);
 arrestation(myTiles, ambiancesonore, stoptout, fondusonore);
 duelfinal(myTiles, ambiancesonore, stoptout, fondusonore);
 perdu(myTiles);
+gagné();
 
-go("duelfinal");
+go("menu");

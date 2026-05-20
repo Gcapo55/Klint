@@ -72,7 +72,6 @@ export function duelfinal(myTiles, ambiancesonore, stoptout, fondusonore) {
         ])
 
         loop(18, () => {
-
             const tumbleweed = add([
                 sprite("tumbleweed"),
                 pos(width()+50, 410),
@@ -107,6 +106,13 @@ export function duelfinal(myTiles, ambiancesonore, stoptout, fondusonore) {
             z(3),
         ])
         cactus.flipX = true;
+
+        let rocher = add([
+            sprite("rocher"),
+            scale(3),
+            pos(100, height()/2+50),
+            z(3),
+        ])
 
         // indicateur de contre
         // let parryIndicator = add([
@@ -497,7 +503,7 @@ export function duelfinal(myTiles, ambiancesonore, stoptout, fondusonore) {
                             wait(2, () => {
                                 standoff.play();
                                 fermerRideau(3).onEnd(() => {
-                                    go("menu")
+                                    go("gagné")
                                 });
                             });
                         }

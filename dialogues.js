@@ -5,7 +5,7 @@ export const dialogues = {
         "e Halte étranger!",
         "e Qui es-tu ?",
         "k Je suis Klint.",
-        "k Je suis à la recherche d'un criminel prénomé Bad Bill.",
+        "k Je suis à la recherche d'un criminel prénommé Bad Bill.",
         "e Mmhh, connais pas...",
         "k Et toi, qui es-tu ?",
         "e On me surnomme Old Ben.",
@@ -57,7 +57,7 @@ export const dialogues = {
         "k Tu me fais perdre mon temps.",
         "e Tu m'as l'air bien trop confiant...",
         "espit e ...",
-        "e Voyons ce que tu vaut alors.",
+        "e Voyons ce que tu vaux alors.",
         "e Allez, affrontons-nous !",
         "n Petit didacticiel avant le combat !",
         "idle show n Voici la jauge de tension.",
@@ -84,7 +84,7 @@ export const dialogues = {
         "e Grr, tu peux passer...",
         "e Voyou !",
         "e Crapule !",
-        "e Tu ne vaut pas mieux que celui que tu cherches...",
+        "e Tu ne vaux pas mieux que celui que tu cherches...",
     ],
     "d1badend": [
         "e Lâche l'affaire fiston. Tu n'fais pas le poids..."
@@ -101,7 +101,7 @@ export const dialogues = {
         "k Attends, tu veux te battre ?",
         "k Mais pourquoi ?",
         "e Pour passer le temps.",
-        "eidle e J'éspérais tomber sur quelqu'un d'un peu plus... impressionnant.",
+        "eidle e J'éspérai tomber sur quelqu'un d'un peu plus... impressionnant.",
         "e Mais bon, je n'ai rencontré que toi, gringo...",
     ],
     "d2phase2g": [
@@ -131,7 +131,7 @@ export const dialogues = {
     "d2phase3b": [
         "bad k Non, c'est impossible.",
         "k JE suis le plus grand duelliste que ce désert n'ait jamais connu.",
-        "k Je gagnerais les yeux fermés !",
+        "k Je gagnerai les yeux fermés !",
         "idle e C'est ça oui.",
         "e Reste prudent, amigo...",
         "esmile e Si il y a bien une seule chose que Ramon El Magnifico sait faire...",
@@ -141,7 +141,7 @@ export const dialogues = {
         "idle k Ce n'est pas vrai !",
         "eidle k Tu as probablement d'autres qualités, j'en suis sûr.",
         "esad e Assez, gringo !",
-        "e Ramon ne peut prouver sa vrai valeur que par la confrontation.",
+        "e Ramon ne peut prouver sa vraie valeur que par la confrontation.",
         "e Alors, ne m'humilie pas plus...",
         "eidle e Affrontons-nous."
     ],
@@ -149,11 +149,11 @@ export const dialogues = {
         "bad k Tu parles beaucoup trop, Ramon El Machin...",
         "eidle k Je poursuis quelqu'un alors ne perdons pas plus de temps.",
         "k Tu voulais te battre ?",
-        "k Voyons ce que tu vaut alors...",
+        "k Voyons ce que tu vaux alors...",
     ],
     "d2goodend": [
         "k Ça suffit !",
-        "k Tu est perdu et tu as soif.",
+        "k Tu es perdu et tu as soif.",
         "k Si tu acceptes de mettre fin à cet affrontement...",
         "esmile k ...je pourrai te donner à boire et t'indiquer le chemin vers Rio Bravo.",
         "e C'est d'accord, gringo, tu m'as eu..."
@@ -164,7 +164,7 @@ export const dialogues = {
         "k File maintenant ...",
     ],
     "d2badend": [
-        "e File, gringo. Tu n'est pas digne de rester auprès de Ramon El Magnifico...",
+        "e File, gringo. Tu n'es pas digne de rester auprès de Ramon El Magnifico...",
     ],
 
     // Troisième duel
@@ -280,7 +280,7 @@ export const dialogues = {
         "k Je suis recherché ?",
         "e Bien vu, cowboy !",
         "e Il fallait peut-être réfléchir un peu plus avant de tirer sur tes adversaires...",
-        "e Si tu te rends sans faire d'histoires, je ferais en sorte d'alléger ta peine.",
+        "e Si tu te rends sans faire d'histoires, je ferai en sorte d'alléger ta peine.",
         "e Qu'en dis-tu ?",
     ],
     "Aphase3b": [
@@ -294,13 +294,13 @@ export const dialogues = {
         "handsup k C'est d'accord, je me rends.",
         "k C'est vrai que j'aurais pu trouver d'autres solutions pour résoudre ces duels...",
         "e C'est la bonne décision, cowboy.",
-        "e Je suis sure que la justice saura se montrer clémente avec toi...",
+        "e Je suis sûre que la justice saura se montrer clémente avec toi...",
     ],
     "Aphase4b": [
         "bad k J'en dis que tu commences à me gonfler !",
         "k Écarte-toi, ou tu subiras le même sort que mes précédents adversaires.",
-        "e Bon, tu ne me laisse pas le choix cowboy.",
-        "k Voyons ce que tu vaut alors...",
+        "e Bon, tu ne me laisses pas le choix cowboy.",
+        "k Voyons ce que tu vaux alors...",
     ],
     "Agoodend": [
         "k C'est bon...",
@@ -332,9 +332,9 @@ export const dialogues = {
     "DFphase2b": [
         "bad k Je veux me venger !",
         "k Tu as dévalisé l'épicerie de mes parents...",
-        "k Tu va en payer les conséquences tout de suite.",
+        "k Tu vas en payer les conséquences tout de suite.",
         "e Bah voyons...",
-        "e Et comment tu compte t'y prendre, hein ?",
+        "e Et comment tu comptes t'y prendre, hein ?",
         "e Tu ne comptes quand même pas m'affronter ?",
     ],
     "DFphase3g": [
@@ -355,7 +355,7 @@ export const dialogues = {
         "e Ne l'oublie pas, tu ne seras jamais à ma hauteur.",
     ],
     "DFphase4g": [
-        "relax k On est pas obligé de tout règler avec les revolvers...",
+        "relax k On est pas obligés de tout règler avec les revolvers...",
         "k Je veux simplement que tu t'excuses et que tu rembourses ce que tu as volé.",
         "idle good e La ferme !",
         "e T'es pas en position pour me faire la morale...",
@@ -376,7 +376,7 @@ export const dialogues = {
         "k Non.",
         "k J'en ai assez de tous ces combats...",
         "e Lâche !",
-        "k La vraie lâcheté, c'est de croire que ton six coups règlera tout tes problèmes.",
+        "k La vraie lâcheté, c'est de croire que ton six-coups règlera tous tes problèmes.",
         "k Même si tu gagnes ce combat, tu ne pourras pas échapper aux remords de tes crimes.",
         "k Il est l'heure de prendre un nouveau départ tu ne crois pas ?",
         "reflexion e ...",
