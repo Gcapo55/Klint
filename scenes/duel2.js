@@ -341,6 +341,7 @@ export function duel2(myTiles, gamestate, ambiancesonore, stoptout, fondusonore)
         // })
 
         // Fonction qui s'execute à chaque seconde
+
         onUpdate(() => {
             if (!isduelactive) return
 
@@ -422,7 +423,9 @@ export function duel2(myTiles, gamestate, ambiancesonore, stoptout, fondusonore)
                 lastSpikeTime = 0
                 // isParried = false
                 wait(2, () => {
-                    ennemi.play("idle")
+                    if (isduelactive) {
+                        ennemi.play("idle")
+                    }
                     // parryIndicator.opacity = 0
                 })
             }

@@ -497,7 +497,9 @@ export function duel1(myTiles, gamestate, ambiancesonore, stoptout, fondusonore)
                 lastSpikeTime = 0
                 // isParried = false
                 wait(2, () => {
-                    ennemi.play("idle")
+                    if (isduelactive) {
+                        ennemi.play("idle")
+                    }
                     // parryIndicator.opacity = 0
                 })
             }

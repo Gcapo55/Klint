@@ -398,7 +398,9 @@ export function arrestation(myTiles, ambiancesonore, stoptout, fondusonore) {
                 lastSpikeTime = 0
                 // isParried = false
                 wait(2, () => {
-                    ennemi.play("idle")
+                if (isduelactive) {
+                            ennemi.play("idle")
+                        }
                     // parryIndicator.opacity = 0
                 })
             }
@@ -460,7 +462,7 @@ export function arrestation(myTiles, ambiancesonore, stoptout, fondusonore) {
             }
 
             // Fin du duel : l'adversaire tire ou le joueur reste trop longtemps dans le rouge = même issue poru ce combat.
-            if (dueltime > 90 || timeinred >10) {
+            if ((dueltime > 90 || timeinred >10) && !isendsequence) {
                 let verrou = false;
                 klint.play("idle")
                 isduelactive = false;
