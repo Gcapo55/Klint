@@ -110,7 +110,7 @@ export function duelfinal(myTiles, ambiancesonore, stoptout, fondusonore) {
         let rocher = add([
             sprite("rocher"),
             scale(3),
-            pos(100, height()/2+50),
+            pos(700, height()/2+50),
             z(3),
         ])
 
@@ -515,7 +515,7 @@ export function duelfinal(myTiles, ambiancesonore, stoptout, fondusonore) {
             }
 
             // Fin du duel : l'adversaire tire
-            if (dueltime > 90 || timeinred > 8) {
+            if (dueltime > 90 || timeinred > 12) {
                 let verrou = false;
                 // parryIndicator.opacity = 0;
                 klint.play("idle")

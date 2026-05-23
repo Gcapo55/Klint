@@ -124,7 +124,7 @@ export function duel2(myTiles, gamestate, ambiancesonore, stoptout, fondusonore)
         // ])
 
         // Musiques et sons
-        let mainmusic = play("mainmusic", {
+        let mainmusic = play("musicduel2", {
             loop: true,
             volume: 0.8,
             paused: true, 

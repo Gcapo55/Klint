@@ -503,7 +503,7 @@ export function arrestation(myTiles, ambiancesonore, stoptout, fondusonore) {
             }
         })
 
-        addLevel([
+        let sol = addLevel([
             "6nn5n61nn55",
             "00000000000",
         ],{
@@ -512,5 +512,7 @@ export function arrestation(myTiles, ambiancesonore, stoptout, fondusonore) {
             tileHeight: 153,
             tiles: myTiles,
         });
+
+        sol.use(z(10));
     });
 }

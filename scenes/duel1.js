@@ -636,7 +636,7 @@ export function duel1(myTiles, gamestate, ambiancesonore, stoptout, fondusonore)
                 });
                 hasshot = true;
                 gamestate.shotmeter++;
-                wait(8, () => {
+                wait(6, () => {
                     loquace.start("d1shot");
                     onKeyPress("space", () => {
                         const hasNext = loquace.next();

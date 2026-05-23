@@ -111,9 +111,9 @@ export function duel3(myTiles, gamestate, ambiancesonore, stoptout, fondusonore)
         cactus.flipX = true;
 
         // Musiques et sons
-        let mainmusic = play("mainmusic", {
+        let mainmusic = play("americana", {
             loop: true,
-            volume: 0.8,
+            volume: 0.9,
             paused: true, 
         });
 
