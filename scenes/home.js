@@ -43,52 +43,68 @@ export function homeScene(gamestate) {
             z(70),
         ]);
 
-        const box = add([
-            rect(550, 250, { radius: 20 }),
-            pos(width()/2 -175, height()/2),
-            anchor('center'),
-            opacity(0),
-            z(100),
+        const monTexteBorde = add([
+            pos(180, 190),
+            scale(2.5),
+            z(70),
         ]);
 
-        box.add([
-            text("KLINT"),
-            anchor("center"),
-            scale(3),
-            color(256, 8, 8),
+        //Aide Gemini pour générer le vecteur
+        const offsets = [
+            vec2(-2, -2), vec2(0, -2), vec2(2, -2),
+            vec2(-2, 0),               vec2(2, 0),
+            vec2(-2, 2),  vec2(0, 2),  vec2(2, 2)
+        ];
+
+        offsets.forEach(offset => {
+            monTexteBorde.add([
+                text("Klint", { size: 48 }),
+                pos(offset),
+                color(255,190,0), 
+            ]);
+        });
+
+        monTexteBorde.add([
+            text("Klint", { size: 48 }),
             pos(0, 0),
+            color(255, 0, 0),
         ]);
-
-        let texte = box.add([
-            text("Appuye sur Enter pour commencer à traquer Bad Bill"),
+        monTexteBorde.add([
+            text("Appuye sur Enter pour", { size: 9 }),
+            pos(75, 60),
+            color(255, 0, 0),
             anchor("center"),
-            color(WHITE),
-            scale(0.5),
-            pos(0, 75),
+        ]);
+        monTexteBorde.add([
+            text("commencer à traquer Bad Bill", { size: 9 }),
+            pos(75, 73),
+            color(255, 0, 0),
+            anchor("center"),
         ]);
 
         let alreadyenter = false;
 
-        if (!alreadyenter) {
-            onKeyPress("enter", () => {
-                alreadyenter = true;
-                play("standoff", {
-                    volume: 1,
-                })
-                texte.destroy()
-                const mask = add([
-                    rect(width(), height()),
-                    color(0, 0, 0),
-                    opacity(0),
-                    fixed(),
-                    z(100),
-                ])
+        onKeyPress("enter", () => {
+            if (alreadyenter) return; 
 
-                tween(0, 1, 4, (val) => mask.opacity = val, easings.linear).onEnd(() => {
-                    go("duel1")
-                })
+            alreadyenter = true;
+
+            play("standoff", {
+                volume: 1,
             });
-        };
+
+            const mask = add([
+                rect(width(), height()),
+                color(0, 0, 0),
+                opacity(0),
+                fixed(),
+                z(100),
+            ]);
+
+            tween(0, 1, 4, (val) => mask.opacity = val, easings.linear).onEnd(() => {
+                go("duel1");
+            });
+        });
     });
 }
 

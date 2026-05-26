@@ -20,8 +20,6 @@ kaplay(
   }
 );
 
-loadSprite("fleche","assets/fleche.png")
-
 loquace.init({});
 loquace.script(dialogues)
 
@@ -542,12 +540,13 @@ loquace.characters({
   },
 });
 
+//aide débug
 const gamestate = { 
   shotmeter: 0
 }
 window.shotmeter = gamestate.shotmeter; 
 
-// fonction pour arrêter la musique 
+// fonction pour arrêter la musique (logique provenant de Gemini)
 const fondusonore = (music, duration = 2) => {
     const startVolume = music.volume;
     const interval = 0.05; // baisse le son toutes les 50ms
@@ -615,4 +614,4 @@ duelfinal(myTiles, ambiancesonore, stoptout, fondusonore);
 perdu(myTiles);
 gagné(myTiles, fondusonore);
 
-go("arrestation");
+go("menu");

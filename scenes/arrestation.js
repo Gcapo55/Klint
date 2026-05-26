@@ -246,23 +246,25 @@ export function arrestation(myTiles, ambiancesonore, stoptout, fondusonore) {
 
         // Barre de tension
         let barfond = add([
-            rect(500, 20),
+            rect(500, 20, {radius: [5, 5, 5, 5]}),
             pos((width()/2)-250, height()/10),
-            color(BLUE),
-            z(1)
+            color(rgb(82, 133, 192)),
+            z(1),
+            outline(2, rgb(18, 41, 66)),
         ])
         barfond.add([
-            pos(400, 0),
-            rect(100, 20),
-            color(RED),
-            z(2),
+            pos(400, 0.5),
+            rect(99, 18,  {radius: [0, 5, 3, 0]}),
+            color(rgb(231, 42, 0)),
+            z(1),
         ])
         barfond.add([
-            pos(350, 0),
-            rect(50, 20),
-            color(GREEN),
-            z(2),
+            pos(350, 0.5),
+            rect(50, 18),
+            color(rgb(129, 249, 0)),
+            z(1),
         ])
+
         let indications = barfond.add([
             pos(250, 30),
             anchor("center"),
@@ -273,13 +275,14 @@ export function arrestation(myTiles, ambiancesonore, stoptout, fondusonore) {
         ])
 
         // barre ajustable
-        let bar = add([
-            rect(0, 20),
-            pos((width()/2)-250, height()/10),
+        let bar = barfond.add([
+            rect(0, 18, {radius: [5, 0, 0, 5]}),
+            pos(0.5, 0.5),
             color(WHITE),
             opacity(1),
-            z(10),
+            z(2),
         ])
+
         bar.hidden = true;
         barfond.hidden = true;
 
@@ -406,7 +409,16 @@ export function arrestation(myTiles, ambiancesonore, stoptout, fondusonore) {
             }
 
             // barre visuelle
-            bar.width = (tension / maxtension) * 500
+            bar.width = (tension / maxtension) * 499
+            if (bar.width >= 497) {
+                bar.radius = [5, 5, 5, 5]; 
+            } else if (bar.width >= 495) {
+                bar.radius = [5, 4, 4, 5];
+            } else if (bar.width >= 493) {
+                bar.radius = [5, 2.5, 2.5, 5]; 
+            } else {
+                bar.radius = [5, 0, 0, 5]; 
+            }
 
             if (inGreen) {
                 timeingreen += dt()

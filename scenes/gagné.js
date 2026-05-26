@@ -23,7 +23,7 @@ export function gagné(myTiles, fondusonore) {
             anchor("topleft"),
         ]);
 
-                add([
+        add([
             sprite("cactus"),
             scale(3),
             pos(350, height()/2+60),
@@ -90,6 +90,13 @@ export function gagné(myTiles, fondusonore) {
             scale(0.45),
             pos(0, 75),
         ]);
+        box.add([
+            text("Enter = Recommencer"),
+            anchor("center"),
+            color(BLACK),
+            scale(0.45),
+            pos(0, 120)
+        ])
 
         let credits = add([
             rect(300, 50, { radius: [0, 20, 0, 0] }),
