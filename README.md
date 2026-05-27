@@ -1,5 +1,7 @@
 # Klint
 
+Un jeu réflexif sur le genre du western
+
 ## Commandes
 
 ### Dialogues :
@@ -30,7 +32,7 @@ Les issues du duel (désarmement, tir contrôlé, défaite) incrémentent un com
 
 ### Jouer en ligne
 
-**Itch.io** : 
+**Itch.io** : https://toucan-furtif.itch.io/klint
 
 ### Lancer le projet en local
 
