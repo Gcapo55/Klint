@@ -64,13 +64,27 @@ Tous les assets qui ne sont pas mentionnés dans les listes ci-dessous ont été
 #### Assets graphiques
 
 
-
 #### Assets audio
-
 - **Musique duel 1** : https://mummychicken3.itch.io/an-old-town-of-dust/
-- **Musique duel 3** : https://thegoldocelot.itch.io/americana/
 - **Musique duel 2 et fin** : https://pixabay.com/music/mystery-western-cowboy-duel-background-350113/
+- **Musique duel 3** : https://thegoldocelot.itch.io/americana/
 - **Musique écran de victoire** : https://pixabay.com/music/upbeat-spaghetti-western-491538/
+- **Stand-off** : https://pixabay.com/sound-effects/western-stand-off-474218/
+- **Son défaite** : https://pixabay.com/sound-effects/western-sting-electric-guitar-474221/
+
+- **Vent** : https://pixabay.com/sound-effects/nature-wind-western-64661/
+- **Coloeus monedula** : https://pixabay.com/sound-effects/nature-western-jackdaw-coloeus-monedula-37560/
+- **Pies** : https://pixabay.com/sound-effects/nature-magpie-western-27116/
+- **Chien** : https://pixabay.com/sound-effects/nature-distant-dog-barking-472373/
+- **Serpent** : https://pixabay.com/sound-effects/nature-snake-hissing-6092/
+
+- **Holster** : https://pixabay.com/sound-effects/film-special-effects-holster-pistol-7132/
+- **Coup de feu** : 
+- **Rage Klint** : https://pixabay.com/fr/sound-effects/gens-angry-scream-104974/
+- **Grognement Badbill** : https://pixabay.com/fr/sound-effects/gens-angry-grunt-103204/
+- **Rage Badbill** : https://www.youtube.com/watch?v=9A8KRRwLPac
+- **Crachat** : 
+
 
 ## Recours aux LLM
 
