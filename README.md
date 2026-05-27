@@ -57,7 +57,9 @@ IL est fortement recommendé de jouer en plein écran avec le son !
 - **Kaplay** : https://kaplayjs.com/, V3001.0.19
 - **kaplay-loquace** : https://github.com/loiccattani/kaplay-loquace.git
 
-## Crédits, licences & sources
+## Crédits
+
+Tous les assets qui ne sont pas mentionnés dans les listes ci-dessous ont été réalisés par mes soins. Ils sont libres de droit. 
 
 #### Assets graphiques
 
@@ -65,7 +67,10 @@ IL est fortement recommendé de jouer en plein écran avec le son !
 
 #### Assets audio
 
-
+- **Musique duel 1** : https://mummychicken3.itch.io/an-old-town-of-dust/
+- **Musique duel 3** : https://thegoldocelot.itch.io/americana/
+- **Musique duel 2 et fin** : https://pixabay.com/music/mystery-western-cowboy-duel-background-350113/
+- **Musique écran de victoire** : https://pixabay.com/music/upbeat-spaghetti-western-491538/
 
 ## Recours aux LLM
 
