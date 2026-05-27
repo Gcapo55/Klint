@@ -64,11 +64,11 @@ Il est fortement recommendé de jouer en plein écran avec le son !
 ## Moteur et modules
 
 - **Kaplay** : https://kaplayjs.com/, V3001.0.19
-- **kaplay-loquace** : https://github.com/loiccattani/kaplay-loquace.git
+- **kaplay-loquace** : https://github.com/loiccattani/kaplay-loquace
 
 ## Crédits
 
-Tous les assets qui ne sont pas mentionnés dans les listes ci-dessous ont été réalisés par mes soins. Ils sont libres de droit. 
+Tous les assets qui ne sont pas mentionnés dans les listes ci-dessous ont été réalisés par mes soins. Ils sont libres de droits. 
 
 #### Assets graphiques
 - **Tuile sable** : https://opengameart.org/content/sand-desert-dune-tile
@@ -83,12 +83,14 @@ Tous les assets qui ne sont pas mentionnés dans les listes ci-dessous ont été
 - **Stand-off** : https://pixabay.com/sound-effects/western-stand-off-474218/
 - **Son défaite** : https://pixabay.com/sound-effects/western-sting-electric-guitar-474221/
 
+
 - **Vent** : https://pixabay.com/sound-effects/nature-wind-western-64661/
 - **Coloeus monedula** : https://pixabay.com/sound-effects/nature-western-jackdaw-coloeus-monedula-37560/
 - **Pies** : https://pixabay.com/sound-effects/nature-magpie-western-27116/
 - **Chien** : https://pixabay.com/sound-effects/nature-distant-dog-barking-472373/
 - **Serpent** : https://pixabay.com/sound-effects/nature-snake-hissing-6092/
 - **Souris** : https://pixabay.com/sound-effects/nature-mouse-animal-sound-367490/
+
 
 - **Holster** : https://pixabay.com/sound-effects/film-special-effects-holster-pistol-7132/
 - **Coup de feu** : https://pixabay.com/sound-effects/film-special-effects-pistol-riccochet-7046/
@@ -103,7 +105,7 @@ Tous les assets qui ne sont pas mentionnés dans les listes ci-dessous ont été
 **Modèles utilisés** : Claude Sonnet 4.5 et Gemini 3.5 Flash
 
 ### Cas d'utilisation
-- **Implémentation d'une fonction choix dans kaplay-loquace.js** : Dans le fichier, kaplay-loquace.js, Claude a généré une fonction affichant un panneau au bas de l'écran et permettant au joueur de faire un choix de réponse. 
+- **Implémentation d'une fonction choix** : Dans le fichier kaplay-loquace.js, Claude a généré une fonction affichant un panneau au bas de l'écran et permettant au joueur de faire un choix de réponse.
 - **Aide à la logigue du code** : Gemini a été utilisé pour trouver et comprendre la logique se cachant derrières certaines mécaniques, sans pour autant les avoir générées entièrement. C'est le cas pour le drift de la barre de tension, la fonction fondusonore ou encore le vecteur de bordure de texte du titre.
 - **Relecture orthographique** : Utilisation de Claude pour corriger l'orthographe du fichier dialogues.js.
 
