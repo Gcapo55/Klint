@@ -1,11 +1,6 @@
 export function duel1(myTiles, gamestate, ambiancesonore, stoptout, fondusonore) {
     scene("duel1", () => {
 
-        // fct pour mettre en plein écran
-        onKeyPress("p", () => {
-          setFullscreen(!isFullscreen());
-        });
-
         let tension = 0
         let maxtension = 100
         let dueltime = 0
@@ -358,7 +353,7 @@ export function duel1(myTiles, gamestate, ambiancesonore, stoptout, fondusonore)
         let indications = barfond.add([
             pos(250, 30),
             anchor("center"),
-            text("◀ Maj | Espace ▶"),
+            text("◀ X | Espace ▶"),
             scale(0.3),
             color(BLACK),
             z(2),
@@ -373,21 +368,6 @@ export function duel1(myTiles, gamestate, ambiancesonore, stoptout, fondusonore)
             z(2),
         ])
         
-        let fullscreenindicator = add([
-            text("P = plein écran"),
-            color(BLACK),
-            pos(5, 5),
-            scale(0.3)
-        ])
-
-        onUpdate(() => {
-            if (isFullscreen()){
-                fullscreenindicator.hidden = true;
-            }
-            else {
-                fullscreenindicator.hidden = false;
-            }
-        });
 
         bar.hidden = true;
         barfond.hidden = true;
@@ -399,19 +379,19 @@ export function duel1(myTiles, gamestate, ambiancesonore, stoptout, fondusonore)
         });
         onKeyRelease("space", () => { 
             isfocusing = false; 
-            // si on lâche Space mais qu'on tient encore Shift
-            if (isKeyDown("shift")) isrelaxing = true; 
+            // si on lâche Space mais qu'on tient encore X
+            if (isKeyDown("x")) isrelaxing = true; 
         });
 
         // relax
-        onKeyPress("shift", () => { 
+        onKeyPress("x", () => { 
             isrelaxing = true;
             isfocusing = false;
 
         });
-        onKeyRelease("shift", () => { 
-            isrelaxing = false; 
-            // si on lâche Shift mais qu'on tient encore Space
+        onKeyRelease("x", () => { 
+            isrelaxing = false;
+            // si on lâche X mais qu'on tient encore Space
             if (isKeyDown("space")) isfocusing = true;
         });
 
@@ -528,10 +508,10 @@ export function duel1(myTiles, gamestate, ambiancesonore, stoptout, fondusonore)
 
             if (inGreen) {
                 timeingreen += dt()
-                console.log(timeingreen)
+                console.log("Good" + timeingreen)
             } else if (inRed) {
                 timeinred += dt()
-                console.log(timeinred)
+                console.log("Bad" + timeinred)
             } else {
                 timeingreen = Math.max(0, timeingreen - dt() * 1) // se vide si on va dans le bleu
                 timeingreen = Math.max(0, timeinred - dt() * 1)
@@ -580,7 +560,7 @@ export function duel1(myTiles, gamestate, ambiancesonore, stoptout, fondusonore)
             }
 
             // Fin du duel : l'adversaire tire
-            if (dueltime > 65) {
+            if (dueltime > 60) {
                 let verrou = false;
                 // parryIndicator.opacity = 0;
                 klint.play("idle")

@@ -3,11 +3,6 @@ export function homeScene(gamestate) {
 
         gamestate.shotmeter = 0
 
-        // fct pour mettre en plein écran
-        onKeyPress("p", () => {
-          setFullscreen(!isFullscreen());
-        });
-
         add([
             sprite('homebg', { 
                 width: width(),

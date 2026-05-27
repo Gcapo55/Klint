@@ -1,5 +1,5 @@
-export function gagné(myTiles, fondusonore) {
-    scene("gagné", () => {
+export function gagne(myTiles, fondusonore) {
+    scene("gagne", () => {
 
         let rideau = add([
             rect(width(), height()),
@@ -9,13 +9,8 @@ export function gagné(myTiles, fondusonore) {
             z(999),
         ]);
 
-        // fct pour mettre en plein écran
-        onKeyPress("p", () => {
-          setFullscreen(!isFullscreen());
-        });
-
         add([
-            sprite('bggagné', { 
+            sprite('bggagne', { 
                 width: width(),
                 height: height(),
             }),
@@ -129,7 +124,7 @@ export function gagné(myTiles, fondusonore) {
 
         sol.use(z(10));
 
-        const outro = play("musicgagné", {
+        const outro = play("musicgagne", {
             volume: 0.8,
         })
         tween(1, 0, 3, (val) => rideau.opacity = val, easings.linear)

@@ -1,11 +1,6 @@
 export function duel2(myTiles, gamestate, ambiancesonore, stoptout, fondusonore) {
     scene("duel2", () => {
 
-        // fct pour mettre en plein écran
-        onKeyPress("p", () => {
-          setFullscreen(!isFullscreen());
-        });
-
         console.log(gamestate.shotmeter)
 
         let tension = 0
@@ -291,7 +286,7 @@ export function duel2(myTiles, gamestate, ambiancesonore, stoptout, fondusonore)
         let indications = barfond.add([
             pos(250, 30),
             anchor("center"),
-            text("◀ Maj | Espace ▶"),
+            text("◀ X | Espace ▶"),
             scale(0.3),
             color(BLACK),
             z(2),
@@ -316,19 +311,19 @@ export function duel2(myTiles, gamestate, ambiancesonore, stoptout, fondusonore)
         });
         onKeyRelease("space", () => { 
             isfocusing = false; 
-            // si on lâche Space mais qu'on tient encore Shift
-            if (isKeyDown("shift")) isrelaxing = true; 
+            // si on lâche Space mais qu'on tient encore x
+            if (isKeyDown("x")) isrelaxing = true; 
         });
 
         // relax
-        onKeyPress("shift", () => { 
+        onKeyPress("x", () => { 
             isrelaxing = true;
             isfocusing = false;
 
         });
-        onKeyRelease("shift", () => { 
+        onKeyRelease("x", () => { 
             isrelaxing = false; 
-            // si on lâche Shift mais qu'on tient encore Space
+            // si on lâche x mais qu'on tient encore Space
             if (isKeyDown("space")) isfocusing = true;
         });
 
@@ -539,7 +534,7 @@ export function duel2(myTiles, gamestate, ambiancesonore, stoptout, fondusonore)
             }
 
             // Fin du duel : tir automatique si trop longtemps dans le rouge
-            if (timeinred > 10 && !hasshot) {
+            if (timeinred > 9 && !hasshot) {
                 let verrou = false;
                 // parryIndicator.opacity = 0;
                 isduelactive = false;

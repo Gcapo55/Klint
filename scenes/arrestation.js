@@ -1,11 +1,6 @@
 export function arrestation(myTiles, ambiancesonore, stoptout, fondusonore) {
     scene("arrestation", () => {
 
-        // fct pour mettre en plein écran
-        onKeyPress("p", () => {
-          setFullscreen(!isFullscreen());
-        });
-
         let tension = 0
         let maxtension = 100
         let dueltime = 0
@@ -21,7 +16,6 @@ export function arrestation(myTiles, ambiancesonore, stoptout, fondusonore) {
         let nextSpikeDelay = 10
         let isangry = false
         let isWarning = false
-        let isParried = false
 
         let rideau = add([
             rect(width(), height()),
@@ -268,7 +262,7 @@ export function arrestation(myTiles, ambiancesonore, stoptout, fondusonore) {
         let indications = barfond.add([
             pos(250, 30),
             anchor("center"),
-            text("◀ Maj | Espace ▶"),
+            text("◀ X | Espace ▶"),
             scale(0.3),
             color(BLACK),
             z(2),
@@ -293,19 +287,19 @@ export function arrestation(myTiles, ambiancesonore, stoptout, fondusonore) {
         });
         onKeyRelease("space", () => { 
             isfocusing = false; 
-            // si on lâche Space mais qu'on tient encore Shift
-            if (isKeyDown("shift")) isrelaxing = true; 
+            // si on lâche Space mais qu'on tient encore x
+            if (isKeyDown("x")) isrelaxing = true; 
         });
 
         // relax
-        onKeyPress("shift", () => { 
+        onKeyPress("x", () => { 
             isrelaxing = true;
             isfocusing = false;
 
         });
-        onKeyRelease("shift", () => { 
+        onKeyRelease("x", () => { 
             isrelaxing = false; 
-            // si on lâche Shift mais qu'on tient encore Space
+            // si on lâche x mais qu'on tient encore Space
             if (isKeyDown("space")) isfocusing = true;
         });
 
@@ -474,7 +468,7 @@ export function arrestation(myTiles, ambiancesonore, stoptout, fondusonore) {
             }
 
             // Fin du duel : l'adversaire tire ou le joueur reste trop longtemps dans le rouge = même issue poru ce combat.
-            if ((dueltime > 90 || timeinred >10) && !isendsequence) {
+            if ((dueltime > 65 || timeinred >10) && !isendsequence) {
                 let verrou = false;
                 klint.play("idle")
                 isduelactive = false;

@@ -9,7 +9,7 @@ import { duelfinal } from "./scenes/duelfinal.js";
 import { perdu } from "./scenes/perdu.js";
 import { dialogues } from "./dialogues.js";
 import { myTiles } from "./tiledefinition.js";
-import { gagné } from "./scenes/gagné.js";
+import { gagne } from "./scenes/gagne.js";
 
 kaplay(
   {
@@ -29,7 +29,7 @@ loadSprite("bgduel1", "assets/backgrounds/bgduel1.png");
 loadSprite("bgduel2", "assets/backgrounds/bgduel2.png");
 loadSprite("bgduel3", "assets/backgrounds/bgduel3.png");
 loadSprite("bgend", "assets/backgrounds/bgend.png");
-loadSprite("bggagné", "assets/backgrounds/bggagné.png");
+loadSprite("bggagne", "assets/backgrounds/bggagne.png");
 loadSprite('poteau', 'assets/affiches/badbillpoteau.png');
 loadSprite('grandpoteau', 'assets/affiches/grandpoteau.png');
 loadSprite('klintsitting', 'assets/backgrounds/klintsitting.png');
@@ -476,7 +476,7 @@ loadSound('mainmusic', "assets/sounds/musics/main.mp3");
 loadSound('musicduel2', "assets/sounds/musics/duel.mp3");
 loadSound('americana', "assets/sounds/musics/Americana.mp3");
 loadSound('musicduelfinal', "assets/sounds/musics/duel.mp3");
-loadSound('musicgagné', "assets/sounds/musics/sound.spaghetti.mp3");
+loadSound('musicgagne', "assets/sounds/musics/sound.spaghetti.mp3");
 loadSound('standoff', 'assets/sounds/musics/standoff.mp3');
 loadSound('endstandoff', "assets/sounds/musics/endstandoff.mp3");
 loadSound('namereveal', "assets/sounds/musics/namereveal.mp3");
@@ -612,6 +612,6 @@ duel3(myTiles, gamestate, ambiancesonore, stoptout, fondusonore);
 arrestation(myTiles, ambiancesonore, stoptout, fondusonore);
 duelfinal(myTiles, ambiancesonore, stoptout, fondusonore);
 perdu(myTiles);
-gagné(myTiles, fondusonore);
+gagne(myTiles, fondusonore);
 
 go("menu");

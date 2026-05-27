@@ -1,11 +1,6 @@
 export function duelfinal(myTiles, ambiancesonore, stoptout, fondusonore) {
     scene("duelfinal", () => {
 
-        // fct pour mettre en plein écran
-        onKeyPress("p", () => {
-          setFullscreen(!isFullscreen());
-        });
-
         let tension = 0
         let maxtension = 100
         let dueltime = 0
@@ -320,7 +315,7 @@ export function duelfinal(myTiles, ambiancesonore, stoptout, fondusonore) {
         let indications = barfond.add([
             pos(250, 30),
             anchor("center"),
-            text("◀ Maj | Espace ▶"),
+            text("◀ X | Espace ▶"),
             scale(0.3),
             color(BLACK),
             z(2),
@@ -345,19 +340,19 @@ export function duelfinal(myTiles, ambiancesonore, stoptout, fondusonore) {
         });
         onKeyRelease("space", () => { 
             isfocusing = false; 
-            // si on lâche Space mais qu'on tient encore Shift
-            if (isKeyDown("shift")) isrelaxing = true; 
+            // si on lâche Space mais qu'on tient encore x
+            if (isKeyDown("x")) isrelaxing = true; 
         });
 
         // relax
-        onKeyPress("shift", () => { 
+        onKeyPress("x", () => { 
             isrelaxing = true;
             isfocusing = false;
 
         });
-        onKeyRelease("shift", () => { 
+        onKeyRelease("x", () => { 
             isrelaxing = false; 
-            // si on lâche Shift mais qu'on tient encore Space
+            // si on lâche x mais qu'on tient encore Space
             if (isKeyDown("space")) isfocusing = true;
         });
 
@@ -526,7 +521,7 @@ export function duelfinal(myTiles, ambiancesonore, stoptout, fondusonore) {
             }
 
             // Fin du duel : l'adversaire tire
-            if (dueltime > 90 || timeinred > 12) {
+            if (dueltime > 60 || timeinred > 12) {
                 let verrou = false;
                 // parryIndicator.opacity = 0;
                 klint.play("idle")
