@@ -101,7 +101,7 @@ export const dialogues = {
         "k Attends, tu veux te battre ?",
         "k Mais pourquoi ?",
         "e Pour passer le temps.",
-        "eidle e J'éspérai tomber sur quelqu'un d'un peu plus... impressionnant.",
+        "eidle e J'éspérais tomber sur quelqu'un d'un peu plus... impressionnant.",
         "e Mais bon, je n'ai rencontré que toi, gringo...",
     ],
     "d2phase2g": [
@@ -259,11 +259,11 @@ export const dialogues = {
     ],
     "Aphase2g": [
         "k C'est moi.",
-        "k Que me veut-tu ?",
+        "k Que me veux-tu ?",
         "e C'est terminé Klint.",
-        "Je suis la Shérif de Hadleyville, et tu es en état d'arrestation.",
+        "e Je suis la Shérif de Hadleyville, et tu es en état d'arrestation.",
         "e Tu as terrorisé toute la région.",
-        "e Tu pousses toutes les personnes que tu as rencontré à t'affronter en duel.",
+        "e Tu pousses toutes les personnes que tu as rencontrées à t'affronter en duel.",
         "e Il est l'heure de répondre de tes actes.",
     ],
     "Aphase2b": [
@@ -271,7 +271,7 @@ export const dialogues = {
         "e Ça suffit !",
         "e Je sais qui tu es.",
         "e Je suis la Shérif de Hadleyville.",
-        "e On m'a dit que tu avais pousser toutes les personnes que tu as rencontré à t'affronter en duel.",
+        "e On m'a dit que tu avais poussé toutes les personnes que tu as rencontrées à t'affronter en duel.",
         "bad k Quoi ! Mais ...",
         "e Il est l'heure de répondre de tes actes.",
     ],
