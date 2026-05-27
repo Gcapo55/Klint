@@ -473,7 +473,6 @@ loadSound('bird2', "assets/sounds/bird2.mp3");
 loadSound('dog', "assets/sounds/dog.mp3");
 
 loadSound('mainmusic', "assets/sounds/musics/main.mp3");
-loadSound('musicduel2', "assets/sounds/musics/duel.mp3");
 loadSound('americana', "assets/sounds/musics/Americana.mp3");
 loadSound('musicduelfinal', "assets/sounds/musics/duel.mp3");
 loadSound('musicgagne', "assets/sounds/musics/sound.spaghetti.mp3");

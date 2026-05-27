@@ -8,9 +8,9 @@ KLint est un jeu 2D développé avec *Kaplay*. Le joueur incarne Klint un cowboy
 
 **Phase de dialogue** : Avant chaque duel, une conversation s'engage avec l'adversaire. Le joueur fait des choix de répliques qui influencent l'état émotionnel de Klint (calme ou en colère) et modifient les paramètres du duel à venir.
 
-**Phase de duel** : Une barre de tension dynamique apparaît. Le joueur doit maintenir la jauge dans la zone verte pour désamorcer le combat. L'adversaire envoie des pics de pression aléatoires. Si la tension reste trop longtemps dans le rouge, Klint tire instinctivement. Si trop de temps s'écoule sans résolution, l'ennemi fini par dégainer le premier.
+**Phase de duel** : Une barre de tension dynamique apparaît. Le joueur doit maintenir la jauge dans la zone verte pour désamorcer le combat. L'adversaire envoie des pics de pression aléatoires qui font bondir la jauge. Si la tension reste trop longtemps dans le rouge, Klint tire instinctivement. Si trop de temps s'écoule sans résolution, l'ennemi fini par dégainer le premier.
 
-Les issues du duel (désarmement, tir contrôlé, défaite) incrémentent un compteur de coups de feu qui se répercute sur la fin de l'histoire.
+Les issues du duel (désarmement, tir contrôlé, défaite) incrémentent un compteur de coups de feu qui définit l'une des deux fins.
 
 ## Commandes
 
