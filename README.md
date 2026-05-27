@@ -50,7 +50,7 @@ Les issues du duel (désarmement, tir contrôlé, défaite) incrémentent un com
 git clone https://github.com/Gcapo55/Klint.git
 cd Klint
 
-# 2. Installer les dépendances
+# Installer les dépendances
 npm install
 
 # Lancer le serveur de développement
