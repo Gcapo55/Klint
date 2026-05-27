@@ -26,15 +26,15 @@ Les issues du duel (désarmement, tir contrôlé, défaite) incrémentent un com
 ## Aperçu
 
 <div align="center">
-  <img src="assets/readme/Capture d’écran (1).png" alt="Texte alternatif" width="700">
+  <img src="assets/readme/Capture d’écran (1).png" alt="Capture duel 1" width="700">
 </div>
 
 <div align="center">
-  <img src="assets/readme/Capture d’écran (4).png" alt="Texte alternatif" width="700">
+  <img src="assets/readme/Capture d’écran (4).png" alt="Capture duel 2" width="700">
 </div>
 
 <div align="center">
-  <img src="assets/readme/Capture d’écran (2).png" alt="Texte alternatif" width="700">
+  <img src="assets/readme/Capture d’écran (3).png" alt="Capture duel 3" width="700">
 </div>
 
 ## Installation & lancement
