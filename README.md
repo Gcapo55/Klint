@@ -16,7 +16,7 @@ Les issues du duel (désarmement, tir contrôlé, défaite) incrémentent un com
 
 #### Dialogues :
 - **Espace** : faire défiler les dialogues
-- **Flèches haut et bas** : séléctionner une réponse
+- **Flèches haut et bas** : sélectionner une réponse
 - **Enter** : valider la réponse / rejouer
 
 #### Duels :
