@@ -511,7 +511,7 @@ export function duelfinal(myTiles, ambiancesonore, stoptout, fondusonore) {
                             wait(2, () => {
                                 standoff.play();
                                 fermerRideau(3).onEnd(() => {
-                                    go("gagné")
+                                    go("gagne")
                                 });
                             });
                         }
