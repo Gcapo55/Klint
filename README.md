@@ -1,7 +1,5 @@
 # Klint
 
----
-
 ## Commandes
 
 ### Dialogues :
@@ -13,8 +11,6 @@
 - **Maj** : diminuer la jauge
 - **Espace** : augmenter la jauge
 
----
-
 ## Description et mécaniques de jeu
 
 KLint est un jeu 2D développé avec *Kaplay*. Le joueur incarne Klint un cowboy à la recherche d'un criminel prénommé Bad Bill. En chemin, il croise une série d'opposants qui pousseront à l'affrontement. Chaque face à face se déroule en deux temps :
@@ -25,13 +21,10 @@ KLint est un jeu 2D développé avec *Kaplay*. Le joueur incarne Klint un cowboy
 
 Les issues du duel (désarmement, tir contrôlé, défaite) incrémentent un compteur de coups de feu qui se répercute sur la fin de l'histoire.
 
----
-
 ## Aperçu
 
 
 
----
 
 ## Installation & lancement
 
@@ -54,14 +47,11 @@ Ouvrir ensuite [http://localhost:5173](http://localhost:5173) dans le navigateur
 
 > **Plein écran** : appuyer sur `P` en jeu pour passer en mode plein écran.
 
----
 
 ## Moteur et modules
 
 - **Kaplay** : (https://kaplayjs.com/), V3001.0.19 
 - **kaplay-loquace** : (https://github.com/loiccattani/kaplay-loquace.git)
-
----
 
 ## Crédits, licences & sources
 
@@ -73,7 +63,6 @@ Ouvrir ensuite [http://localhost:5173](http://localhost:5173) dans le navigateur
 
 
 
----
 
 ## Recours aux LLM
 
@@ -83,8 +72,6 @@ Ouvrir ensuite [http://localhost:5173](http://localhost:5173) dans le navigateur
 - **Implémentation d'une fonction choix dans kaplay-loquace.js** : Claude a généré une fonction affichant un panneau au bas de l'écran et permettant au joueur de faire un choix de réponse. 
 - **Aide à la logigue** : Gemini a été utilisé pour trouver et comprendre la logique se cachant derrières certaines mécaniques, sans pour autant les avoir générées entièrement. C'est le cas pour le drift de la barre de tension, la fonction fondusonore ou encore le vecteur de bordure de texte du titre.
 - **Relecture orthographique** : Utilisation de Claude pour corriger l'orthographe du fichier dialogues.js.
-
----
 
 ## Contexte de développement
 

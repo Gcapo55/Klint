@@ -469,10 +469,8 @@ export function duelfinal(myTiles, ambiancesonore, stoptout, fondusonore) {
 
             if (inGreen) {
                 timeingreen += dt()
-                console.log(timeingreen)
             } else if (inRed) {
                 timeinred += dt()
-                console.log(timeinred)
             } else {
                 timeingreen = Math.max(0, timeingreen - dt() * 1) // se vide si on va dans le bleu
                 timeingreen = Math.max(0, timeinred - dt() * 1)
@@ -491,6 +489,8 @@ export function duelfinal(myTiles, ambiancesonore, stoptout, fondusonore) {
 
             // Fin du duel : désamorçage
             if (timeingreen > 15 && !isangry) {
+                console.log("Timeinred :" + timeinred)
+                console.log("Timeingreen :" + timeingreen)
                 let verrou = false;
                 // parryIndicator.opacity = 0;
                 isduelactive = false;
@@ -522,6 +522,8 @@ export function duelfinal(myTiles, ambiancesonore, stoptout, fondusonore) {
 
             // Fin du duel : l'adversaire tire
             if (dueltime > 60 || timeinred > 12) {
+                console.log("Timeinred :" + timeinred)
+                console.log("Timeingreen :" + timeingreen)
                 let verrou = false;
                 // parryIndicator.opacity = 0;
                 klint.play("idle")
