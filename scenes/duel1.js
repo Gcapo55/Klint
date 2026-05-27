@@ -508,10 +508,8 @@ export function duel1(myTiles, gamestate, ambiancesonore, stoptout, fondusonore)
 
             if (inGreen) {
                 timeingreen += dt()
-                console.log("Good" + timeingreen)
             } else if (inRed) {
                 timeinred += dt()
-                console.log("Bad" + timeinred)
             } else {
                 timeingreen = Math.max(0, timeingreen - dt() * 1) // se vide si on va dans le bleu
                 timeingreen = Math.max(0, timeinred - dt() * 1)

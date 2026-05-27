@@ -200,7 +200,6 @@ export function duel2(myTiles, gamestate, ambiancesonore, stoptout, fondusonore)
                     }
                     else {
                         phase2 = true;
-                        console.log("premier choix")
                         loquace.choix([
                             { label: "Je comprends toujours pas pourquoi on se battrait ?", onSelect: () => {loquace.start("d2phase2g"); ispanelopen = false;} },
                             { label: "Moi, pas impressionant ?? Tu sais même pas qui je suis !", onSelect: () => {loquace.start("d2phase2b"); ispanelopen = false;} }
@@ -441,10 +440,8 @@ export function duel2(myTiles, gamestate, ambiancesonore, stoptout, fondusonore)
 
             if (inGreen) {
                 timeingreen += dt()
-                console.log(timeingreen)
             } else if (inRed) {
                 timeinred += dt()
-                console.log(timeinred)
             } else {
                 timeingreen = Math.max(0, timeingreen - dt() * 1) // se vide si on va dans le bleu
                 timeingreen = Math.max(0, timeinred - dt() * 1)

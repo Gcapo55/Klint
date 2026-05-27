@@ -416,10 +416,8 @@ export function arrestation(myTiles, ambiancesonore, stoptout, fondusonore) {
 
             if (inGreen) {
                 timeingreen += dt()
-                console.log(timeingreen)
             } else if (inRed) {
                 timeinred += dt()
-                console.log(timeinred)
             } else {
                 timeingreen = Math.max(0, timeingreen - dt() * 1) // se vide si on va dans le bleu
                 timeingreen = Math.max(0, timeinred - dt() * 1)
