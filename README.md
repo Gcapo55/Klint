@@ -25,7 +25,9 @@ Les issues du duel (désarmement, tir contrôlé, défaite) incrémentent un com
 
 ## Aperçu
 
+<img src="assets/readme/klintshoot.gif" alt="Klint tire" width="500">
 
+<img src="assets/readme/Capture d’écran (1).png" alt="Texte alternatif" width="500">
 
 
 ## Installation & lancement
@@ -62,7 +64,9 @@ IL est fortement recommendé de jouer en plein écran avec le son !
 Tous les assets qui ne sont pas mentionnés dans les listes ci-dessous ont été réalisés par mes soins. Ils sont libres de droit. 
 
 #### Assets graphiques
-
+- **Tuile sable** : https://opengameart.org/content/sand-desert-dune-tile
+- **Vautour** : https://elthen.itch.io/2d-pixel-art-vulture-sprites
+- **Corbeau** : https://elthen.itch.io/2d-pixel-art-raven-sprites
 
 #### Assets audio
 - **Musique duel 1** : https://mummychicken3.itch.io/an-old-town-of-dust/
@@ -77,22 +81,23 @@ Tous les assets qui ne sont pas mentionnés dans les listes ci-dessous ont été
 - **Pies** : https://pixabay.com/sound-effects/nature-magpie-western-27116/
 - **Chien** : https://pixabay.com/sound-effects/nature-distant-dog-barking-472373/
 - **Serpent** : https://pixabay.com/sound-effects/nature-snake-hissing-6092/
+- **Souris** : https://pixabay.com/sound-effects/nature-mouse-animal-sound-367490/
 
 - **Holster** : https://pixabay.com/sound-effects/film-special-effects-holster-pistol-7132/
-- **Coup de feu** : 
+- **Coup de feu** : https://pixabay.com/sound-effects/film-special-effects-pistol-riccochet-7046/
 - **Rage Klint** : https://pixabay.com/fr/sound-effects/gens-angry-scream-104974/
 - **Grognement Badbill** : https://pixabay.com/fr/sound-effects/gens-angry-grunt-103204/
 - **Rage Badbill** : https://www.youtube.com/watch?v=9A8KRRwLPac
-- **Crachat** : 
-
+- **Son Ramon** : https://uppbeat.io/sfx/western-stand-off-acoustic-guitar-strum/1972/16918
+- **Crachat** : https://pixabay.com/sound-effects/people-spit-437708/
 
 ## Recours aux LLM
 
 **Modèles utilisés** : Claude Sonnet 4.5 et Gemini 3.5 Flash
 
 ### Cas d'utilisation
-- **Implémentation d'une fonction choix dans kaplay-loquace.js** : Claude a généré une fonction affichant un panneau au bas de l'écran et permettant au joueur de faire un choix de réponse. 
-- **Aide à la logigue** : Gemini a été utilisé pour trouver et comprendre la logique se cachant derrières certaines mécaniques, sans pour autant les avoir générées entièrement. C'est le cas pour le drift de la barre de tension, la fonction fondusonore ou encore le vecteur de bordure de texte du titre.
+- **Implémentation d'une fonction choix dans kaplay-loquace.js** : Dans le fichier, kaplay-loquace.js, Claude a généré une fonction affichant un panneau au bas de l'écran et permettant au joueur de faire un choix de réponse. 
+- **Aide à la logigue du code** : Gemini a été utilisé pour trouver et comprendre la logique se cachant derrières certaines mécaniques, sans pour autant les avoir générées entièrement. C'est le cas pour le drift de la barre de tension, la fonction fondusonore ou encore le vecteur de bordure de texte du titre.
 - **Relecture orthographique** : Utilisation de Claude pour corriger l'orthographe du fichier dialogues.js.
 
 ## Contexte de développement
